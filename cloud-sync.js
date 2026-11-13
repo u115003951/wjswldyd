@@ -222,22 +222,29 @@ const CloudSync = {
   },
 
   /**
-   * 6자리 코드 최초 바인딩 또는 기기 간 양방향 병합
+   * 6자리 코드 최초 바인딩(랜덤 전용) 또는 기기 간 양방향 병합(기존 코드만 허용)
    */
-  async bindAndSync(rawCode, rawNickname) {
+  async bindAndSync(rawCode, rawNickname, allowCreate = false) {
     const code = (rawCode || "").trim().toUpperCase();
     if (!/^[A-Z2-9]{6}$/.test(code)) {
       throw new Error("同步代碼格式錯誤（需為 6 碼英文與數字組合）");
     }
     const nickname = this.setNickname(rawNickname);
-    localStorage.setItem(STORAGE_KEYS.SYNC_CODE, code);
 
     if (!this.ready || !navigator.onLine) {
+      localStorage.setItem(STORAGE_KEYS.SYNC_CODE, code);
       return { status: "local_only", mergedCount: 0 };
     }
 
     const ref = doc(this.db, "sync_profiles", code);
     const snap = await getDoc(ref);
+
+    // 직접 입력한 코드가 DB에 없으면 새 생성 차단 (랜덤 버튼으로만 신규 생성 허용)
+    if (!snap.exists() && !allowCreate) {
+      throw new Error("查無此同步代碼！若要建立新帳號，請點擊「產生全新代碼」隨機產生。");
+    }
+
+    localStorage.setItem(STORAGE_KEYS.SYNC_CODE, code);
     const localFull = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_RECORDS) || "{}");
 
     let mergedFull = localFull;
