@@ -594,14 +594,21 @@ const CloudSync = {
 
       const [repSnap, fbSnap] = await Promise.all([getDocs(repQuery), getDocs(fbQuery)]);
       const reports = repSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
-      const feedbacks = fbSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      let feedbacks = fbSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+
+      if (statusFilter === "open") {
+        feedbacks = feedbacks.filter((f) => !f.isRead);
+      } else if (statusFilter === "resolved") {
+        feedbacks = feedbacks.filter((f) => Boolean(f.isRead));
+      }
+
       return { reports, feedbacks, offline: false };
     } catch {
       return { reports: [], feedbacks: [], offline: true };
     }
   },
-
-  /**
+  
+/**
    * 관리자 제보 수정 완료 처리
    */
   async resolveIssueReport(reportId, adminPin) {
@@ -611,6 +618,22 @@ const CloudSync = {
         status: "resolved",
         resolvedAt: Date.now(),
         adminPin: String(adminPin || "")
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  },
+
+  /**
+   * 관리자 건의함(피드백) 확인 완료 처리
+   */
+  async resolveFeedback(feedbackId) {
+    if (!this.ready || !navigator.onLine || !feedbackId) return false;
+    try {
+      await updateDoc(doc(this.db, "user_feedbacks", feedbackId), {
+        isRead: true,
+        resolvedAt: Date.now()
       });
       return true;
     } catch {
