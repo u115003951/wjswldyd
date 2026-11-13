@@ -2835,34 +2835,48 @@
         const currentNick = window.CloudSync ? window.CloudSync.getNickname() : "匿名考生";
         const lastSyncAt = window.CloudSync ? window.CloudSync.getLastSyncAt() : 0;
         const lastSyncText = lastSyncAt > 0 ? new Date(lastSyncAt).toLocaleString("zh-TW") : "尚未執行雲端同步";
+        this._generatedRandomCode = null;
 
         this.openModal(`
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <h3 class="text-lg font-bold flex items-center gap-2">
-                <i data-lucide="refresh-cw" class="w-5 h-5 text-blue-600"></i> 跨裝置進度同步（6 碼代碼）
+                <i data-lucide="refresh-cw" class="w-5 h-5 text-blue-600"></i> 跨裝置進度同步（6 碼金鑰）
               </h3>
               <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              無需註冊帳號！產生一組 6 碼同步代碼並在另一台手機或平板輸入，即可針對<strong>生物與化學題庫</strong>進行<strong>單題級別智慧合併</strong>（自訂題庫僅留存本機）。
-            </p>
+
+            <!-- 현재 동기화 상태 배지 -->
+            <div class="px-3.5 py-2 rounded-xl text-xs font-bold flex items-center justify-between ${currentCode ? "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800" : "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800"}">
+              <span>${currentCode ? `☁️ 雲端同步中：${currentCode}` : "⚠️ 未開啟雲端備份（目前僅存於本機瀏覽器）"}</span>
+            </div>
+
+            <!-- 3줄 핵심 안내 카드 -->
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 space-y-1.5 leading-relaxed">
+              <div>🔑 <strong>自動雲端備份：</strong>點擊「產生全新代碼」取得 6 碼金鑰並綁定後，做題與錯題紀錄才會永久保存至雲端。</div>
+              <div>📱 <strong>跨裝置接續學習：</strong>在手機、平板或電腦輸入同一組 6 碼代碼，即可自動合併所有學習進度（最多 3 台裝置）。</div>
+              <div class="text-rose-600 dark:text-rose-400 font-semibold">⚠️ <strong>重要提醒：</strong>本系統免註冊帳號，若遺失 6 碼代碼將無法找回雲端紀錄，請務必複製保存！</div>
+            </div>
+
             <div class="space-y-2">
               <label class="text-xs font-bold block">考生顯示暱稱（排行榜用）：</label>
               <input id="sync-nickname-input" type="text" maxlength="16" value="${currentNick === "匿名考生" ? "" : currentNick}" placeholder="留空則顯示為「匿名考生」" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs" />
             </div>
+
             <div class="space-y-2">
-              <label class="text-xs font-bold block">6 碼跨裝置同步代碼：</label>
+              <label class="text-xs font-bold block">6 碼跨裝置同步代碼（新用戶請按右側隨機產生，舊用戶可直接輸入）：</label>
               <div class="flex gap-2">
-                <input id="sync-code-input" type="text" maxlength="6" value="${currentCode}" placeholder="例：A7K9P2" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-mono text-center text-base font-bold uppercase tracking-widest" />
+                <input id="sync-code-input" type="text" maxlength="6" value="${currentCode}" placeholder="輸入已有代碼或按右側產生" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-mono text-center text-base font-bold uppercase tracking-widest" />
                 <button onclick="App.copySyncCode()" class="px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-xs font-bold shrink-0" title="複製代碼">複製代碼</button>
-                <button onclick="App.generateSyncCode()" class="px-3 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-xs font-bold shrink-0">產生全新代碼</button>
+                <button onclick="App.generateSyncCode()" class="px-3 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shrink-0">產生全新代碼</button>
               </div>
             </div>
+
             <div class="text-[11px] text-slate-400 flex items-center justify-between pt-1">
               <span>上次同步時間：${lastSyncText}</span>
               ${currentCode ? `<button onclick="App.triggerManualSync()" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">立即同步</button>` : ""}
             </div>
+
             <div class="flex justify-end gap-2 pt-2">
               <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">關閉</button>
               <button id="btn-bind-sync" onclick="App.saveSyncCode()" class="px-5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white">綁定並合併進度</button>
@@ -2875,8 +2889,10 @@
         const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
         let code = "";
         for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+        this._generatedRandomCode = code;
         const input = document.getElementById("sync-code-input");
         if (input) input.value = code;
+        this.showToast(`已產生全新隨機代碼：${code}（請點擊下方「綁定並合併進度」啟用備份）`, "info");
       },
 
       async copySyncCode() {
@@ -2908,12 +2924,14 @@
           return;
         }
 
+        const isRandomCreated = Boolean(this._generatedRandomCode && this._generatedRandomCode === code);
         const btn = document.getElementById("btn-bind-sync");
         if (btn) { btn.disabled = true; btn.textContent = "合併中..."; }
 
         try {
           if (window.CloudSync) {
-            const res = await window.CloudSync.bindAndSync(code, nick);
+            const res = await window.CloudSync.bindAndSync(code, nick, isRandomCreated);
+            this._generatedRandomCode = null;
             this.closeModal();
             if (res.status === "local_only") {
               this.showToast(`已於本機儲存代碼 ${code}（待連線後將自動同步）`, "info");
