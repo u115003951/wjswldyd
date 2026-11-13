@@ -1656,7 +1656,13 @@
       const reports = cloudInboxLoaded
         ? cloudReports
         : localReports.filter((r) => (reportStatusFilter === "all" ? true : r.status === reportStatusFilter));
-      const feedbacks = cloudInboxLoaded ? cloudFeedbacks : localFeedbacks;
+      const feedbacks = cloudInboxLoaded
+        ? cloudFeedbacks
+        : localFeedbacks.filter((f) => {
+            if (reportStatusFilter === "open") return !f.isRead;
+            if (reportStatusFilter === "resolved") return Boolean(f.isRead);
+            return true;
+          });
 
       return `
         <div class="space-y-3">
@@ -1701,13 +1707,17 @@
               <h3 class="font-bold text-sm text-blue-600 flex items-center gap-1.5">
                 <i data-lucide="message-square" class="w-4 h-4"></i> 개발자 건의함 / 사용자 피드백 (${feedbacks.length}건)
               </h3>
-              ${feedbacks.length === 0 ? `<p class="text-xs text-slate-400 py-4 text-center">등록된 건의사항이 없습니다.</p>` : feedbacks.map((f) => `
-                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs space-y-1.5 border border-slate-200/70 dark:border-slate-700">
+              ${feedbacks.length === 0 ? `<p class="text-xs text-slate-400 py-4 text-center">해당 조건의 건의사항이 없습니다.</p>` : feedbacks.map((f, idx) => `
+                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs space-y-2 border border-slate-200/70 dark:border-slate-700">
                   <div class="flex items-center justify-between">
-                    <span class="font-bold text-blue-600 dark:text-blue-400">${f.nickname || "익명 사용자"}</span>
-                    <span class="text-[11px] text-slate-400">${f.createdAt ? new Date(f.createdAt).toLocaleString("ko-KR") : ""}</span>
+                    <span class="font-bold text-blue-600 dark:text-blue-400">${f.nickname || f.category || "익명 사용자"}</span>
+                    <span class="text-[11px] font-bold ${f.isRead ? "text-emerald-500" : "text-rose-500"}">${f.isRead ? "확인 완료" : "미확인"}</span>
                   </div>
                   <p class="text-slate-700 dark:text-slate-200 leading-relaxed">${f.content}</p>
+                  <div class="flex items-center justify-between pt-1">
+                    <span class="text-[11px] text-slate-400">${f.createdAt ? new Date(f.createdAt).toLocaleString("ko-KR") : ""}</span>
+                    ${!f.isRead ? `<button onclick="AdminStudio.markFeedbackResolved('${f.id || ""}', ${idx})" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px]">확인 완료 처리</button>` : ""}
+                  </div>
                 </div>
               `).join("")}
             </div>
@@ -1746,6 +1756,22 @@
       if (reports[idx]) {
         reports[idx].status = "resolved";
         localStorage.setItem(ProgressStore.REPORTS_KEY, JSON.stringify(reports));
+        this.render();
+      }
+    },
+
+    async markFeedbackResolved(docId, idx) {
+      if (this.state.cloudInboxLoaded && docId && window.CloudSync) {
+        await window.CloudSync.resolveFeedback(docId);
+        await this.refreshCloudInbox();
+        this.render();
+        App.showToast("건의사항이 확인 완료 처리되었습니다.", "success");
+        return;
+      }
+      const feedbacks = JSON.parse(localStorage.getItem(ProgressStore.FEEDBACK_KEY) || "[]");
+      if (feedbacks[idx]) {
+        feedbacks[idx].isRead = true;
+        localStorage.setItem(ProgressStore.FEEDBACK_KEY, JSON.stringify(feedbacks));
         this.render();
       }
     },
