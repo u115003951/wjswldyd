@@ -1,0 +1,3126 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="生化學霸題庫" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>生化學霸題庫系統 | 專業題庫與實戰模擬考</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans TC"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PDF.js (v3.11.174) & JSZip (v3.10.1) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      overscroll-behavior-y: contain;
+    }
+    .chem-text sub, .question-html sub {
+      font-size: 0.75em;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+      bottom: -0.25em;
+    }
+    .chem-text sup, .question-html sup {
+      font-size: 0.75em;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+      top: -0.5em;
+    }
+    .question-html table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0;
+      font-size: 0.9rem;
+      display: block;
+      overflow-x: auto;
+    }
+    .question-html th, .question-html td {
+      border: 1px solid #cbd5e1;
+      padding: 0.5rem 0.65rem;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .dark .question-html th, .dark .question-html td { border-color: #334155; }
+    .question-html th {
+      background-color: rgba(148, 163, 184, 0.15);
+      font-weight: 600;
+    }
+    .swipe-card {
+      will-change: transform;
+      touch-action: pan-y;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 9999px; }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-toast { animation: fadeSlideUp 0.22s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- [Firebase 설정 영역] 본인의 Firebase 웹 앱 설정값을 입력하세요. -->
+  <script>
+    const FIREBASE_CONFIG = {
+      apiKey: "YOUR_API_KEY_HERE",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    const ADMIN_DEFAULT_PIN = "1093";
+  </script>
+
+  <!-- 상단 네비게이션 바 -->
+  <header class="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <button id="btn-home" onclick="App.goHome()" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 hidden" title="返回首頁">
+          <i data-lucide="home" class="w-5 h-5"></i>
+        </button>
+        <h1 id="app-main-title" class="text-lg font-bold tracking-tight select-none cursor-pointer flex items-center gap-2 text-slate-900 dark:text-white">
+          <span class="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span>
+          <span id="header-title-text">生化學霸題庫</span>
+        </h1>
+        <span id="subject-badge" class="hidden text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"></span>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <button onclick="App.openFeedbackModal()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs flex items-center gap-1" title="意見回饋">
+          <i data-lucide="message-square-plus" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">意見回饋</span>
+        </button>
+        <button onclick="App.openSyncModal()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs flex items-center gap-1" title="跨裝置同步">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">同步</span>
+        </button>
+        <button onclick="App.toggleDarkMode()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300" title="切換深色模式">
+          <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 컨테이너 -->
+  <main id="app-root" class="flex-1 max-w-6xl w-full mx-auto px-4 py-6"></main>
+
+  <!-- 최초 1회성 스와이프 인지 가이드 오버레이 -->
+  <div id="swipe-onboarding-overlay" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-xs hidden flex-col items-center justify-center p-6 text-white text-center" onclick="App.dismissSwipeGuide()">
+    <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-8 max-w-xs w-full shadow-2xl space-y-4">
+      <div class="flex items-center justify-center gap-4 text-blue-400">
+        <i data-lucide="chevron-left" class="w-8 h-8 animate-pulse"></i>
+        <i data-lucide="hand" class="w-10 h-10"></i>
+        <i data-lucide="chevron-right" class="w-8 h-8 animate-pulse"></i>
+      </div>
+      <h3 class="text-xl font-bold tracking-wide">左右滑動切換題目</h3>
+      <p class="text-sm text-slate-300 leading-relaxed">在題目卡片上向左或向右滑動，即可快速切換上一題與下一題（電腦版亦可使用方向鍵 ← → 與數字鍵 1~5、B 鍵收藏書籤）。</p>
+      <button class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 font-semibold text-sm transition">我知道了</button>
+    </div>
+  </div>
+
+  <!-- PWA 홈 화면 추가 안내 배너 -->
+  <div id="pwa-install-banner" class="fixed bottom-4 left-4 right-4 z-40 max-w-lg mx-auto hidden bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl p-4">
+    <div class="flex items-start justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 font-bold text-lg">題</div>
+        <div>
+          <h4 class="font-bold text-sm text-slate-900 dark:text-white">將題庫加入主畫面，像 App 一樣使用！</h4>
+          <p id="pwa-guide-desc" class="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed"></p>
+        </div>
+      </div>
+      <button onclick="App.dismissPwaBanner()" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 shrink-0" aria-label="關閉提示">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- 토스트 알림 컨테이너 -->
+  <div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 pointer-events-none w-full max-w-sm px-4"></div>
+
+  <!-- 공통 모달 백드롭 -->
+  <div id="modal-backdrop" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div id="modal-box" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full max-h-[88vh] overflow-y-auto shadow-2xl p-5"></div>
+  </div>
+
+  <script>
+    /**
+     * =========================================================================
+     * 1. 내장 기본 샘플 데이터 (GitHub JSON 로드 실패/미배포 시 자동 폴백)
+     * =========================================================================
+     */
+    const EMBEDDED_DEFAULT_DATA = {
+      biology: {
+        subject: "biology",
+        subjectName: "生物題庫",
+        updatedAt: "2026-11-14T00:00:00Z",
+        chapters: [
+          { id: "ch01", title: "第1章 細胞結構與胞器功能", order: 1 },
+          { id: "ch02", title: "第2章 細胞呼吸與能量代謝", order: 2 }
+        ],
+        officialExamConfig: { questionCount: 5, durationMinutes: 10 },
+        officialExamSets: [
+          {
+            setId: "bio_set_01",
+            title: "第1回 期中考範圍模擬考（第1~2章）",
+            durationMinutes: 10,
+            published: true,
+            questionIds: ["bio_ch01_0001", "bio_ch01_0002", "bio_ch01_0003", "bio_ch02_0001", "bio_ch02_0002"]
+          }
+        ],
+        questions: [
+          {
+            id: "bio_ch01_0001",
+            chapterId: "ch01",
+            questionHtml: "下列關於真核細胞內<strong>粒線體（Mitochondria）</strong>與<strong>葉綠體（Chloroplast）</strong>的共同特徵敘述，何者<u>錯誤</u>？",
+            image: null,
+            options: [
+              { origIdx: 0, textHtml: "兩者皆具有雙層磷脂雙分子層膜構造" },
+              { origIdx: 1, textHtml: "兩者基質內皆含有環狀 DNA 與 70S 核糖體" },
+              { origIdx: 2, textHtml: "兩者皆可透過電子傳遞鏈產生 ATP" },
+              { origIdx: 3, textHtml: "兩者皆存在於所有真核生物細胞中" },
+              { origIdx: 4, textHtml: "兩者的演化起源皆符合內共生理論（Endosymbiotic theory）" }
+            ],
+            answerIndex: 3,
+            explanationHtml: "葉綠體僅存在於植物與藻類等行光合作用的真核細胞中，動物細胞與真菌細胞不含葉綠體。"
+          },
+          {
+            id: "bio_ch01_0002",
+            chapterId: "ch01",
+            questionHtml: "細胞內負責修飾、分類並包裝分泌性蛋白質，且具有順面（cis face）與反面（trans face）極性構造的胞器為何？",
+            image: null,
+            options: [
+              { origIdx: 0, textHtml: "平滑內質網（Smooth ER）" },
+              { origIdx: 1, textHtml: "高基氏體（Golgi apparatus）" },
+              { origIdx: 2, textHtml: "過氧化體（Peroxisome）" },
+              { origIdx: 3, textHtml: "溶體（Lysosome）" }
+            ],
+            answerIndex: 1,
+            explanationHtml: "高基氏體接收來自粗糙內質網的運輸囊泡（順面），進行醣基化修飾與分選後由反面形成分泌囊泡送出。"
+          },
+          {
+            id: "bio_ch01_0003",
+            chapterId: "ch01",
+            questionHtml: "下表比較原核細胞與真核細胞的構造差異，請問哪一欄位的配對完全正確？<table><thead><tr><th>比較項目</th><th>原核細胞</th><th>真核細胞</th></tr></thead><tbody><tr><td>① 遺傳物質位置</td><td>擬核區（無核膜）</td><td>細胞核（具雙層核膜）</td></tr><tr><td>② 核糖體大小</td><td>80S</td><td>70S</td></tr><tr><td>③ 細胞分裂方式</td><td>有絲分裂</td><td>二分裂法</td></tr></tbody></table>",
+            image: null,
+            options: [
+              { origIdx: 0, textHtml: "僅 ① 正確" },
+              { origIdx: 1, textHtml: "僅 ② 正確" },
+              { origIdx: 2, textHtml: "① 與 ② 皆正確" },
+              { origIdx: 3, textHtml: "① 與 ③ 皆正確" }
+            ],
+            answerIndex: 0,
+            explanationHtml: "原核細胞核糖體為 70S、採二分裂法；真核細胞核糖體為 80S、採有絲分裂或減數分裂，故僅 ① 正確。"
+          },
+          {
+            id: "bio_ch02_0001",
+            chapterId: "ch02",
+            questionHtml: "在有氧呼吸過程中，<strong>糖解作用（Glycolysis）</strong>發生於細胞的哪一個部位，且每分子葡萄糖淨產生多少分子 ATP？",
+            image: null,
+            options: [
+              { origIdx: 0, textHtml: "粒線體基質；淨產生 2 分子 ATP" },
+              { origIdx: 1, textHtml: "細胞質液（Cytosol）；淨產生 2 分子 ATP" },
+              { origIdx: 2, textHtml: "粒線體內膜；淨產生 4 分子 ATP" },
+              { origIdx: 3, textHtml: "細胞質液（Cytosol）；淨產生 4 分子 ATP" }
+            ],
+            answerIndex: 1,
+            explanationHtml: "糖解作用發生於細胞質液，不需氧氣參與，消耗 2 ATP 並生成 4 ATP，故淨賺 2 分子 ATP 與 2 分子 NADH。"
+          },
+          {
+            id: "bio_ch02_0002",
+            chapterId: "ch02",
+            questionHtml: "檸檬酸循環（Citric acid cycle）中，乙醯輔酶 A（Acetyl-CoA）會先與下列哪一種四碳化合物結合形成檸檬酸？",
+            image: null,
+            options: [
+              { origIdx: 0, textHtml: "丙酮酸（Pyruvate）" },
+              { origIdx: 1, textHtml: "草醯乙酸（Oxaloacetate）" },
+              { origIdx: 2, textHtml: "蘋果酸（Malate）" },
+              { origIdx: 3, textHtml: "琥珀酸（Succinate）" }
+            ],
+            answerIndex: 1,
+            explanationHtml: "2 碳的 Acetyl-CoA 與 4 碳的草醯乙酸（Oxaloacetate）縮合形成 6 碳的檸檬酸（Citrate），開啟循環。"
+          }
+        ]
+      },
+      chemistry: {
+        subject: "chemistry",
+        subjectName: "化學題庫",
+        updatedAt: "2026-11-14T00:00:00Z",
+        chapters: [
+          { id: "ch01", title: "第1章 化學計量與溶液反應", order: 1 },
+          { id: "ch02", title: "第2章 酸鹼平衡與電化學", order: 2 }
+        ],
+        officialExamConfig: { questionCount: 4, durationMinutes: 10 },
+        officialExamSets: [
+          {
+            setId: "chem_set_01",
+            title: "第1回 普通化學綜合測驗（第1~2章）",
+            durationMinutes: 10,
+            published: true,
+            questionIds: ["chem_ch01_0001", "chem_ch01_0002", "chem_ch02_0001", "chem_ch02_0002"]
+          }
+        ],
+        questions: [
+          {
+            id: "chem_ch01_0001",
+            chapterId: "ch01",
+            questionHtml: "在酸性溶液中，過錳酸根離子（MnO<sub>4</sub><sup>-</sup>）與草酸根離子（C<sub>2</sub>O<sub>4</sub><sup>2-</sup>）反應生成 Mn<sup>2+</sup> 與 CO<sub>2</sub>。平衡後，MnO<sub>4</sub><sup>-</sup> 與 C<sub>2</sub>O<sub>4</sub><sup>2-</sup> 的莫耳數比為何？",
+            image: null,
+            options: [
+              { origIdx: 0, textHtml: "1 : 2" },
+              { origIdx: 1, textHtml: "2 : 5" },
+              { origIdx: 2, textHtml: "5 : 2" },
+              { origIdx: 3, textHtml: "1 : 5" }
+            ],
+            answerIndex: 1,
+            explanationHtml: "Mn 由 +7 降至 +2（得 5e<sup>-</sup>），每個 C<sub>2</sub>O<sub>4</sub><sup>2-</sup> 氧化成 2 CO<sub>2</sub>（失 2e<sup>-</sup>）。電子得失守恆得 2 MnO<sub>4</sub><sup>-</sup> : 5 C<sub>2</sub>O<sub>4</sub><sup>2-</sup>。"
+          },
+          {
+            id: "chem_ch01_0002",
+            chapterId: "ch01",
+            questionHtml: "取 0.20 M 的 CaCl<sub>2</sub> 水溶液 250 mL 與 0.30 M 的 NaCl 水溶液 250 mL 均勻混合（假設體積具加成性），混合後溶液中 Cl<sup>-</sup> 的體積莫耳濃度為何？",
+            image: null,
+            options: [
+              { origIdx: 0, textHtml: "0.25 M" },
+              { origIdx: 1, textHtml: "0.35 M" },
+              { origIdx: 2, textHtml: "0.50 M" },
+              { origIdx: 3, textHtml: "0.70 M" }
+            ],
+            answerIndex: 1,
+            explanationHtml: "Cl<sup>-</sup> 總莫耳數 = (0.20 × 2 × 0.25) + (0.30 × 1 × 0.25) = 0.10 + 0.075 = 0.175 mol；總體積 = 0.50 L，故 [Cl<sup>-</sup>] = 0.175 / 0.50 = 0.35 M。"
+          },
+          {
+            id: "chem_ch02_0001",
+            chapterId: "ch02",
+            questionHtml: "在 25 °C 下，下列哪一組水溶液混合後可形成<strong>緩衝溶液（Buffer solution）</strong>？",
+            image: null,
+            options: [
+              { origIdx: 0, textHtml: "100 mL 0.1 M HCl + 100 mL 0.1 M NaOH" },
+              { origIdx: 1, textHtml: "100 mL 0.2 M CH<sub>3</sub>COOH + 100 mL 0.1 M NaOH" },
+              { origIdx: 2, textHtml: "100 mL 0.1 M CH<sub>3</sub>COOH + 100 mL 0.2 M NaOH" },
+              { origIdx: 3, textHtml: "100 mL 0.1 M H<sub>2</sub>SO<sub>4</sub> + 100 mL 0.1 M Na<sub>2</sub>SO<sub>4</sub>" }
+            ],
+            answerIndex: 1,
+            explanationHtml: "選項 B 反應後剩下 0.01 mol 弱酸 CH<sub>3</sub>COOH 與 0.01 mol 共軛鹼 CH<sub>3</sub>COO<sup>-</sup>，構成典型酸性緩衝溶液。"
+          },
+          {
+            id: "chem_ch02_0002",
+            chapterId: "ch02",
+            questionHtml: "已知標準還原電位：Zn<sup>2+</sup> + 2e<sup>-</sup> → Zn (E° = -0.76 V)，Cu<sup>2+</sup> + 2e<sup>-</sup> → Cu (E° = +0.34 V)。由鋅片與銅片組成的丹尼爾電池（Daniell cell），其標準電動勢 E°<sub>cell</sub> 為何？",
+            image: null,
+            options: [
+              { origIdx: 0, textHtml: "+0.42 V" },
+              { origIdx: 1, textHtml: "-0.42 V" },
+              { origIdx: 2, textHtml: "+1.10 V" },
+              { origIdx: 3, textHtml: "-1.10 V" }
+            ],
+            answerIndex: 2,
+            explanationHtml: "E°<sub>cell</sub> = E°<sub>cathode</sub> - E°<sub>anode</sub> = (+0.34 V) - (-0.76 V) = +1.10 V。"
+          }
+        ]
+      }
+    };
+
+    /**
+     * =========================================================================
+     * 2. IndexedDB 大容量儲存引擎 (커스텀 다중 슬롯 + 1,200p+ + 이미지 Blob)
+     * =========================================================================
+     */
+    const LocalIDB = {
+      dbName: "MedPrepQBank_IDB_v1",
+      dbVersion: 1,
+      db: null,
+
+      async init() {
+        if (this.db) return this.db;
+        return new Promise((resolve, reject) => {
+          const req = indexedDB.open(this.dbName, this.dbVersion);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains("datasets")) {
+              db.createObjectStore("datasets", { keyPath: "key" });
+            }
+            if (!db.objectStoreNames.contains("images")) {
+              db.createObjectStore("images", { keyPath: "id" });
+            }
+          };
+          req.onsuccess = (e) => {
+            this.db = e.target.result;
+            resolve(this.db);
+          };
+          req.onerror = (e) => reject(e.target.error);
+        });
+      },
+
+      async setDataset(key, value) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction("datasets", "readwrite");
+          tx.objectStore("datasets").put({ key, value, updatedAt: Date.now() });
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = (e) => reject(e.target.error);
+        });
+      },
+
+      async getDataset(key) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction("datasets", "readonly");
+          const req = tx.objectStore("datasets").get(key);
+          req.onsuccess = () => resolve(req.result ? req.result.value : null);
+          req.onerror = (e) => reject(e.target.error);
+        });
+      },
+
+      async deleteDataset(key) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction("datasets", "readwrite");
+          tx.objectStore("datasets").delete(key);
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = (e) => reject(e.target.error);
+        });
+      },
+
+      async saveImageBlob(id, blob) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction("images", "readwrite");
+          tx.objectStore("images").put({ id, blob, updatedAt: Date.now() });
+          tx.oncomplete = () => resolve(`idb://${id}`);
+          tx.onerror = (e) => reject(e.target.error);
+        });
+      },
+
+      async getImageBlob(imageId) {
+        const db = await this.init();
+        return new Promise((resolve) => {
+          const tx = db.transaction("images", "readonly");
+          const req = tx.objectStore("images").get(imageId);
+          req.onsuccess = () => resolve(req.result ? req.result.blob : null);
+          req.onerror = () => resolve(null);
+        });
+      },
+
+      async getImageBlobUrl(imageId) {
+        const blob = await this.getImageBlob(imageId);
+        return blob ? URL.createObjectURL(blob) : null;
+      }
+    };
+
+    /**
+     * =========================================================================
+     * 3. 커스텀 모드 다중 슬롯 관리자 (최대 5개 슬롯 생성/전환/이름변경/삭제)
+     * =========================================================================
+     */
+    const CustomSlotManager = {
+      META_KEY: "qbank_custom_slots_meta_v1",
+      ACTIVE_KEY: "qbank_custom_active_slot_v1",
+      MAX_SLOTS: 999, // 5개 제한 해제
+
+      getSlots() {
+        try {
+          const list = JSON.parse(localStorage.getItem(this.META_KEY) || "[]");
+          if (list.length > 0) return list;
+        } catch {}
+        const initial = [{ id: "slot_1", name: "預設自訂題庫 1", createdAt: Date.now() }];
+        localStorage.setItem(this.META_KEY, JSON.stringify(initial));
+        localStorage.setItem(this.ACTIVE_KEY, "slot_1");
+        return initial;
+      },
+
+      saveSlots(slots) {
+        localStorage.setItem(this.META_KEY, JSON.stringify(slots));
+      },
+
+      getActiveSlotId() {
+        const slots = this.getSlots();
+        const saved = localStorage.getItem(this.ACTIVE_KEY);
+        if (saved && slots.some((s) => s.id === saved)) return saved;
+        localStorage.setItem(this.ACTIVE_KEY, slots[0].id);
+        return slots[0].id;
+      },
+
+      setActiveSlotId(slotId) {
+        localStorage.setItem(this.ACTIVE_KEY, slotId);
+      },
+
+      createSlot(name) {
+        const slots = this.getSlots();
+        const id = "slot_" + Date.now();
+        const cleanName = (name || "").trim() || `自訂題庫 ${slots.length + 1}`;
+        slots.push({ id, name: cleanName, createdAt: Date.now() });
+        this.saveSlots(slots);
+        this.setActiveSlotId(id);
+        return id;
+      },
+
+      renameSlot(slotId, newName) {
+        const slots = this.getSlots();
+        const target = slots.find((s) => s.id === slotId);
+        if (target && newName.trim()) {
+          target.name = newName.trim();
+          this.saveSlots(slots);
+        }
+      },
+
+      async deleteSlot(slotId) {
+        let slots = this.getSlots();
+        if (slots.length <= 1) return false;
+        slots = slots.filter((s) => s.id !== slotId);
+        this.saveSlots(slots);
+        await LocalIDB.deleteDataset(`custom_slot_${slotId}`);
+        localStorage.removeItem(`qbank_custom_records_${slotId}`);
+        localStorage.removeItem(`qbank_custom_pos_${slotId}`);
+        this.setActiveSlotId(slots[0].id);
+        return true;
+      }
+    };
+
+    /**
+     * =========================================================================
+     * 4. 이미지 비동기 하이드레이션 해결기 (idb:// + 일반 경로 + 메모리 미리보기)
+     * =========================================================================
+     */
+    const ImageResolver = {
+      cache: new Map(),
+
+      registerTempUrl(key, blobUrl) {
+        this.cache.set(key, blobUrl);
+      },
+
+      renderImageTagHtml(imageRef, imgId = "") {
+        if (!imageRef) return "";
+        const idAttr = imgId ? `id="${imgId}"` : "";
+        if (imageRef.startsWith("idb://")) {
+          const cachedUrl = this.cache.get(imageRef);
+          if (cachedUrl) {
+            return `<img ${idAttr} src="${cachedUrl}" data-idb-src="${imageRef}" alt="題目附圖" class="max-h-72 rounded-lg object-contain" />`;
+          }
+          return `<img ${idAttr} src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-idb-src="${imageRef}" alt="題目附圖載入中..." class="max-h-72 rounded-lg object-contain min-h-[120px] bg-slate-200/40 dark:bg-slate-800/40 animate-pulse" />`;
+        }
+        const memUrl = this.cache.get(imageRef);
+        const finalSrc = memUrl || imageRef;
+        return `<img ${idAttr} src="${finalSrc}" alt="題目附圖" class="max-h-72 rounded-lg object-contain" crossorigin="anonymous" />`;
+      },
+
+      async hydrateImages(container = document) {
+        const imgs = container.querySelectorAll("img[data-idb-src]");
+        for (const img of imgs) {
+          const idbRef = img.getAttribute("data-idb-src");
+          if (!idbRef) continue;
+          let url = this.cache.get(idbRef);
+          if (!url) {
+            const rawKey = idbRef.slice(6);
+            url = await LocalIDB.getImageBlobUrl(rawKey);
+            if (url) this.cache.set(idbRef, url);
+          }
+          if (url) {
+            img.src = url;
+            img.classList.remove("animate-pulse", "min-h-[120px]");
+          }
+        }
+      }
+    };
+
+    /**
+     * =========================================================================
+     * 5. 사용자 학습 진도·오답(연속 2회 졸업)·북마크·단원별 이어보기 상태 관리자
+     * =========================================================================
+     */
+    const ProgressStore = {
+      STORAGE_KEY: "qbank_user_records_v1",
+      CHAPTER_POS_KEY: "qbank_chapter_last_pos_v1",
+      LOCAL_RANK_KEY: "qbank_local_rankings_v1",
+      REPORTS_KEY: "qbank_issue_reports_v1",
+      FEEDBACK_KEY: "qbank_user_feedbacks_v1",
+
+      _resolveRecordKey(subject) {
+        if (subject === "custom") {
+          const slotId = CustomSlotManager.getActiveSlotId();
+          return `qbank_custom_records_${slotId}`;
+        }
+        return this.STORAGE_KEY;
+      },
+
+      _resolvePosKey(subject) {
+        if (subject === "custom") {
+          const slotId = CustomSlotManager.getActiveSlotId();
+          return `qbank_custom_pos_${slotId}`;
+        }
+        return this.CHAPTER_POS_KEY;
+      },
+
+      getRecords(subject) {
+        const key = this._resolveRecordKey(subject);
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : {};
+        } catch {
+          return {};
+        }
+      },
+
+      saveRecords(subject, records) {
+        const key = this._resolveRecordKey(subject);
+        localStorage.setItem(key, JSON.stringify(records));
+      },
+
+      getQuestionState(subject, questionId) {
+        const records = this.getRecords(subject);
+        return records[questionId] || {
+          studyDone: false,
+          studyUpdatedAt: 0,
+          testStatus: null,
+          testUpdatedAt: 0,
+          bookmarked: false,
+          bookmarkUpdatedAt: 0,
+          wrongStreak: 0,
+          graduated: false
+        };
+      },
+
+      markStudyDone(subject, questionId) {
+        const records = this.getRecords(subject);
+        const cur = this.getQuestionState(subject, questionId);
+        if (!cur.studyDone) {
+          cur.studyDone = true;
+          cur.studyUpdatedAt = Date.now();
+          records[questionId] = cur;
+          this.saveRecords(subject, records);
+        }
+      },
+
+      recordTestResult(subject, questionId, isCorrect, isWrongReviewMode = false) {
+        const records = this.getRecords(subject);
+        const cur = this.getQuestionState(subject, questionId);
+        const now = Date.now();
+
+        cur.testStatus = isCorrect ? "correct" : "wrong";
+        cur.testUpdatedAt = now;
+
+        if (isCorrect) {
+          if (isWrongReviewMode) {
+            cur.wrongStreak = (cur.wrongStreak || 0) + 1;
+            if (cur.wrongStreak >= 2) cur.graduated = true;
+          }
+        } else {
+          cur.wrongStreak = 0;
+          cur.graduated = false;
+        }
+
+        records[questionId] = cur;
+        this.saveRecords(subject, records);
+        return cur;
+      },
+
+      toggleBookmark(subject, questionId) {
+        const records = this.getRecords(subject);
+        const cur = this.getQuestionState(subject, questionId);
+        cur.bookmarked = !cur.bookmarked;
+        cur.bookmarkUpdatedAt = Date.now();
+        records[questionId] = cur;
+        this.saveRecords(subject, records);
+        return cur.bookmarked;
+      },
+
+      getAllChapterPositions(subject) {
+        const key = this._resolvePosKey(subject);
+        try {
+          return JSON.parse(localStorage.getItem(key) || "{}");
+        } catch {
+          return {};
+        }
+      },
+
+      getChapterPosition(subject, chapterId, mode) {
+        const all = this.getAllChapterPositions(subject);
+        const compositeKey = `${subject}_${chapterId}`;
+        return all[compositeKey]?.[mode] || null;
+      },
+
+      setChapterPosition(subject, chapterId, mode, questionId, num) {
+        const key = this._resolvePosKey(subject);
+        const all = this.getAllChapterPositions(subject);
+        const compositeKey = `${subject}_${chapterId}`;
+        if (!all[compositeKey]) all[compositeKey] = {};
+        all[compositeKey][mode] = { questionId, num, updatedAt: Date.now() };
+        localStorage.setItem(key, JSON.stringify(all));
+      },
+
+      clearChapterPosition(subject, chapterId) {
+        const key = this._resolvePosKey(subject);
+        const all = this.getAllChapterPositions(subject);
+        delete all[`${subject}_${chapterId}`];
+        localStorage.setItem(key, JSON.stringify(all));
+      },
+
+      resetChapterProgress(subject, chapterId, questionIds, mode = "all") {
+        const records = this.getRecords(subject);
+        const now = Date.now();
+        questionIds.forEach((qid) => {
+          if (!records[qid]) return;
+          if (mode === "study" || mode === "all") {
+            records[qid].studyDone = false;
+            records[qid].studyUpdatedAt = now;
+          }
+          if (mode === "test" || mode === "all") {
+            records[qid].testStatus = null;
+            records[qid].testUpdatedAt = now;
+          }
+        });
+        this.saveRecords(subject, records);
+        this.clearChapterPosition(subject, chapterId);
+      },
+
+      mergeRemoteRecords(localRecords, remoteRecords) {
+        const merged = { ...localRecords };
+        const allIds = new Set([...Object.keys(localRecords), ...Object.keys(remoteRecords)]);
+
+        allIds.forEach((qid) => {
+          const loc = localRecords[qid];
+          const rem = remoteRecords[qid];
+          if (!loc) { merged[qid] = { ...rem }; return; }
+          if (!rem) { merged[qid] = { ...loc }; return; }
+
+          const studyDone = Boolean(loc.studyDone || rem.studyDone);
+          const studyUpdatedAt = Math.max(loc.studyUpdatedAt || 0, rem.studyUpdatedAt || 0);
+          const bookmarked = Boolean(loc.bookmarked || rem.bookmarked);
+          const bookmarkUpdatedAt = Math.max(loc.bookmarkUpdatedAt || 0, rem.bookmarkUpdatedAt || 0);
+
+          let testStatus = loc.testStatus || null;
+          let testUpdatedAt = loc.testUpdatedAt || 0;
+          let wrongStreak = loc.wrongStreak || 0;
+          let graduated = Boolean(loc.graduated);
+
+          if (!loc.testStatus && rem.testStatus) {
+            testStatus = rem.testStatus;
+            testUpdatedAt = rem.testUpdatedAt || 0;
+            wrongStreak = rem.wrongStreak || 0;
+            graduated = Boolean(rem.graduated);
+          } else if (loc.testStatus && rem.testStatus && loc.testStatus !== rem.testStatus) {
+            if ((rem.testUpdatedAt || 0) > (loc.testUpdatedAt || 0)) {
+              testStatus = rem.testStatus;
+              testUpdatedAt = rem.testUpdatedAt || 0;
+              wrongStreak = rem.wrongStreak || 0;
+              graduated = Boolean(rem.graduated);
+            }
+          } else if (loc.testStatus === rem.testStatus) {
+            testUpdatedAt = Math.max(loc.testUpdatedAt || 0, rem.testUpdatedAt || 0);
+            wrongStreak = Math.max(loc.wrongStreak || 0, rem.wrongStreak || 0);
+            graduated = Boolean(loc.graduated || rem.graduated);
+          }
+
+          merged[qid] = {
+            studyDone, studyUpdatedAt, testStatus, testUpdatedAt,
+            bookmarked, bookmarkUpdatedAt, wrongStreak, graduated
+          };
+        });
+        return merged;
+      }
+    };
+    window.ProgressStore = ProgressStore;
+
+    /**
+     * =========================================================================
+     * 6. 메인 애플리케이션 컨트롤러
+     * =========================================================================
+     */
+    const App = {
+      state: {
+        view: "home",
+        subject: null,
+        dataset: null,
+        playerMode: "study",
+        activeChapterId: null,
+        playlist: [],
+        currentIndex: 0,
+        selectedOptionIdx: null,
+        showStudyAnswer: false,
+        playerAnswers: {},
+        maxVisitedIndex: 0,
+        onlyUnanswered: false,
+        examType: null,
+        examSetId: null,
+        examTitle: "",
+        examQuestions: [],
+        examAnswers: {},
+        examCurrentIdx: 0,
+        examTimerSeconds: 0,
+        examElapsedSeconds: 0,
+        examTimerInterval: null,
+        lastExamResult: null,
+        adminAuthenticated: false,
+        titleTapCount: 0,
+        titleTapTimer: null
+      },
+
+      async init() {
+        this.initTheme();
+        this.initPwaBanner();
+        this.bindGlobalShortcuts();
+        this.bindAdminSecretTrigger();
+
+        if (window.CloudSync) {
+          await window.CloudSync.init(FIREBASE_CONFIG);
+        }
+
+        if (window.location.hash === "#admin") {
+          this.promptAdminPin();
+        } else {
+          this.renderHome();
+        }
+      },
+
+      initTheme() {
+        const saved = localStorage.getItem("qbank_theme");
+        if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.classList.add("dark");
+        }
+        this.updateThemeIcon();
+      },
+
+      toggleDarkMode() {
+        const isDark = document.documentElement.classList.toggle("dark");
+        localStorage.setItem("qbank_theme", isDark ? "dark" : "light");
+        this.updateThemeIcon();
+      },
+
+      updateThemeIcon() {
+        const isDark = document.documentElement.classList.contains("dark");
+        const iconEl = document.getElementById("theme-icon");
+        if (iconEl) {
+          iconEl.setAttribute("data-lucide", isDark ? "sun" : "moon");
+          lucide.createIcons();
+        }
+      },
+
+      showToast(message, type = "info") {
+        const container = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        const colors = {
+          info: "bg-slate-900 text-white dark:bg-slate-800 border-slate-700",
+          success: "bg-emerald-600 text-white border-emerald-500",
+          warning: "bg-amber-600 text-white border-amber-500",
+          error: "bg-rose-600 text-white border-rose-500"
+        };
+        toast.className = `animate-toast px-4 py-2.5 rounded-xl border shadow-lg text-sm font-medium flex items-center gap-2 ${colors[type] || colors.info}`;
+        toast.innerHTML = `<span>${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          toast.style.transition = "opacity 0.2s";
+          setTimeout(() => toast.remove(), 220);
+        }, 2400);
+      },
+
+      initPwaBanner() {
+        const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+        const isDismissed = localStorage.getItem("qbank_pwa_banner_dismissed") === "true";
+        if (isStandalone || isDismissed) return;
+
+        const ua = navigator.userAgent.toLowerCase();
+        const isIOS = /iphone|ipad|ipod/.test(ua);
+        const isAndroid = /android/.test(ua);
+        if (!isIOS && !isAndroid) return;
+
+        const descEl = document.getElementById("pwa-guide-desc");
+        if (isIOS) {
+          descEl.innerHTML = `點擊 Safari 下方工具列的 <strong>「分享 (Share)」</strong> 圖示，接著選擇 <strong>「加入主畫面」</strong> 即可全螢幕使用。`;
+        } else {
+          descEl.innerHTML = `點擊瀏覽器右上角 <strong>「⋮」</strong> 選單，選擇 <strong>「加到主畫面」</strong> 或 <strong>「安裝應用程式」</strong> 即可快速啟動。`;
+        }
+        document.getElementById("pwa-install-banner").classList.remove("hidden");
+      },
+
+      dismissPwaBanner() {
+        localStorage.setItem("qbank_pwa_banner_dismissed", "true");
+        document.getElementById("pwa-install-banner").classList.add("hidden");
+      },
+
+      bindAdminSecretTrigger() {
+        const titleEl = document.getElementById("app-main-title");
+        titleEl.addEventListener("click", () => {
+          this.state.titleTapCount++;
+          clearTimeout(this.state.titleTapTimer);
+          if (this.state.titleTapCount >= 5) {
+            this.state.titleTapCount = 0;
+            this.promptAdminPin();
+          } else {
+            this.state.titleTapTimer = setTimeout(() => {
+              this.state.titleTapCount = 0;
+            }, 1500);
+          }
+        });
+      },
+
+      promptAdminPin() {
+        if (this.state.adminAuthenticated) {
+          this.renderAdminView();
+          return;
+        }
+        this.openModal(`
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-5 h-5 text-blue-600"></i>
+                管理員身分驗證
+              </h3>
+              <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-400">請輸入管理員 PIN 碼以進入題庫視覺化編輯器與 PDF 智慧解析後台。</p>
+            <input id="admin-pin-input" type="password" inputmode="numeric" maxlength="8" placeholder="請輸入 PIN 碼" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-center text-lg tracking-widest font-bold focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <div class="flex justify-end gap-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-sm font-medium bg-slate-100 dark:bg-slate-800">取消</button>
+              <button onclick="App.verifyAdminPin()" class="px-5 py-2 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white">進入後台</button>
+            </div>
+          </div>
+        `);
+        setTimeout(() => {
+          const input = document.getElementById("admin-pin-input");
+          if (input) {
+            input.focus();
+            input.addEventListener("keydown", (e) => {
+              if (e.key === "Enter") this.verifyAdminPin();
+            });
+          }
+        }, 50);
+      },
+
+      verifyAdminPin() {
+        const input = document.getElementById("admin-pin-input");
+        const savedPin = localStorage.getItem("qbank_admin_pin") || ADMIN_DEFAULT_PIN;
+        if (input && input.value === savedPin) {
+          this.state.adminAuthenticated = true;
+          this.closeModal();
+          this.showToast("已進入管理員模式", "success");
+          this.renderAdminView();
+        } else {
+          this.showToast("PIN 碼錯誤，請重試", "error");
+        }
+      },
+
+      /**
+       * =====================================================================
+       * 데이터 로더: GitHub JSON 로드 + 커스텀 다중 슬롯 IndexedDB 로드
+       * =====================================================================
+       */
+      async selectSubject(subject) {
+        this.state.subject = subject;
+        const badge = document.getElementById("subject-badge");
+        const homeBtn = document.getElementById("btn-home");
+        homeBtn.classList.remove("hidden");
+
+        if (subject === "custom") {
+          const slotId = CustomSlotManager.getActiveSlotId();
+          const slots = CustomSlotManager.getSlots();
+          const activeSlot = slots.find((s) => s.id === slotId) || slots[0];
+          badge.textContent = `自訂：${activeSlot.name}`;
+          badge.classList.remove("hidden");
+
+          let customData = await LocalIDB.getDataset(`custom_slot_${slotId}`);
+          if (!customData) {
+            const legacy = slotId === "slot_1" ? await LocalIDB.getDataset("custom_qbank") : null;
+            customData = legacy || {
+              subject: "custom",
+              subjectName: activeSlot.name,
+              updatedAt: new Date().toISOString(),
+              chapters: [],
+              questions: []
+            };
+          }
+          this.state.dataset = customData;
+          this.renderDashboard();
+          return;
+        }
+
+        const label = subject === "biology" ? "生物題庫" : "化學題庫";
+        badge.textContent = label;
+        badge.classList.remove("hidden");
+
+        const url = `data/${subject}.json?v=${Date.now()}`;
+        try {
+          const res = await fetch(url, { cache: "no-store" });
+          if (!res.ok) throw new Error("Remote JSON not found");
+          const json = await res.json();
+          this.state.dataset = json;
+          await LocalIDB.setDataset(`cache_${subject}`, json);
+          this.showToast(`已載入最新${label}`, "success");
+        } catch {
+          const cached = await LocalIDB.getDataset(`cache_${subject}`);
+          this.state.dataset = cached || EMBEDDED_DEFAULT_DATA[subject];
+          if (!cached) {
+            this.showToast(`目前使用內建範例${label}（待上傳 GitHub JSON 後將自動同步）`, "info");
+          }
+        }
+
+        this.renderDashboard();
+      },
+
+      goHome() {
+        if (this.state.examTimerInterval) {
+          clearInterval(this.state.examTimerInterval);
+          this.state.examTimerInterval = null;
+        }
+        this.state.view = "home";
+        this.state.subject = null;
+        document.getElementById("btn-home").classList.add("hidden");
+        document.getElementById("subject-badge").classList.add("hidden");
+        this.renderHome();
+      },
+
+      /**
+       * =====================================================================
+       * 화면 1: 첫 화면 3분할 선택 (生物 / 化學 / 自訂題庫)
+       * =====================================================================
+       */
+      renderHome() {
+        const root = document.getElementById("app-root");
+        root.innerHTML = `
+          <div class="max-w-3xl mx-auto py-4 sm:py-8 space-y-8">
+            <div class="text-center space-y-2.5">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                專業醫學與生命科學刷題系統
+              </span>
+              <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">請選擇要練習的題庫科目</h2>
+              <p class="text-sm text-slate-500 dark:text-slate-400">題庫更新自動保留既有作答紀錄、錯題本與書籤進度</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+              <button onclick="App.selectSubject('biology')" class="group text-left bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 rounded-2xl p-6 shadow-xs hover:shadow-lg transition-all flex flex-col justify-between">
+                <div class="space-y-4">
+                  <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <i data-lucide="dna" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">生物題庫</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">細胞學、代謝、遺傳與生理學核心題庫</p>
+                  </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                  <span>進入學習與模擬考</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </button>
+
+              <button onclick="App.selectSubject('chemistry')" class="group text-left bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 rounded-2xl p-6 shadow-xs hover:shadow-lg transition-all flex flex-col justify-between">
+                <div class="space-y-4">
+                  <div class="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <i data-lucide="flask-conical" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">化學題庫</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">普通化學、有機化學、酸鹼與電化學計算</p>
+                  </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-blue-600 dark:text-blue-400">
+                  <span>進入學習與模擬考</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </button>
+
+              <button onclick="App.selectSubject('custom')" class="group text-left bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-amber-500 dark:hover:border-amber-500 rounded-2xl p-6 shadow-xs hover:shadow-lg transition-all flex flex-col justify-between">
+                <div class="space-y-4">
+                  <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <i data-lucide="folder-plus" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">自訂題庫</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">支援無上限自訂題庫分類與千頁 PDF 智慧匯入</p>
+                  </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-amber-600 dark:text-amber-400">
+                  <span>開啟個人專屬題庫</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </button>
+            </div>
+
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+              <div class="flex items-center gap-2">
+                <i data-lucide="cloud" class="w-4 h-4 text-blue-500 shrink-0"></i>
+                <span>支援 6 碼跨裝置進度同步（自動以單題為單位智慧合併學習與測驗紀錄）</span>
+              </div>
+              <button onclick="App.openSyncModal()" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline shrink-0">設定同步代碼 →</button>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+      },
+
+      /**
+       * =====================================================================
+       * 화면 2: 과목 대시보드 (커스텀 다중 슬롯 바 + 상단 4대 모의고사/랭킹 메뉴)
+       * =====================================================================
+       */
+      renderCustomSlotBarHtml() {
+        const slots = CustomSlotManager.getSlots();
+        const activeId = CustomSlotManager.getActiveSlotId();
+        return `
+          <div class="bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-800/60 rounded-2xl p-3.5 space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-1.5">
+                ${slots.map((s) => `
+                  <button onclick="App.switchCustomSlot('${s.id}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition ${s.id === activeId ? "bg-amber-500 text-slate-950 shadow-xs" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"}">
+                    ${s.name}
+                  </button>
+                `).join("")}
+                <button onclick="App.promptCreateCustomSlot()" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold border border-dashed border-amber-400 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/40 flex items-center gap-1">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i> 新增題庫分類 (${slots.length})
+                </button>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="App.promptRenameCustomSlot()" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200">重新命名</button>
+                ${slots.length > 1 ? `
+                  <button onclick="App.confirmDeleteCustomSlot()" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40">刪除此分類</button>
+                ` : ""}
+              </div>
+            </div>
+          </div>
+        `;
+      },
+
+      async switchCustomSlot(slotId) {
+        CustomSlotManager.setActiveSlotId(slotId);
+        await this.selectSubject("custom");
+      },
+
+      promptCreateCustomSlot() {
+        this.openModal(`
+          <div class="space-y-4">
+            <h3 class="text-base font-bold">新增自訂題庫分類（無數量上限）</h3>
+            <input id="new-slot-name" type="text" maxlength="25" placeholder="例如：有機化學、生理學、期中考範圍..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm" />
+            <div class="flex justify-end gap-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">取消</button>
+              <button onclick="App.executeCreateCustomSlot()" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950">建立並切換</button>
+            </div>
+          </div>
+        `);
+        setTimeout(() => {
+          const inp = document.getElementById("new-slot-name");
+          if (inp) {
+            inp.focus();
+            inp.addEventListener("keydown", (e) => {
+              if (e.key === "Enter") this.executeCreateCustomSlot();
+            });
+          }
+        }, 50);
+      },
+
+      async executeCreateCustomSlot() {
+        const name = document.getElementById("new-slot-name")?.value || "";
+        const id = CustomSlotManager.createSlot(name);
+        this.closeModal();
+        if (id) {
+          this.showToast("已建立新自訂題庫分類", "success");
+          await this.selectSubject("custom");
+        }
+      },
+
+      promptRenameCustomSlot() {
+        const slots = CustomSlotManager.getSlots();
+        const activeId = CustomSlotManager.getActiveSlotId();
+        const cur = slots.find((s) => s.id === activeId);
+        this.openModal(`
+          <div class="space-y-4">
+            <h3 class="text-base font-bold">重新命名題庫分類</h3>
+            <input id="rename-slot-input" type="text" maxlength="25" value="${cur ? cur.name.replace(/"/g, "&quot;") : ""}" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm" />
+            <div class="flex justify-end gap-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">取消</button>
+              <button onclick="App.executeRenameCustomSlot()" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white">儲存名稱</button>
+            </div>
+          </div>
+        `);
+        setTimeout(() => {
+          const inp = document.getElementById("rename-slot-input");
+          if (inp) {
+            inp.focus();
+            inp.addEventListener("keydown", (e) => {
+              if (e.key === "Enter") this.executeRenameCustomSlot();
+            });
+          }
+        }, 50);
+      },
+
+      async executeRenameCustomSlot() {
+        const val = document.getElementById("rename-slot-input")?.value || "";
+        if (val.trim()) {
+          CustomSlotManager.renameSlot(CustomSlotManager.getActiveSlotId(), val);
+          this.closeModal();
+          await this.selectSubject("custom");
+        }
+      },
+
+      confirmDeleteCustomSlot() {
+        this.openModal(`
+          <div class="space-y-4">
+            <h3 class="text-base font-bold text-rose-600">刪除自訂題庫插槽</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300">確定要刪除此插槽及其所有匯入題目與本機作答紀錄嗎？此操作無法復原。</p>
+            <div class="flex justify-end gap-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">取消</button>
+              <button onclick="App.executeDeleteCustomSlot()" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 text-white">確定刪除</button>
+            </div>
+          </div>
+        `);
+      },
+
+      async executeDeleteCustomSlot() {
+        const ok = await CustomSlotManager.deleteSlot(CustomSlotManager.getActiveSlotId());
+        this.closeModal();
+        if (ok) {
+          this.showToast("已刪除該插槽", "info");
+          await this.selectSubject("custom");
+        }
+      },
+
+      renderDashboard() {
+        this.state.view = "dashboard";
+        if (window.CloudSync && this.state.subject !== "custom") {
+          window.CloudSync.scheduleBackgroundSync();
+        }
+        const { subject, dataset } = this.state;
+        const isCustom = subject === "custom";
+        const records = ProgressStore.getRecords(subject);
+        const questions = dataset.questions || [];
+
+        const activeWrongs = questions.filter((q) => {
+          const r = records[q.id];
+          return r && r.testStatus === "wrong" && !r.graduated;
+        });
+        const graduatedCount = questions.filter((q) => records[q.id]?.graduated).length;
+        const bookmarkedList = questions.filter((q) => records[q.id]?.bookmarked);
+
+        if (isCustom && questions.length === 0) {
+          this.renderCustomEmptyState();
+          return;
+        }
+
+        const cfg = dataset.officialExamConfig || { questionCount: 5, durationMinutes: 10 };
+        const publishedSetsCount = (dataset.officialExamSets || []).filter((s) => s.published).length;
+
+        const root = document.getElementById("app-root");
+        root.innerHTML = `
+          <div class="max-w-4xl mx-auto space-y-6">
+            ${isCustom ? this.renderCustomSlotBarHtml() : ""}
+
+            <!-- 상단 액션 바: [隨機模擬考] [官方模擬考] [自由模擬考] [排行榜] -->
+            <div class="grid ${isCustom ? "grid-cols-1" : "grid-cols-2 sm:grid-cols-4"} gap-3">
+              ${!isCustom ? `
+                <button onclick="App.startOfficialExamA()" class="p-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-left shadow-xs transition">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <i data-lucide="shuffle" class="w-5 h-5"></i>
+                    <span class="text-[11px] bg-white/20 px-2 py-0.5 rounded-full">${Math.min(cfg.questionCount, questions.length)} 題 · ${cfg.durationMinutes}m</span>
+                  </div>
+                  <div class="font-bold text-sm">隨機模擬考</div>
+                  <div class="text-[11px] text-indigo-100 mt-0.5">常態隨機出題與計時</div>
+                </button>
+
+                <button onclick="App.openOfficialExamBSelector()" class="p-3.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-left shadow-xs transition">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <i data-lucide="file-check-2" class="w-5 h-5"></i>
+                    <span class="text-[11px] bg-white/20 px-2 py-0.5 rounded-full">${publishedSetsCount} 回已發布</span>
+                  </div>
+                  <div class="font-bold text-sm">官方模擬考</div>
+                  <div class="text-[11px] text-blue-100 mt-0.5">指定範圍回次與獨立榜單</div>
+                </button>
+              ` : ""}
+
+              <button onclick="App.openFreeExamSetup()" class="p-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 text-white text-left shadow-xs transition">
+                <div class="flex items-center justify-between mb-1.5">
+                  <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+                  <span class="text-[11px] bg-white/15 px-2 py-0.5 rounded-full">不限時</span>
+                </div>
+                <div class="font-bold text-sm">自由模擬考</div>
+                <div class="text-[11px] text-slate-300 mt-0.5">自選章節與題數個人練習</div>
+              </button>
+
+              ${!isCustom ? `
+                <button onclick="App.renderRankingView()" class="p-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-left shadow-xs transition">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <i data-lucide="trophy" class="w-5 h-5"></i>
+                    <span class="text-[11px] bg-black/15 px-2 py-0.5 rounded-full font-semibold">即時</span>
+                  </div>
+                  <div class="font-bold text-sm">排行榜</div>
+                  <div class="text-[11px] text-slate-900/80 mt-0.5">隨機與官方模擬考成績榜</div>
+                </button>
+              ` : ""}
+            </div>
+
+            <!-- 오답 노트 & 북마크 퀵 카드 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex items-center justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-sm text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
+                      <i data-lucide="alert-circle" class="w-4 h-4"></i> 錯題本
+                    </span>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300 font-semibold">${activeWrongs.length} 題待複習</span>
+                  </div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">重練連續答對 2 次自動「畢業」（已掌握 ${graduatedCount} 題）</p>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button onclick="App.renderReviewList('wrong')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">清單</button>
+                  <button onclick="App.startWrongReview()" ${activeWrongs.length === 0 ? "disabled" : ""} class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-rose-600 hover:bg-rose-500 disabled:opacity-40 text-white">重練錯題</button>
+                </div>
+              </div>
+
+              <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex items-center justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-sm text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+                      <i data-lucide="bookmark" class="w-4 h-4"></i> 我的最愛（書籤）
+                    </span>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 font-semibold">${bookmarkedList.length} 題</span>
+                  </div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">收藏重點與易混淆題目，可隨時查看清單或連續複習</p>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button onclick="App.renderReviewList('bookmark')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">清單</button>
+                  <button onclick="App.startBookmarkReview()" ${bookmarkedList.length === 0 ? "disabled" : ""} class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-400 disabled:opacity-40 text-slate-950">複習書籤</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 커스텀 모드 전용 파일 업로드 / 백업 내보내기 툴바 -->
+            ${isCustom ? `
+              <div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="text-xs text-amber-900 dark:text-amber-200">
+                  <strong>本機自訂題庫管理：</strong>目前共 ${questions.length} 題，儲存於瀏覽器 IndexedDB。
+                </div>
+                <div class="flex flex-wrap items-center gap-2 shrink-0">
+                  <button onclick="App.renderCustomEditorView()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-1.5 shadow-xs">
+                    <i data-lucide="notebook-pen" class="w-4 h-4"></i> 題庫編輯與圖片裁切
+                  </button>
+                  <button onclick="App.exportCustomJsonBackup()" class="px-3 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 text-amber-800 dark:text-amber-300">
+                    匯出備份 (.json)
+                  </button>
+                  <button onclick="App.openCustomImportModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center gap-1.5">
+                    <i data-lucide="upload" class="w-4 h-4"></i> 匯入 PDF / JSON
+                  </button>
+                </div>
+              </div>
+            ` : ""}
+
+            <!-- 단원별 학습 & 테스트 카드 리스트 -->
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                  <i data-lucide="layers" class="w-4 h-4 text-blue-600"></i> 章節列表（共 ${dataset.chapters.length} 章 / ${questions.length} 題）
+                </h3>
+                <label class="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 cursor-pointer select-none bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl">
+                  <input type="checkbox" ${this.state.onlyUnanswered ? "checked" : ""} onchange="App.toggleOnlyUnanswered(this.checked)" class="rounded text-blue-600 focus:ring-blue-500" />
+                  <span>只看未作答題目</span>
+                </label>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                ${dataset.chapters.map((ch) => this.renderChapterCardHtml(ch, questions, records)).join("")}
+              </div>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+      },
+
+      renderChapterCardHtml(chapter, allQuestions, records) {
+        const chQuestions = allQuestions.filter((q) => q.chapterId === chapter.id);
+        const total = chQuestions.length;
+        if (total === 0) return "";
+
+        let testAnswered = 0;
+        let testCorrect = 0;
+        let testWrong = 0;
+        let studyDoneCount = 0;
+
+        chQuestions.forEach((q) => {
+          const r = records[q.id];
+          if (!r) return;
+          if (r.studyDone) studyDoneCount++;
+          if (r.testStatus === "correct") {
+            testAnswered++;
+            testCorrect++;
+          } else if (r.testStatus === "wrong") {
+            testAnswered++;
+            testWrong++;
+          }
+        });
+
+        const studyPct = Math.round((studyDoneCount / total) * 100);
+        const testPct = Math.round((testAnswered / total) * 100);
+        const accuracyPct = testAnswered > 0 ? Math.round((testCorrect / testAnswered) * 100) : 0;
+        const isCompleted = testAnswered === total && total > 0;
+
+        const studyLastPos = ProgressStore.getChapterPosition(this.state.subject, chapter.id, "study");
+        const testLastPos = ProgressStore.getChapterPosition(this.state.subject, chapter.id, "test");
+
+        const unansweredStudy = total - studyDoneCount;
+        const unansweredTest = total - testAnswered;
+
+        return `
+          <div class="bg-white dark:bg-slate-900 border ${isCompleted ? "border-emerald-400 dark:border-emerald-700" : "border-slate-200 dark:border-slate-800"} rounded-2xl p-5 shadow-xs flex flex-col justify-between transition">
+            <div>
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    <span class="text-xs font-semibold text-blue-600 dark:text-blue-400">共 ${total} 題</span>
+                    ${this.state.onlyUnanswered ? `
+                      <span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 font-semibold">
+                        未學習 ${unansweredStudy} 題 · 未測驗 ${unansweredTest} 題
+                      </span>
+                    ` : ""}
+                  </div>
+                  <h4 class="font-bold text-base text-slate-900 dark:text-white mt-0.5">${chapter.title}</h4>
+                </div>
+                <button onclick="App.confirmResetChapter('${chapter.id}', '${chapter.title}')" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition shrink-0" title="重置本章進度">
+                  <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <!-- 학습 모드 & 테스트 모드 듀얼 진행률 바 + 마지막 본 문제 번호 표시 -->
+              <div class="mt-4 space-y-3">
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-600 dark:text-slate-400">學習進度：<strong>${studyDoneCount}/${total}</strong> (${studyPct}%)</span>
+                    <span class="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                      ${studyLastPos ? `上次看到第 ${studyLastPos.num} 題` : "尚未開始"}
+                    </span>
+                  </div>
+                  <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-emerald-500 transition-all duration-300" style="width: ${studyPct}%"></div>
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-600 dark:text-slate-400">測驗進度：<strong>${testAnswered}/${total}</strong> (${testPct}%)</span>
+                    <div class="flex items-center gap-2">
+                      ${testLastPos ? `<span class="text-[11px] text-slate-400">上次第 ${testLastPos.num} 題</span>` : ""}
+                      <span class="font-semibold ${accuracyPct >= 80 ? "text-emerald-600 dark:text-emerald-400" : accuracyPct >= 60 ? "text-blue-600 dark:text-blue-400" : "text-slate-500"}">
+                        答對率：${testAnswered > 0 ? accuracyPct + "%" : "--"}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div class="h-full ${isCompleted ? "bg-emerald-500" : "bg-blue-600"} transition-all duration-300" style="width: ${testPct}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            ${isCompleted ? `
+              <div class="mt-4 pt-3 border-t border-emerald-100 dark:border-emerald-900/50 space-y-2">
+                <div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                  <i data-lucide="award" class="w-4 h-4"></i> 本章節測驗已 100% 完成！${testWrong > 0 ? `（尚有 ${testWrong} 題錯題）` : "（全對達成！）"}
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  ${testWrong > 0 ? `
+                    <button onclick="App.prepareChapterLaunch('${chapter.id}', 'test', true)" class="py-2 px-3 rounded-xl text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white">只重練錯題 (${testWrong})</button>
+                  ` : `
+                    <button onclick="App.prepareChapterLaunch('${chapter.id}', 'study', false)" class="py-2 px-3 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white">學習複習</button>
+                  `}
+                  <button onclick="App.confirmResetChapter('${chapter.id}', '${chapter.title}')" class="py-2 px-3 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center gap-1">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> 重置本章進度
+                  </button>
+                </div>
+              </div>
+            ` : `
+              <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-2">
+                <button onclick="App.prepareChapterLaunch('${chapter.id}', 'study', false)" class="py-2 px-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300 dark:hover:bg-emerald-900/60 transition">
+                  學習模式
+                </button>
+                <button onclick="App.prepareChapterLaunch('${chapter.id}', 'test', false)" class="py-2 px-3 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition">
+                  測驗模式
+                </button>
+              </div>
+            `}
+          </div>
+        `;
+      },
+
+      renderCustomEmptyState() {
+        const root = document.getElementById("app-root");
+        root.innerHTML = `
+          <div class="max-w-3xl mx-auto space-y-5">
+            ${this.renderCustomSlotBarHtml()}
+            <div class="max-w-lg mx-auto py-10 text-center space-y-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8">
+              <div class="w-16 h-16 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto">
+                <i data-lucide="file-up" class="w-8 h-8"></i>
+              </div>
+              <h3 class="text-xl font-bold">此插槽尚未匯入題庫</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                支援直接上傳 <strong>1,200 頁以上大容量 PDF 題庫</strong>（自動區分生物/化學化學式與答案解析）或標準 <code>.json</code> 題庫檔，全部儲存於本機 IndexedDB。
+              </p>
+              <button onclick="App.openCustomImportModal()" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm inline-flex items-center gap-2">
+                <i data-lucide="upload" class="w-4 h-4"></i> 立即匯入 PDF 或 JSON 題庫
+              </button>
+              <button onclick="App.renderCustomEditorView()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm inline-flex items-center gap-2">
+                <i data-lucide="notebook-pen" class="w-4 h-4"></i> 開啟自訂題庫編輯器（手動出題 / 裁圖）
+              </button>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+      },
+
+      openCustomImportModal() {
+        this.openModal(`
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold">匯入自訂題庫（建議依章節分批上傳）</h3>
+              <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 leading-relaxed space-y-1">
+              <div class="font-bold flex items-center gap-1.5">
+                <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0"></i>
+                <span>請將 PDF 依「單一章節（Chapter）」分割後逐章上傳！</span>
+              </div>
+              <p>整本上千頁合訂本容易導致章節辨識錯亂。每次上傳 1 個章節的 PDF，系統會自動建立對應章節並累加進目前題庫中。</p>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-xs font-bold block">1. 選擇解析科目模式（若上傳 PDF）：</label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer text-xs font-semibold">
+                  <input type="radio" name="custom-pdf-mode" value="biology" checked /> 生物模式（合併斷行術語）
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer text-xs font-semibold">
+                  <input type="radio" name="custom-pdf-mode" value="chemistry" /> 化學模式（上下標與電荷校正）
+                </label>
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold block">2. 選擇章節檔案（.pdf 或 .json）：</label>
+              <input id="custom-import-file" type="file" accept=".pdf,.json" onchange="App.autoFillCustomChapterName(this)" class="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold block">3. 本次匯入的章節名稱（上傳 PDF 時適用，預設帶入檔名）：</label>
+              <input id="custom-import-chapter-name" type="text" placeholder="例如：第1章 細胞結構與功能（留空則自動使用檔名）" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs" />
+            </div>
+
+            <div id="custom-pdf-progress-box" class="hidden space-y-1.5 bg-slate-50 dark:bg-slate-800 p-3 rounded-xl">
+              <div class="flex justify-between text-xs font-semibold">
+                <span id="custom-pdf-progress-text">準備解析...</span>
+                <span id="custom-pdf-progress-pct">0%</span>
+              </div>
+              <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div id="custom-pdf-progress-bar" class="h-full bg-amber-500 transition-all" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">取消</button>
+              <button id="btn-custom-import-exec" onclick="App.handleCustomFileUpload()" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950">開始匯入本章節</button>
+            </div>
+          </div>
+        `);
+      },
+
+      autoFillCustomChapterName(inputEl) {
+        const file = inputEl?.files?.[0];
+        const nameInput = document.getElementById("custom-import-chapter-name");
+        if (file && nameInput && !nameInput.value.trim()) {
+          nameInput.value = file.name.replace(/\.(pdf|json)$/i, "");
+        }
+      },
+
+      async handleCustomFileUpload() {
+        const fileInput = document.getElementById("custom-import-file");
+        const file = fileInput?.files?.[0];
+        if (!file) {
+          this.showToast("請先選擇 PDF 或 JSON 檔案", "warning");
+          return;
+        }
+        const slotId = CustomSlotManager.getActiveSlotId();
+        const slots = CustomSlotManager.getSlots();
+        const slotName = slots.find((s) => s.id === slotId)?.name || "自訂題庫";
+
+        if (file.name.toLowerCase().endsWith(".json")) {
+          try {
+            const text = await file.text();
+            const parsed = JSON.parse(text);
+            if (!Array.isArray(parsed.questions) || !Array.isArray(parsed.chapters)) throw new Error("格式不符");
+            parsed.subject = "custom";
+            parsed.subjectName = slotName;
+            await LocalIDB.setDataset(`custom_slot_${slotId}`, parsed);
+            this.state.dataset = parsed;
+            this.closeModal();
+            this.showToast(`成功匯入 ${parsed.questions.length} 題！`, "success");
+            this.renderDashboard();
+          } catch {
+            this.showToast("JSON 格式解析失敗", "error");
+          }
+          return;
+        }
+
+        if (file.name.toLowerCase().endsWith(".pdf")) {
+          if (!window.PdfChunkParser) {
+            this.showToast("PDF 解析模組尚未載入，請確認 admin-editor.js 是否在同一資料夾", "error");
+            return;
+          }
+          const mode = document.querySelector('input[name="custom-pdf-mode"]:checked')?.value || "biology";
+          const rawChapterTitle = (document.getElementById("custom-import-chapter-name")?.value || "").trim();
+          const chapterTitle = rawChapterTitle || file.name.replace(/\.pdf$/i, "");
+
+          const progBox = document.getElementById("custom-pdf-progress-box");
+          const progText = document.getElementById("custom-pdf-progress-text");
+          const progPct = document.getElementById("custom-pdf-progress-pct");
+          const progBar = document.getElementById("custom-pdf-progress-bar");
+          const execBtn = document.getElementById("btn-custom-import-exec");
+
+          progBox.classList.remove("hidden");
+          execBtn.disabled = true;
+
+          try {
+            const existingData = this.state.dataset || {
+              subject: "custom",
+              subjectName: slotName,
+              updatedAt: new Date().toISOString(),
+              chapters: [],
+              questions: []
+            };
+
+            const nextOrder = existingData.chapters.length + 1;
+            const newChapterId = "ch" + String(Date.now()).slice(-6);
+
+            // 1개 PDF = 1개 지정 챕터(forcedChapterId)로 강제 매핑하여 챕터 꼬임 방지
+            const result = await window.PdfChunkParser.parsePdfFile(file, mode, {
+              forcedChapterId: newChapterId,
+              startSeq: 0,
+              onProgress: (cur, total, qCount) => {
+                const pct = Math.round((cur / total) * 100);
+                progText.textContent = `正在解析「${chapterTitle}」第 ${cur} / ${total} 頁（已擷取 ${qCount} 題）...`;
+                progPct.textContent = `${pct}%`;
+                progBar.style.width = `${pct}%`;
+              }
+            });
+
+            if (result.questions.length === 0) {
+              execBtn.disabled = false;
+              this.showToast("此 PDF 未擷取到任何題目，請確認檔案內容", "warning");
+              return;
+            }
+
+            existingData.chapters.push({
+              id: newChapterId,
+              title: chapterTitle,
+              order: nextOrder
+            });
+            existingData.questions.push(...result.questions);
+            existingData.updatedAt = new Date().toISOString();
+
+            await LocalIDB.setDataset(`custom_slot_${slotId}`, existingData);
+            this.state.dataset = existingData;
+            this.closeModal();
+            this.showToast(`「${chapterTitle}」匯入完成！新增 ${result.questions.length} 題（累計 ${existingData.questions.length} 題）`, "success");
+            this.renderDashboard();
+          } catch (err) {
+            execBtn.disabled = false;
+            this.showToast("PDF 解析發生錯誤：" + (err.message || "未知錯誤"), "error");
+          }
+        }
+      },
+
+      exportCustomJsonBackup() {
+        const blob = new Blob([JSON.stringify(this.state.dataset, null, 2)], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `custom_qbank_${Date.now()}.json`;
+        a.click();
+        this.showToast("已下載自訂題庫 JSON 備份檔", "success");
+      },
+
+      toggleOnlyUnanswered(checked) {
+        this.state.onlyUnanswered = checked;
+        this.renderDashboard();
+        this.showToast(checked ? "已開啟：只看未作答題目" : "已關閉未作答篩選", "info");
+      },
+
+      confirmResetChapter(chapterId, chapterTitle) {
+        this.openModal(`
+          <div class="space-y-4">
+            <h3 class="text-lg font-bold text-rose-600 flex items-center gap-2">
+              <i data-lucide="alert-triangle" class="w-5 h-5"></i> 重置章節進度確認
+            </h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300">確定要清除<strong>「${chapterTitle}」</strong>的作答、學習紀錄與閱讀位置嗎？（您的書籤收藏將會保留）</p>
+            <div class="flex justify-end gap-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">取消</button>
+              <button onclick="App.executeResetChapter('${chapterId}')" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 text-white">確定重置</button>
+            </div>
+          </div>
+        `);
+      },
+
+      executeResetChapter(chapterId) {
+        const qids = this.state.dataset.questions.filter((q) => q.chapterId === chapterId).map((q) => q.id);
+        ProgressStore.resetChapterProgress(this.state.subject, chapterId, qids, "all");
+        this.closeModal();
+        this.showToast("章節進度已重置", "success");
+        this.renderDashboard();
+      },
+
+      prepareChapterLaunch(chapterId, mode, onlyWrong = false) {
+        const records = ProgressStore.getRecords(this.state.subject);
+        let list = this.state.dataset.questions.filter((q) => q.chapterId === chapterId);
+
+        if (onlyWrong) {
+          list = list.filter((q) => records[q.id]?.testStatus === "wrong");
+          if (list.length === 0) {
+            this.showToast("此範圍內目前沒有待重練的錯題", "info");
+            return;
+          }
+          this.launchPlayer(list, mode, 0, chapterId);
+          return;
+        }
+
+        if (this.state.onlyUnanswered) {
+          list = list.filter((q) => (mode === "study" ? !records[q.id]?.studyDone : !records[q.id]?.testStatus));
+          if (list.length === 0) {
+            this.showToast("本章節所有題目皆已完成作答！", "info");
+            return;
+          }
+          this.launchPlayer(list, mode, 0, chapterId);
+          return;
+        }
+
+        const savedPos = ProgressStore.getChapterPosition(this.state.subject, chapterId, mode);
+        if (savedPos && savedPos.num > 1) {
+          const foundIdx = list.findIndex((q) => q.id === savedPos.questionId);
+          const resumeIdx = foundIdx >= 0 ? foundIdx : Math.min(savedPos.num - 1, list.length - 1);
+
+          if (resumeIdx > 0) {
+            const modeName = mode === "study" ? "學習模式" : "測驗模式";
+            this.openModal(`
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-base font-bold flex items-center gap-2">
+                    <i data-lucide="history" class="w-5 h-5 text-blue-600"></i> 繼續上次進度（${modeName}）
+                  </h3>
+                  <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <p class="text-sm text-slate-600 dark:text-slate-300">
+                  系統記錄您上次在${modeName}進行到 <strong>第 ${resumeIdx + 1} 題</strong>（共 ${list.length} 題）。請問要從哪裡開始？
+                </p>
+                <div class="grid grid-cols-2 gap-2.5 pt-1">
+                  <button onclick="App.closeModal(); App.executeChapterLaunch('${chapterId}', '${mode}', 0);" class="py-2.5 px-4 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">
+                    從第 1 題重新開始
+                  </button>
+                  <button onclick="App.closeModal(); App.executeChapterLaunch('${chapterId}', '${mode}', ${resumeIdx});" class="py-2.5 px-4 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white">
+                    繼續第 ${resumeIdx + 1} 題
+                  </button>
+                </div>
+              </div>
+            `);
+            return;
+          }
+        }
+
+        this.launchPlayer(list, mode, 0, chapterId);
+      },
+
+      executeChapterLaunch(chapterId, mode, startIndex) {
+        const list = this.state.dataset.questions.filter((q) => q.chapterId === chapterId);
+        this.launchPlayer(list, mode, startIndex, chapterId);
+      },
+
+      startWrongReview() {
+        const records = ProgressStore.getRecords(this.state.subject);
+        const list = this.state.dataset.questions.filter((q) => records[q.id]?.testStatus === "wrong" && !records[q.id]?.graduated);
+        if (list.length === 0) {
+          this.showToast("目前沒有待複習的錯題！", "info");
+          return;
+        }
+        this.launchPlayer(list, "wrongReview", 0, null);
+      },
+
+      startBookmarkReview() {
+        const records = ProgressStore.getRecords(this.state.subject);
+        const list = this.state.dataset.questions.filter((q) => records[q.id]?.bookmarked);
+        if (list.length === 0) {
+          this.showToast("目前尚未收藏任何書籤題目", "info");
+          return;
+        }
+        this.launchPlayer(list, "bookmarkReview", 0, null);
+      },
+
+      launchPlayer(playlist, mode, startIndex = 0, activeChapterId = null) {
+        this.state.view = "player";
+        this.state.playlist = playlist;
+        this.state.playerMode = mode;
+        this.state.activeChapterId = activeChapterId;
+        this.state.currentIndex = startIndex;
+        this.state.selectedOptionIdx = null;
+        this.state.showStudyAnswer = false;
+        this.state.playerAnswers = {};
+        this.state.maxVisitedIndex = startIndex;
+
+        if (!localStorage.getItem("qbank_swipe_guide_seen")) {
+          const overlay = document.getElementById("swipe-onboarding-overlay");
+          overlay.classList.remove("hidden");
+          overlay.classList.add("flex");
+        }
+
+        this.renderPlayer();
+      },
+
+      isTestQuestionLocked(index = this.state.currentIndex) {
+        if (this.state.playerMode !== "test") return false;
+        const userAnswer = this.state.playerAnswers[index];
+        const hasAnswered = userAnswer !== null && userAnswer !== undefined;
+        return hasAnswered || index < this.state.maxVisitedIndex;
+      },
+
+      dismissSwipeGuide() {
+        localStorage.setItem("qbank_swipe_guide_seen", "true");
+        const overlay = document.getElementById("swipe-onboarding-overlay");
+        overlay.classList.add("hidden");
+        overlay.classList.remove("flex");
+      },
+
+      renderPlayer() {
+        const { subject, dataset, playlist, currentIndex, playerMode, activeChapterId, selectedOptionIdx, showStudyAnswer, playerAnswers } = this.state;
+        const q = playlist[currentIndex];
+        if (!q) return;
+
+        if (playerMode === "study") {
+          ProgressStore.markStudyDone(subject, q.id);
+        }
+
+        if (activeChapterId && (playerMode === "study" || playerMode === "test")) {
+          const allChQs = dataset.questions.filter((item) => item.chapterId === activeChapterId);
+          const posInChapter = allChQs.findIndex((item) => item.id === q.id);
+          if (posInChapter >= 0) {
+            ProgressStore.setChapterPosition(subject, activeChapterId, playerMode, q.id, posInChapter + 1);
+          }
+        }
+
+        const chapterObj = dataset.chapters.find((c) => c.id === q.chapterId);
+        const chapterTitle = chapterObj ? chapterObj.title : q.chapterId;
+        const qRecord = ProgressStore.getQuestionState(subject, q.id);
+
+        const modeLabels = {
+          study: { text: "學習模式", badge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300" },
+          test: { text: "測驗模式", badge: "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300" },
+          wrongReview: { text: `錯題重練 (${qRecord.wrongStreak || 0}/2 畢業)`, badge: "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300" },
+          bookmarkReview: { text: "書籤複習", badge: "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300" }
+        };
+
+        const letters = ["A", "B", "C", "D", "E"];
+        const isTestMode = playerMode === "test";
+        const isLocked = this.isTestQuestionLocked(currentIndex);
+        const userAnswer = isTestMode ? (playerAnswers[currentIndex] ?? null) : selectedOptionIdx;
+        const isSkippedLocked = isTestMode && isLocked && userAnswer === null;
+        const isAnswered = playerMode === "study"
+          ? showStudyAnswer
+          : (isTestMode ? isLocked : selectedOptionIdx !== null);
+
+        const root = document.getElementById("app-root");
+        root.innerHTML = `
+          <div class="max-w-3xl mx-auto space-y-4">
+            <div class="flex items-center justify-between gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-2.5">
+              <button onclick="App.renderDashboard()" class="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 flex items-center gap-1">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> 返回章節
+              </button>
+
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${modeLabels[playerMode].badge}">${modeLabels[playerMode].text}</span>
+                <span class="text-xs font-bold text-slate-700 dark:text-slate-200">${currentIndex + 1} / ${playlist.length}</span>
+              </div>
+
+              <div class="flex items-center gap-1">
+                <button onclick="App.openOmrModal()" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300" title="答題卡 (OMR)">
+                  <i data-lucide="grid" class="w-4 h-4"></i>
+                </button>
+                <button onclick="App.handleToggleBookmark('${q.id}')" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 ${qRecord.bookmarked ? "text-amber-500" : "text-slate-400"}" title="加入/取消書籤 (B)">
+                  <i data-lucide="bookmark" class="w-4 h-4 ${qRecord.bookmarked ? "fill-amber-500" : ""}"></i>
+                </button>
+                ${subject !== "custom" ? `
+                  <button onclick="App.openIssueReportModal('${q.id}', '${chapterTitle}')" class="px-2 py-1 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 text-slate-400 hover:text-rose-600 text-[11px] font-medium flex items-center gap-1" title="問題回報">
+                    <i data-lucide="flag" class="w-3.5 h-3.5"></i>
+                    <span class="hidden sm:inline">問題回報</span>
+                  </button>
+                ` : ""}
+              </div>
+            </div>
+
+            <div id="question-swipe-card" class="swipe-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-7 shadow-xs space-y-5">
+              <div class="flex items-center justify-between gap-2 text-xs text-slate-400">
+                <span class="font-medium text-slate-500 dark:text-slate-400">${chapterTitle}</span>
+                <div class="flex items-center gap-2">
+                  ${isSkippedLocked ? `
+                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                      已跳過 · 未作答（不列入紀錄）
+                    </span>
+                  ` : ""}
+                  <span class="font-mono text-[11px]">ID: ${q.id}</span>
+                </div>
+              </div>
+
+              <div class="question-html text-base sm:text-lg font-medium leading-relaxed text-slate-900 dark:text-slate-100">
+                ${q.questionHtml}
+              </div>
+
+              ${q.image ? `
+                <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-3 flex flex-col items-center">
+                  ${ImageResolver.renderImageTagHtml(q.image, "current-question-img")}
+                </div>
+              ` : ""}
+
+              <div class="space-y-2.5 pt-1">
+                ${q.options.map((opt, idx) => {
+                  const letter = letters[idx];
+                  let btnStyle = "border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 bg-white dark:bg-slate-900";
+                  let badgeStyle = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300";
+
+                  if (isAnswered) {
+                    if (idx === q.answerIndex) {
+                      btnStyle = "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 dark:border-emerald-500";
+                      badgeStyle = "bg-emerald-600 text-white";
+                    } else if (playerMode !== "study" && userAnswer !== null && idx === userAnswer && idx !== q.answerIndex) {
+                      btnStyle = "border-rose-500 bg-rose-50 dark:bg-rose-950/50 dark:border-rose-500";
+                      badgeStyle = "bg-rose-600 text-white";
+                    } else {
+                      btnStyle = "border-slate-200 dark:border-slate-800 opacity-60";
+                    }
+                  }
+
+                  return `
+                    <button onclick="App.handleOptionClick(${idx})" ${isLocked ? "disabled" : ""} class="w-full text-left p-3.5 rounded-xl border-2 transition-all flex items-start gap-3 ${btnStyle} ${isLocked ? "cursor-not-allowed" : ""}">
+                      <span class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 ${badgeStyle}">${letter}</span>
+                      <span class="chem-text text-sm sm:text-base leading-snug pt-0.5">${opt.textHtml}</span>
+                    </button>
+                  `;
+                }).join("")}
+              </div>
+
+              ${playerMode === "study" && !showStudyAnswer ? `
+                <div class="pt-2">
+                  <button onclick="App.revealStudyAnswer()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-xs transition flex items-center justify-center gap-2">
+                    <i data-lucide="eye" class="w-4 h-4"></i> 顯示答案與解析 (Space)
+                  </button>
+                </div>
+              ` : ""}
+
+              ${isAnswered ? `
+                <div class="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                      正確答案：(${letters[q.answerIndex]})
+                    </span>
+                    ${isSkippedLocked ? `
+                      <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                        已跳過 · 未作答（不列入錯題與統計）
+                      </span>
+                    ` : ""}
+                    ${playerMode === "wrongReview" ? `
+                      <span class="text-xs font-semibold text-rose-500">
+                        錯題熟練度：${qRecord.wrongStreak}/2 ${qRecord.graduated ? "🎉 恭喜畢業！" : "（連續答對 2 次自動畢業）"}
+                      </span>
+                    ` : ""}
+                  </div>
+                  ${q.explanationHtml ? `
+                    <div class="chem-text text-sm text-slate-700 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-700 pt-2.5">
+                      <strong>解析：</strong>${q.explanationHtml}
+                    </div>
+                  ` : ""}
+
+                  <div class="pt-2 border-t border-slate-200 dark:border-slate-700 flex flex-wrap items-center gap-2">
+                    <button onclick="App.copyAiPrompt('zh')" class="px-3 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-1.5 transition">
+                      <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 複製 AI 解析提問 (繁中)
+                    </button>
+                    <button onclick="App.copyAiPrompt('ko')" class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-700 hover:bg-slate-600 text-white flex items-center gap-1.5 transition">
+                      <i data-lucide="copy" class="w-3.5 h-3.5"></i> AI 질문 복사 (한국어)
+                    </button>
+                    ${q.image ? `
+                      <button onclick="App.copyQuestionImageToClipboard()" class="px-3 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center gap-1.5 transition">
+                        <i data-lucide="image" class="w-3.5 h-3.5"></i> 複製題目圖片
+                      </button>
+                    ` : ""}
+                  </div>
+                </div>
+              ` : ""}
+            </div>
+
+            <div class="flex items-center justify-between gap-3 pt-1">
+              <button onclick="App.prevQuestion()" ${currentIndex === 0 ? "disabled" : ""} class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 disabled:opacity-40 text-xs font-bold flex items-center gap-1.5 shadow-xs">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i> 上一題
+              </button>
+              <span class="text-xs font-medium text-slate-400 select-none">← 滑動換題 →</span>
+              <button onclick="App.nextQuestion()" ${currentIndex === playlist.length - 1 ? "disabled" : ""} class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 disabled:opacity-40 text-xs font-bold flex items-center gap-1.5 shadow-xs">
+                下一題 <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+        lucide.createIcons();
+        ImageResolver.hydrateImages(root);
+        this.attachSwipeHandlers();
+      },
+
+      revealStudyAnswer() {
+        this.state.showStudyAnswer = true;
+        this.renderPlayer();
+      },
+
+      handleOptionClick(optIdx) {
+        const { playerMode, selectedOptionIdx, playlist, currentIndex, subject } = this.state;
+        const q = playlist[currentIndex];
+
+        if (playerMode === "study") {
+          this.revealStudyAnswer();
+          return;
+        }
+        if (playerMode === "test") {
+          if (this.isTestQuestionLocked(currentIndex)) return;
+          this.state.playerAnswers[currentIndex] = optIdx;
+        } else if (selectedOptionIdx !== null) {
+          return;
+        }
+
+        this.state.selectedOptionIdx = optIdx;
+        const isCorrect = optIdx === q.answerIndex;
+        const updated = ProgressStore.recordTestResult(subject, q.id, isCorrect, playerMode === "wrongReview");
+        this.renderPlayer();
+
+        if (isCorrect) {
+          if (playerMode === "wrongReview" && updated.graduated) {
+            this.showToast("連續答對 2 次！此題已從錯題本畢業 🎉", "success");
+          }
+          setTimeout(() => {
+            if (this.state.view === "player" && this.state.currentIndex === currentIndex && this.state.currentIndex < playlist.length - 1) {
+              this.nextQuestion();
+            }
+          }, 600);
+        }
+      },
+
+      prevQuestion() {
+        if (this.state.currentIndex > 0) {
+          this.state.currentIndex--;
+          this.state.selectedOptionIdx = this.state.playerMode === "test"
+            ? (this.state.playerAnswers[this.state.currentIndex] ?? null)
+            : null;
+          this.state.showStudyAnswer = false;
+          this.renderPlayer();
+        }
+      },
+
+      nextQuestion() {
+        if (this.state.currentIndex < this.state.playlist.length - 1) {
+          const nextIdx = this.state.currentIndex + 1;
+          this.state.currentIndex = nextIdx;
+          if (this.state.playerMode === "test") {
+            this.state.maxVisitedIndex = Math.max(this.state.maxVisitedIndex, nextIdx);
+            this.state.selectedOptionIdx = this.state.playerAnswers[nextIdx] ?? null;
+          } else {
+            this.state.selectedOptionIdx = null;
+          }
+          this.state.showStudyAnswer = false;
+          this.renderPlayer();
+        } else {
+          this.showToast("已經是最後一題囉！", "info");
+        }
+      },
+
+      handleToggleBookmark(questionId) {
+        const added = ProgressStore.toggleBookmark(this.state.subject, questionId);
+        this.showToast(added ? "已加入我的最愛書籤" : "已移除書籤", "info");
+        this.renderPlayer();
+      },
+
+      attachSwipeHandlers() {
+        const card = document.getElementById("question-swipe-card");
+        if (!card) return;
+        let startX = 0, startY = 0, deltaX = 0, isHorizontal = null;
+
+        card.addEventListener("touchstart", (e) => {
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          deltaX = 0;
+          isHorizontal = null;
+          card.style.transition = "none";
+        }, { passive: true });
+
+        card.addEventListener("touchmove", (e) => {
+          const diffX = e.touches[0].clientX - startX;
+          const diffY = e.touches[0].clientY - startY;
+          if (isHorizontal === null) isHorizontal = Math.abs(diffX) > Math.abs(diffY);
+          if (!isHorizontal) return;
+          deltaX = diffX * 0.45;
+          card.style.transform = `translateX(${deltaX}px) rotate(${deltaX * 0.03}deg)`;
+        }, { passive: true });
+
+        card.addEventListener("touchend", () => {
+          card.style.transition = "transform 0.22s ease-out";
+          card.style.transform = "translateX(0px) rotate(0deg)";
+          if (isHorizontal && Math.abs(deltaX) > 38) {
+            deltaX < 0 ? this.nextQuestion() : this.prevQuestion();
+          }
+        });
+      },
+
+      stripHtml(html) {
+        const tmp = document.createElement("div");
+        tmp.innerHTML = String(html || "")
+          .replace(/<sub>(.*?)<\/sub>/gi, "_$1")
+          .replace(/<sup>(.*?)<\/sup>/gi, "^$1");
+        return tmp.textContent || tmp.innerText || "";
+      },
+
+      async copyAiPrompt(lang = "zh") {
+        const { dataset, playlist, currentIndex, selectedOptionIdx } = this.state;
+        const q = playlist[currentIndex];
+        const ch = dataset.chapters.find((c) => c.id === q.chapterId);
+        const letters = ["A", "B", "C", "D", "E"];
+
+        const qText = this.stripHtml(q.questionHtml);
+        const optionsText = q.options.map((o, idx) => `(${letters[idx]}) ${this.stripHtml(o.textHtml)}`).join("\n");
+        const correctText = `(${letters[q.answerIndex]}) ${this.stripHtml(q.options[q.answerIndex].textHtml)}`;
+        const myChoiceText = selectedOptionIdx !== null
+          ? `(${letters[selectedOptionIdx]}) ${this.stripHtml(q.options[selectedOptionIdx].textHtml)}`
+          : (lang === "zh" ? "尚未作答（直接查看解析）" : "미선택 (정답 바로 확인)");
+
+        let prompt = "";
+        if (lang === "zh") {
+          const imgNotice = q.image ? "*請一併貼上題目附圖*\n\n" : "";
+          prompt = `${imgNotice}請幫我詳細解析這道題目：\n【章節】${ch ? ch.title : q.chapterId}\n【題目】${qText}\n【選項】\n${optionsText}\n【我選的答案】${myChoiceText}\n【正確答案】${correctText}\n\n請依序為我說明：\n1. 正確答案的核心觀念與解題推導原理\n2. 其餘各個錯誤選項分別錯在哪裡\n3. 我選的錯誤選項（或本題）最容易讓人掉入的陷阱重點`;
+        } else {
+          const imgNotice = q.image ? "*그림을 함께 붙여넣어 주세요*\n\n" : "";
+          prompt = `${imgNotice}다음 전공 문제를 알기 쉽게 상세히 해설해 주세요:\n[단원명] ${ch ? ch.title : q.chapterId}\n[문제] ${qText}\n[보기]\n${optionsText}\n[내가 고른 답] ${myChoiceText}\n[정답] ${correctText}\n\n다음 3가지를 중심으로 구체적으로 설명해 주세요:\n1. 정답이 도출되는 핵심 원리와 풀이 과정\n2. 나머지 각 보기가 틀린 구체적인 이유\n3. 내가 고른 오답(또는 이 문제)에서 헷갈리기 쉬운 함정 포인트`;
+        }
+
+        try {
+          await navigator.clipboard.writeText(prompt);
+          this.showToast(lang === "zh" ? "已複製繁體中文 AI 解析提問！" : "한국어 AI 질문 프롬프트가 복사되었습니다!", "success");
+        } catch {
+          this.showToast("複製失敗，請檢查瀏覽器剪貼簿權限", "error");
+        }
+      },
+
+      async copyQuestionImageToClipboard() {
+        const imgEl = document.getElementById("current-question-img");
+        if (!imgEl) return;
+        try {
+          const res = await fetch(imgEl.src);
+          const blob = await res.blob();
+          await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+          this.showToast("已將題目圖片複製到剪貼簿！", "success");
+        } catch {
+          this.showToast("圖片複製受瀏覽器安全限制，請長按圖片直接複製", "warning");
+        }
+      },
+
+      openOmrModal() {
+        const { subject, playlist, currentIndex } = this.state;
+        const records = ProgressStore.getRecords(subject);
+
+        const gridHtml = playlist.map((q, idx) => {
+          const r = records[q.id];
+          let cls = "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300";
+          if (r?.testStatus === "correct") cls = "bg-emerald-500 text-white";
+          else if (r?.testStatus === "wrong") cls = "bg-rose-500 text-white";
+          else if (r?.studyDone) cls = "bg-blue-500 text-white";
+
+          const ring = idx === currentIndex ? "ring-2 ring-offset-2 ring-blue-600 dark:ring-offset-slate-900" : "";
+          return `<button onclick="App.jumpToQuestion(${idx})" class="h-9 rounded-lg text-xs font-bold ${cls} ${ring}">${idx + 1}</button>`;
+        }).join("");
+
+        this.openModal(`
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-bold">答題卡快速跳轉 (OMR)</h3>
+              <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="flex items-center gap-3 text-[11px] text-slate-500">
+              <span class="flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-xs bg-emerald-500 inline-block"></i> 答對</span>
+              <span class="flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-xs bg-rose-500 inline-block"></i> 答錯</span>
+              <span class="flex items-center gap-1"><i class="w-2.5 h-2.5 rounded-xs bg-blue-500 inline-block"></i> 已學習</span>
+            </div>
+            <div class="grid grid-cols-6 sm:grid-cols-8 gap-2 max-h-72 overflow-y-auto p-1">${gridHtml}</div>
+          </div>
+        `);
+      },
+
+      jumpToQuestion(idx) {
+        this.closeModal();
+        this.state.currentIndex = idx;
+        if (this.state.playerMode === "test") {
+          this.state.maxVisitedIndex = Math.max(this.state.maxVisitedIndex, idx);
+          this.state.selectedOptionIdx = this.state.playerAnswers[idx] ?? null;
+        } else {
+          this.state.selectedOptionIdx = null;
+        }
+        this.state.showStudyAnswer = false;
+        this.renderPlayer();
+      },
+
+      renderReviewList(type) {
+        this.state.view = "reviewList";
+        const { subject, dataset } = this.state;
+        const records = ProgressStore.getRecords(subject);
+
+        const filtered = dataset.questions.filter((q) => {
+          const r = records[q.id];
+          if (!r) return false;
+          return type === "wrong" ? (r.testStatus === "wrong" && !r.graduated) : r.bookmarked;
+        });
+
+        const title = type === "wrong" ? "錯題本清單（尚未畢業）" : "我的最愛書籤清單";
+
+        const root = document.getElementById("app-root");
+        root.innerHTML = `
+          <div class="max-w-3xl mx-auto space-y-4">
+            <div class="flex items-center justify-between">
+              <button onclick="App.renderDashboard()" class="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 flex items-center gap-1">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> 返回題庫總覽
+              </button>
+              <h3 class="font-bold text-base">${title} (${filtered.length} 題)</h3>
+            </div>
+            ${filtered.length === 0 ? `
+              <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-10 text-center text-sm text-slate-500">目前清單中沒有題目</div>
+            ` : `
+              <div class="space-y-2.5">
+                ${filtered.map((q) => {
+                  const ch = dataset.chapters.find((c) => c.id === q.chapterId);
+                  const r = records[q.id];
+                  return `
+                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex items-center justify-between gap-4">
+                      <div class="min-w-0">
+                        <div class="flex items-center gap-2 text-xs text-slate-400">
+                          <span class="font-semibold text-blue-600 dark:text-blue-400">${ch ? ch.title : q.chapterId}</span>
+                          <span>·</span>
+                          <span class="font-mono">${q.id}</span>
+                          ${type === "wrong" ? `<span class="text-rose-500 font-semibold">熟練度 ${r.wrongStreak || 0}/2</span>` : ""}
+                        </div>
+                        <p class="text-sm font-medium text-slate-800 dark:text-slate-200 truncate mt-1">${this.stripHtml(q.questionHtml)}</p>
+                      </div>
+                      <button onclick="App.openSingleQuestionInStudy('${q.id}')" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white shrink-0">前往學習</button>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            `}
+          </div>
+        `;
+        lucide.createIcons();
+      },
+
+      openSingleQuestionInStudy(questionId) {
+        const q = this.state.dataset.questions.find((item) => item.id === questionId);
+        if (!q) return;
+        this.launchPlayer([q], "study", 0, null);
+      },
+
+      openOfficialExamBSelector() {
+        const { dataset } = this.state;
+        const sets = (dataset.officialExamSets || []).filter((s) => s.published);
+
+        this.openModal(`
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold flex items-center gap-2">
+                <i data-lucide="file-check-2" class="w-5 h-5 text-blue-600"></i> 官方模擬考（指定範圍回次）
+              </h3>
+              <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400">由管理員依課程進度發布的指定試卷，各回次設有獨立排行榜。</p>
+            <div class="space-y-2.5">
+              ${sets.length === 0 ? `
+                <p class="text-xs text-slate-400 py-6 text-center bg-slate-50 dark:bg-slate-800 rounded-xl">目前尚無已發布的官方模擬考回次</p>
+              ` : sets.map((s) => `
+                <div class="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+                  <div>
+                    <div class="font-bold text-sm">${s.title}</div>
+                    <div class="text-xs text-slate-500 mt-0.5">共 ${s.questionIds.length} 題 · 限時 ${s.durationMinutes} 分鐘</div>
+                  </div>
+                  <button onclick="App.startOfficialExamB('${s.setId}')" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shrink-0">開始應試</button>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `);
+      },
+
+      openFreeExamSetup() {
+        const { dataset } = this.state;
+        const maxQ = dataset.questions.length;
+
+        this.openModal(`
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold">自由模擬考設定（個人練習 · 不限時）</h3>
+              <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-slate-600 dark:text-slate-300">1. 選擇考試章節範圍：</label>
+              <div class="max-h-40 overflow-y-auto space-y-1.5 border border-slate-200 dark:border-slate-800 rounded-xl p-2.5">
+                ${dataset.chapters.map((ch) => `
+                  <label class="flex items-center gap-2 text-xs cursor-pointer">
+                    <input type="checkbox" name="free-exam-ch" value="${ch.id}" checked class="rounded text-blue-600" />
+                    <span>${ch.title}</span>
+                  </label>
+                `).join("")}
+              </div>
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-slate-600 dark:text-slate-300">2. 抽取題數（上限 ${maxQ} 題）：</label>
+              <input id="free-exam-count" type="number" min="1" max="${maxQ}" value="${Math.min(10, maxQ)}" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm font-bold" />
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">取消</button>
+              <button onclick="App.startFreeExam()" class="px-5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white">開始自由練習</button>
+            </div>
+          </div>
+        `);
+      },
+
+      buildShuffledExamQuestions(rawQuestions) {
+        const shuffledQs = [...rawQuestions].sort(() => Math.random() - 0.5);
+        return shuffledQs.map((q) => {
+          const indexedOpts = q.options.map((opt, idx) => ({
+            ...opt,
+            isCorrect: idx === q.answerIndex
+          }));
+          const shuffledOpts = indexedOpts.sort(() => Math.random() - 0.5);
+          const newAnswerIndex = shuffledOpts.findIndex((o) => o.isCorrect);
+          return { ...q, shuffledOptions: shuffledOpts, shuffledAnswerIndex: newAnswerIndex };
+        });
+      },
+
+      startOfficialExamA() {
+        const { dataset } = this.state;
+        const cfg = dataset.officialExamConfig || { questionCount: 5, durationMinutes: 10 };
+        const count = Math.min(cfg.questionCount, dataset.questions.length);
+        const prepared = this.buildShuffledExamQuestions(dataset.questions).slice(0, count);
+
+        this.launchExam({
+          examType: "officialA",
+          examSetId: "officialA",
+          examTitle: "隨機模擬考（常態全範圍）",
+          questions: prepared,
+          durationMinutes: cfg.durationMinutes
+        });
+      },
+
+      startOfficialExamB(setId) {
+        this.closeModal();
+        const { dataset } = this.state;
+        const examSet = (dataset.officialExamSets || []).find((s) => s.setId === setId);
+        if (!examSet) return;
+
+        const targetQs = examSet.questionIds
+          .map((qid) => dataset.questions.find((q) => q.id === qid))
+          .filter(Boolean);
+
+        const prepared = this.buildShuffledExamQuestions(targetQs);
+        this.launchExam({
+          examType: "officialB",
+          examSetId: examSet.setId,
+          examTitle: examSet.title,
+          questions: prepared,
+          durationMinutes: examSet.durationMinutes
+        });
+      },
+
+      startFreeExam() {
+        const checkedBoxes = Array.from(document.querySelectorAll('input[name="free-exam-ch"]:checked'));
+        const selectedChIds = checkedBoxes.map((cb) => cb.value);
+        if (selectedChIds.length === 0) {
+          this.showToast("請至少勾選一個章節", "warning");
+          return;
+        }
+        const countInput = parseInt(document.getElementById("free-exam-count").value, 10) || 10;
+        const pool = this.state.dataset.questions.filter((q) => selectedChIds.includes(q.chapterId));
+        if (pool.length === 0) {
+          this.showToast("所選章節內沒有題目", "warning");
+          return;
+        }
+
+        this.closeModal();
+        const prepared = this.buildShuffledExamQuestions(pool).slice(0, Math.min(countInput, pool.length));
+        this.launchExam({
+          examType: "free",
+          examSetId: null,
+          examTitle: "自由模擬考（個人不限時練習）",
+          questions: prepared,
+          durationMinutes: 0
+        });
+      },
+
+      launchExam({ examType, examSetId, examTitle, questions, durationMinutes }) {
+        if (this.state.examTimerInterval) clearInterval(this.state.examTimerInterval);
+
+        this.state.view = "mockExam";
+        this.state.examType = examType;
+        this.state.examSetId = examSetId;
+        this.state.examTitle = examTitle;
+        this.state.examQuestions = questions;
+        this.state.examAnswers = {};
+        this.state.examCurrentIdx = 0;
+        this.state.examElapsedSeconds = 0;
+        this.state.examTimerSeconds = durationMinutes > 0 ? durationMinutes * 60 : 0;
+
+        if (durationMinutes > 0) {
+          this.state.examTimerInterval = setInterval(() => {
+            this.state.examTimerSeconds--;
+            this.state.examElapsedSeconds++;
+            const timerEl = document.getElementById("exam-timer-display");
+            if (timerEl) timerEl.textContent = this.formatSeconds(this.state.examTimerSeconds);
+
+            if (this.state.examTimerSeconds <= 0) {
+              clearInterval(this.state.examTimerInterval);
+              this.showToast("考試時間到！系統已自動交卷", "warning");
+              this.gradeExam();
+            }
+          }, 1000);
+        }
+
+        this.renderMockExam();
+      },
+
+      formatSeconds(sec) {
+        const m = Math.floor(Math.max(0, sec) / 60);
+        const s = Math.max(0, sec) % 60;
+        return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+      },
+
+      renderMockExam() {
+        const { examTitle, examQuestions, examAnswers, examCurrentIdx, examType, examTimerSeconds } = this.state;
+        const q = examQuestions[examCurrentIdx];
+        const letters = ["A", "B", "C", "D", "E"];
+        const answeredCount = Object.keys(examAnswers).length;
+
+        const root = document.getElementById("app-root");
+        root.innerHTML = `
+          <div class="max-w-3xl mx-auto space-y-4">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-3 flex items-center justify-between gap-2">
+              <div>
+                <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400">${examTitle}</div>
+                <div class="text-xs text-slate-500 mt-0.5">作答進度：${answeredCount} / ${examQuestions.length} 題</div>
+              </div>
+              <div class="flex items-center gap-3">
+                ${examType !== "free" ? `
+                  <div class="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 font-mono font-bold text-sm flex items-center gap-1.5">
+                    <i data-lucide="clock" class="w-4 h-4"></i>
+                    <span id="exam-timer-display">${this.formatSeconds(examTimerSeconds)}</span>
+                  </div>
+                ` : `<span class="text-xs px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500">不限時練習</span>`}
+                <button onclick="App.confirmSubmitExam()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-xs">交卷計分</button>
+              </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-7 space-y-5">
+              <div class="flex items-center justify-between text-xs text-slate-400">
+                <span class="font-bold text-slate-700 dark:text-slate-200">第 ${examCurrentIdx + 1} 題（共 ${examQuestions.length} 題）</span>
+                <span>選項已隨機排列</span>
+              </div>
+              <div class="question-html text-base sm:text-lg font-medium leading-relaxed">${q.questionHtml}</div>
+              ${q.image ? `
+                <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-3 flex justify-center">
+                  ${ImageResolver.renderImageTagHtml(q.image)}
+                </div>
+              ` : ""}
+              <div class="space-y-2.5">
+                ${q.shuffledOptions.map((opt, idx) => {
+                  const isSelected = examAnswers[examCurrentIdx] === idx;
+                  return `
+                    <button onclick="App.selectExamOption(${idx})" class="w-full text-left p-3.5 rounded-xl border-2 transition flex items-start gap-3 ${isSelected ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-950/50" : "border-slate-200 dark:border-slate-800 hover:border-indigo-400"}">
+                      <span class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 ${isSelected ? "bg-indigo-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"}">${letters[idx]}</span>
+                      <span class="chem-text text-sm sm:text-base pt-0.5">${opt.textHtml}</span>
+                    </button>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-2">
+              <button onclick="App.navExamQuestion(-1)" ${examCurrentIdx === 0 ? "disabled" : ""} class="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 disabled:opacity-40 text-xs font-bold">上一題</button>
+              <div class="flex flex-wrap justify-center gap-1.5">
+                ${examQuestions.map((_, i) => {
+                  const answered = examAnswers[i] !== undefined;
+                  const active = i === examCurrentIdx;
+                  return `<button onclick="App.jumpExamQuestion(${i})" class="w-7 h-7 rounded-lg text-xs font-bold ${active ? "bg-indigo-600 text-white" : answered ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300" : "bg-slate-100 dark:bg-slate-800 text-slate-500"}">${i + 1}</button>`;
+                }).join("")}
+              </div>
+              <button onclick="App.navExamQuestion(1)" ${examCurrentIdx === examQuestions.length - 1 ? "disabled" : ""} class="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 disabled:opacity-40 text-xs font-bold">下一題</button>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+        ImageResolver.hydrateImages(root);
+      },
+
+      selectExamOption(optIdx) {
+        this.state.examAnswers[this.state.examCurrentIdx] = optIdx;
+        this.renderMockExam();
+      },
+
+      navExamQuestion(delta) {
+        const next = this.state.examCurrentIdx + delta;
+        if (next >= 0 && next < this.state.examQuestions.length) {
+          this.state.examCurrentIdx = next;
+          this.renderMockExam();
+        }
+      },
+
+      jumpExamQuestion(idx) {
+        this.state.examCurrentIdx = idx;
+        this.renderMockExam();
+      },
+
+      confirmSubmitExam() {
+        const total = this.state.examQuestions.length;
+        const answered = Object.keys(this.state.examAnswers).length;
+        const unanswered = total - answered;
+
+        if (unanswered > 0) {
+          this.openModal(`
+            <div class="space-y-4">
+              <h3 class="text-lg font-bold text-amber-600 flex items-center gap-2">
+                <i data-lucide="alert-circle" class="w-5 h-5"></i> 尚有未作答題目
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300">您還有 <strong>${unanswered} 題</strong>尚未作答，確定要現在交卷計分嗎？</p>
+              <div class="flex justify-end gap-2">
+                <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">繼續作答</button>
+                <button onclick="App.closeModal(); App.gradeExam();" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white">確定交卷</button>
+              </div>
+            </div>
+          `);
+        } else {
+          this.gradeExam();
+        }
+      },
+
+      gradeExam() {
+        if (this.state.examTimerInterval) {
+          clearInterval(this.state.examTimerInterval);
+          this.state.examTimerInterval = null;
+        }
+
+        const { examQuestions, examAnswers, examType, examSetId, examTitle, examElapsedSeconds, subject } = this.state;
+        let correctCount = 0;
+        const wrongIds = [];
+
+        examQuestions.forEach((q, idx) => {
+          const userAns = examAnswers[idx];
+          if (userAns === q.shuffledAnswerIndex) {
+            correctCount++;
+          } else {
+            wrongIds.push(q.id);
+          }
+        });
+
+        const score = Math.round((correctCount / examQuestions.length) * 100);
+        this.state.lastExamResult = {
+          subject, examType, examSetId, examTitle, score, correctCount,
+          totalCount: examQuestions.length, elapsedSeconds: examElapsedSeconds,
+          wrongIds, date: new Date().toISOString()
+        };
+
+        this.renderMockResult();
+      },
+
+      renderMockResult() {
+        this.state.view = "mockResult";
+        const res = this.state.lastExamResult;
+        const letters = ["A", "B", "C", "D", "E"];
+        const savedNick = window.CloudSync ? window.CloudSync.getNickname() : "匿名考生";
+
+        const root = document.getElementById("app-root");
+        root.innerHTML = `
+          <div class="max-w-3xl mx-auto space-y-6">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 text-center space-y-4">
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">${res.examTitle}</span>
+              <div>
+                <div class="text-5xl font-extrabold text-slate-900 dark:text-white">${res.score} <span class="text-lg font-medium text-slate-400">分</span></div>
+                <p class="text-xs text-slate-500 mt-1.5">答對 ${res.correctCount} / ${res.totalCount} 題 ${res.examType !== "free" ? `· 耗時 ${this.formatSeconds(res.elapsedSeconds)}` : ""}</p>
+              </div>
+
+              ${res.wrongIds.length > 0 ? `
+                <div>
+                  <button onclick="App.addExamWrongsToNotebook()" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white inline-flex items-center gap-1.5">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> 將本次 ${res.wrongIds.length} 題錯題加入錯題本
+                  </button>
+                </div>
+              ` : ""}
+
+              ${res.examType !== "free" ? `
+                <div id="ranking-submit-box" class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800 max-w-md mx-auto space-y-3 text-left">
+                  <div class="text-xs font-bold text-slate-700 dark:text-slate-200">登錄至雲端即時排行榜（每回次僅採計首次成績）：</div>
+                  <div class="flex gap-2">
+                    <input id="ranking-nickname" type="text" maxlength="16" value="${savedNick === "匿名考生" ? "" : savedNick}" placeholder="輸入暱稱（留空則顯示為「匿名考生」）" class="flex-1 px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs" />
+                    <button onclick="App.submitExamRanking(true)" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shrink-0">公開登榜</button>
+                  </div>
+                  <div class="flex justify-end">
+                    <button onclick="App.submitExamRanking(false)" class="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 underline">不公開（僅留存本機紀錄）</button>
+                  </div>
+                </div>
+              ` : ""}
+            </div>
+
+            <div class="space-y-3">
+              <h4 class="font-bold text-sm">逐題作答檢視</h4>
+              ${this.state.examQuestions.map((q, idx) => {
+                const userAns = this.state.examAnswers[idx];
+                const isRight = userAns === q.shuffledAnswerIndex;
+                return `
+                  <div class="bg-white dark:bg-slate-900 border ${isRight ? "border-emerald-200 dark:border-emerald-900" : "border-rose-200 dark:border-rose-900"} rounded-2xl p-4 space-y-2">
+                    <div class="flex items-center justify-between text-xs">
+                      <span class="font-bold ${isRight ? "text-emerald-600" : "text-rose-600"}">第 ${idx + 1} 題 · ${isRight ? "答對" : "答錯"}</span>
+                      <span class="text-slate-400">你的答案：${userAns !== undefined ? letters[userAns] : "未作答"} ｜ 正解：${letters[q.shuffledAnswerIndex]}</span>
+                    </div>
+                    <div class="question-html text-sm">${q.questionHtml}</div>
+                    ${q.explanationHtml ? `<div class="chem-text text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl">解析：${q.explanationHtml}</div>` : ""}
+                  </div>
+                `;
+              }).join("")}
+            </div>
+
+            <div class="flex justify-center pb-6">
+              <button onclick="App.renderDashboard()" class="px-6 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-800 text-white font-bold text-xs">返回題庫首頁</button>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+        ImageResolver.hydrateImages(root);
+      },
+
+      addExamWrongsToNotebook() {
+        const res = this.state.lastExamResult;
+        if (!res) return;
+        res.wrongIds.forEach((qid) => ProgressStore.recordTestResult(res.subject, qid, false, false));
+        this.showToast(`已將 ${res.wrongIds.length} 題加入錯題本！`, "success");
+      },
+
+      async submitExamRanking(isPublic) {
+        const res = this.state.lastExamResult;
+        if (!res) return;
+
+        const rawNick = (document.getElementById("ranking-nickname")?.value || "").trim();
+        const nickname = rawNick || "匿名考生";
+        if (window.CloudSync) window.CloudSync.setNickname(nickname);
+
+        const box = document.getElementById("ranking-submit-box");
+        if (!isPublic) {
+          if (box) box.innerHTML = `<div class="text-center text-xs font-semibold text-slate-500 py-2">已留存於本機個人成績紀錄</div>`;
+          this.showToast("已儲存至本機紀錄", "success");
+          return;
+        }
+
+        if (box) box.innerHTML = `<div class="text-center text-xs text-slate-400 py-2">正在上傳成績至雲端排行榜...</div>`;
+
+        let cloudRes = { ok: false, reason: "offline" };
+        if (window.CloudSync) {
+          cloudRes = await window.CloudSync.submitExamRanking(res, nickname);
+        }
+
+        if (cloudRes.ok) {
+          if (box) box.innerHTML = `<div class="text-center text-xs font-bold text-emerald-600 py-2">🎉 已以「${nickname}」正式登錄至雲端即時排行榜！</div>`;
+          this.showToast("成績已登錄雲端排行榜！", "success");
+        } else if (cloudRes.reason === "already_submitted") {
+          if (box) box.innerHTML = `<div class="text-center text-xs font-semibold text-amber-600 py-2">您已完成過本回次正式登榜（僅採計首次成績），本次練習結果僅留存本機</div>`;
+          this.showToast("本回次僅採計首次正式成績", "warning");
+        } else if (cloudRes.reason === "too_fast") {
+          if (box) box.innerHTML = `<div class="text-center text-xs font-semibold text-rose-500 py-2">作答時間過短（平均每題需達 2 秒以上），未列入公開榜單</div>`;
+          this.showToast("作答時間異常，未登錄公開榜單", "error");
+        } else {
+          const existing = JSON.parse(localStorage.getItem(ProgressStore.LOCAL_RANK_KEY) || "[]");
+          existing.push({
+            id: "rk_" + Date.now(),
+            subject: res.subject,
+            examType: res.examType,
+            examSetId: res.examSetId,
+            examTitle: res.examTitle,
+            nickname,
+            score: res.score,
+            elapsedSeconds: res.elapsedSeconds,
+            isPublic: true,
+            createdAt: new Date().toISOString()
+          });
+          localStorage.setItem(ProgressStore.LOCAL_RANK_KEY, JSON.stringify(existing));
+          if (box) box.innerHTML = `<div class="text-center text-xs font-bold text-emerald-600 py-2">已以「${nickname}」儲存至本機排行榜（離線模式）</div>`;
+          this.showToast("已儲存至本機排行榜", "info");
+        }
+      },
+
+      async renderRankingView(category = "cumulative", subTab = "totalSolved") {
+        this.state.view = "ranking";
+        const { subject, dataset } = this.state;
+        const sets = (dataset.officialExamSets || []).filter((s) => s.published);
+        const myActorId = window.CloudSync ? window.CloudSync.getActorId() : "local_guest";
+
+        const root = document.getElementById("app-root");
+        root.innerHTML = `
+          <div class="max-w-3xl mx-auto space-y-5">
+            <div class="flex items-center justify-between">
+              <button onclick="App.renderDashboard()" class="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 flex items-center gap-1">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> 返回題庫總覽
+              </button>
+              <h3 class="font-bold text-base flex items-center gap-1.5">
+                <i data-lucide="trophy" class="w-5 h-5 text-amber-500"></i> 雲端即時排行榜
+              </h3>
+            </div>
+
+            <!-- 대분류 탭 2개 -->
+            <div class="grid grid-cols-2 gap-2 bg-slate-200/70 dark:bg-slate-800 p-1 rounded-2xl">
+              <button onclick="App.renderRankingView('cumulative', 'totalSolved')" class="py-2.5 rounded-xl text-xs font-bold transition ${category === "cumulative" ? "bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-xs" : "text-slate-600 dark:text-slate-400"}">
+                累積刷題榜（生＋化）
+              </button>
+              <button onclick="App.renderRankingView('exams', 'officialA')" class="py-2.5 rounded-xl text-xs font-bold transition ${category === "exams" ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs" : "text-slate-600 dark:text-slate-400"}">
+                官方模擬考榜
+              </button>
+            </div>
+
+            <!-- 소분류 필터 바 -->
+            ${category === "cumulative" ? `
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex gap-2">
+                  <button onclick="App.renderRankingView('cumulative', 'totalSolved')" class="px-3.5 py-2 rounded-xl text-xs font-bold ${subTab === "totalSolved" ? "bg-blue-600 text-white" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"}">
+                    累積刷題數排行
+                  </button>
+                  <button onclick="App.renderRankingView('cumulative', 'accuracy')" class="px-3.5 py-2 rounded-xl text-xs font-bold ${subTab === "accuracy" ? "bg-blue-600 text-white" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"}">
+                    綜合答對率排行（滿 20 題）
+                  </button>
+                </div>
+                <span class="text-[11px] text-slate-400">每 5 分鐘自動更新快取</span>
+              </div>
+            ` : `
+              <div class="flex flex-wrap gap-2">
+                <button onclick="App.renderRankingView('exams', 'officialA')" class="px-3.5 py-2 rounded-xl text-xs font-bold ${subTab === "officialA" ? "bg-indigo-600 text-white" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"}">
+                  隨機模擬考（常態全範圍）
+                </button>
+                ${sets.map((s) => `
+                  <button onclick="App.renderRankingView('exams', '${s.setId}')" class="px-3.5 py-2 rounded-xl text-xs font-bold ${subTab === s.setId ? "bg-indigo-600 text-white" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"}">
+                    ${s.title}
+                  </button>
+                `).join("")}
+              </div>
+            `}
+
+            <div id="ranking-table-wrapper" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
+              <div class="p-10 text-center text-xs text-slate-400">正在載入即時排行榜資料...</div>
+            </div>
+
+            <div id="my-ranking-footer" class="bg-slate-900 text-white rounded-2xl px-4 py-3 text-xs flex items-center justify-between">
+              <span>📍 正在計算我的目前成績...</span>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+
+        let rows = [];
+        if (window.CloudSync && window.CloudSync.ready && navigator.onLine) {
+          rows = category === "cumulative"
+            ? await window.CloudSync.fetchCumulativeRanking(subTab)
+            : await window.CloudSync.fetchExamRanking(subTab);
+        } else if (category === "exams") {
+          rows = JSON.parse(localStorage.getItem(ProgressStore.LOCAL_RANK_KEY) || "[]")
+            .filter((r) => r.subject === subject && r.isPublic && r.examSetId === subTab)
+            .sort((a, b) => b.score - a.score || a.elapsedSeconds - b.elapsedSeconds);
+        }
+
+        const wrapper = document.getElementById("ranking-table-wrapper");
+        const footer = document.getElementById("my-ranking-footer");
+        if (!wrapper) return;
+
+        if (rows.length === 0) {
+          wrapper.innerHTML = `<div class="p-10 text-center text-xs text-slate-500">目前尚無符合條件的公開上榜紀錄，快來搶下第一名吧！</div>`;
+        } else if (category === "cumulative") {
+          wrapper.innerHTML = `
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                <tr>
+                  <th class="py-3 px-4">名次</th>
+                  <th class="py-3 px-4">考生暱稱</th>
+                  <th class="py-3 px-4">累積題數</th>
+                  <th class="py-3 px-4">綜合答對率</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                ${rows.map((item, idx) => {
+                  const isMe = item.id === myActorId;
+                  return `
+                    <tr class="${isMe ? "bg-blue-50/70 dark:bg-blue-950/40" : ""}">
+                      <td class="py-3 px-4 font-bold ${idx < 3 ? "text-amber-500" : "text-slate-400"}">#${idx + 1}</td>
+                      <td class="py-3 px-4 font-semibold">${item.nickname} ${isMe ? `<span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-blue-600 text-white">我</span>` : ""}</td>
+                      <td class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400">${item.totalSolved} 題</td>
+                      <td class="py-3 px-4 font-mono text-slate-600 dark:text-slate-300">${item.accuracy}%</td>
+                    </tr>
+                  `;
+                }).join("")}
+              </tbody>
+            </table>
+          `;
+        } else {
+          wrapper.innerHTML = `
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                <tr>
+                  <th class="py-3 px-4">名次</th>
+                  <th class="py-3 px-4">考生暱稱</th>
+                  <th class="py-3 px-4">分數</th>
+                  <th class="py-3 px-4">作答耗時</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                ${rows.map((item, idx) => {
+                  const isMe = item.actorId === myActorId;
+                  return `
+                    <tr class="${isMe ? "bg-indigo-50/70 dark:bg-indigo-950/40" : ""}">
+                      <td class="py-3 px-4 font-bold ${idx < 3 ? "text-amber-500" : "text-slate-400"}">#${idx + 1}</td>
+                      <td class="py-3 px-4 font-semibold">${item.nickname} ${isMe ? `<span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-indigo-600 text-white">我</span>` : ""}</td>
+                      <td class="py-3 px-4 font-bold text-indigo-600 dark:text-indigo-400">${item.score} 分</td>
+                      <td class="py-3 px-4 font-mono text-slate-500">${this.formatSeconds(item.elapsedSeconds)}</td>
+                    </tr>
+                  `;
+                }).join("")}
+              </tbody>
+            </table>
+          `;
+        }
+
+        if (footer && window.CloudSync) {
+          const localRecs = JSON.parse(localStorage.getItem(ProgressStore.STORAGE_KEY) || "{}");
+          const myStats = window.CloudSync.computeStats(localRecs);
+          const myIdx = rows.findIndex((r) => (category === "cumulative" ? r.id === myActorId : r.actorId === myActorId));
+          const rankText = myIdx >= 0 ? `第 ${myIdx + 1} 名` : "尚未進榜";
+          footer.innerHTML = `
+            <span>📍 我的目前成績：<strong>${rankText}</strong> ｜ 累積 <strong>${myStats.totalSolved}</strong> 題 ｜ 答對率 <strong>${myStats.accuracy}%</strong></span>
+            <span class="font-mono text-slate-400">${window.CloudSync.getNickname()}</span>
+          `;
+        }
+      },
+
+      openSyncModal() {
+        const currentCode = window.CloudSync ? window.CloudSync.getSyncCode() : (localStorage.getItem("qbank_sync_code") || "");
+        const currentNick = window.CloudSync ? window.CloudSync.getNickname() : "匿名考生";
+        const lastSyncAt = window.CloudSync ? window.CloudSync.getLastSyncAt() : 0;
+        const lastSyncText = lastSyncAt > 0 ? new Date(lastSyncAt).toLocaleString("zh-TW") : "尚未執行雲端同步";
+
+        this.openModal(`
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold flex items-center gap-2">
+                <i data-lucide="refresh-cw" class="w-5 h-5 text-blue-600"></i> 跨裝置進度同步（6 碼代碼）
+              </h3>
+              <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              無需註冊帳號！產生一組 6 碼同步代碼並在另一台手機或平板輸入，即可針對<strong>生物與化學題庫</strong>進行<strong>單題級別智慧合併</strong>（自訂題庫僅留存本機）。
+            </p>
+            <div class="space-y-2">
+              <label class="text-xs font-bold block">考生顯示暱稱（排行榜用）：</label>
+              <input id="sync-nickname-input" type="text" maxlength="16" value="${currentNick === "匿名考生" ? "" : currentNick}" placeholder="留空則顯示為「匿名考生」" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs" />
+            </div>
+            <div class="space-y-2">
+              <label class="text-xs font-bold block">6 碼跨裝置同步代碼：</label>
+              <div class="flex gap-2">
+                <input id="sync-code-input" type="text" maxlength="6" value="${currentCode}" placeholder="例：A7K9P2" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-mono text-center text-base font-bold uppercase tracking-widest" />
+                <button onclick="App.copySyncCode()" class="px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-xs font-bold shrink-0" title="複製代碼">複製代碼</button>
+                <button onclick="App.generateSyncCode()" class="px-3 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-xs font-bold shrink-0">產生全新代碼</button>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400 flex items-center justify-between pt-1">
+              <span>上次同步時間：${lastSyncText}</span>
+              ${currentCode ? `<button onclick="App.triggerManualSync()" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">立即同步</button>` : ""}
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">關閉</button>
+              <button id="btn-bind-sync" onclick="App.saveSyncCode()" class="px-5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white">綁定並合併進度</button>
+            </div>
+          </div>
+        `);
+      },
+
+      generateSyncCode() {
+        const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let code = "";
+        for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+        const input = document.getElementById("sync-code-input");
+        if (input) input.value = code;
+      },
+
+      async copySyncCode() {
+        const val = (document.getElementById("sync-code-input")?.value || "").trim().toUpperCase();
+        if (!val) return;
+        try {
+          await navigator.clipboard.writeText(val);
+          this.showToast(`已複製同步代碼：${val}`, "success");
+        } catch {}
+      },
+
+      async triggerManualSync() {
+        if (!window.CloudSync) return;
+        this.showToast("正在與雲端雙向合併進度...", "info");
+        const ok = await window.CloudSync.syncNow(true);
+        if (ok) {
+          this.showToast("雲端雙向同步完成！", "success");
+          if (this.state.view === "dashboard") this.renderDashboard();
+        } else {
+          this.showToast("目前為離線或尚未設定雲端金鑰", "warning");
+        }
+      },
+
+      async saveSyncCode() {
+        const code = (document.getElementById("sync-code-input")?.value || "").trim().toUpperCase();
+        const nick = (document.getElementById("sync-nickname-input")?.value || "").trim();
+        if (!/^[A-Z2-9]{6}$/.test(code)) {
+          this.showToast("請輸入有效的 6 碼同步代碼（不含 0, O, 1, I）", "warning");
+          return;
+        }
+
+        const btn = document.getElementById("btn-bind-sync");
+        if (btn) { btn.disabled = true; btn.textContent = "合併中..."; }
+
+        try {
+          if (window.CloudSync) {
+            const res = await window.CloudSync.bindAndSync(code, nick);
+            this.closeModal();
+            if (res.status === "local_only") {
+              this.showToast(`已於本機儲存代碼 ${code}（待連線後將自動同步）`, "info");
+            } else {
+              this.showToast(`雲端雙向合併完成！已同步 ${res.mergedCount} 題紀錄`, "success");
+              if (this.state.view === "dashboard") this.renderDashboard();
+            }
+          } else {
+            localStorage.setItem("qbank_sync_code", code);
+            this.closeModal();
+            this.showToast(`已綁定同步代碼 ${code}`, "success");
+          }
+        } catch (err) {
+          if (btn) { btn.disabled = false; btn.textContent = "綁定並合併進度"; }
+          this.showToast(err.message || "綁定失敗，請稍後再試", "error");
+        }
+      },
+
+      openIssueReportModal(questionId, chapterTitle) {
+        const subjectLabel = this.state.subject === "biology" ? "生物" : "化學";
+        this.openModal(`
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold text-rose-600 flex items-center gap-2">
+                <i data-lucide="flag" class="w-5 h-5"></i> 問題回報
+              </h3>
+              <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs space-y-1">
+              <div><strong>科目章節：</strong>${subjectLabel} · ${chapterTitle}</div>
+              <div><strong>題目編號：</strong><span class="font-mono">${questionId}</span></div>
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold">錯誤類型：</label>
+              <select id="report-type" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs">
+                <option value="錯別字 / 化學式排版異常">錯別字 / 化學式排版異常</option>
+                <option value="正確答案標示有誤">正確答案標示有誤</option>
+                <option value="選項內容缺漏或重複">選項內容缺漏或重複</option>
+                <option value="附圖遺失或不清楚">附圖遺失或不清楚</option>
+              </select>
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold">補充說明（選填）：</label>
+              <textarea id="report-memo" rows="3" placeholder="請簡述錯誤處，管理員點擊後台回報清單即可直接修正此題..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs"></textarea>
+            </div>
+            <div class="flex justify-end gap-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">取消</button>
+              <button onclick="App.submitIssueReport('${questionId}', '${chapterTitle}')" class="px-5 py-2 rounded-xl text-xs font-bold bg-rose-600 text-white">送出回報</button>
+            </div>
+          </div>
+        `);
+      },
+
+      async submitIssueReport(questionId, chapterTitle) {
+        const type = document.getElementById("report-type")?.value || "其他";
+        const memo = (document.getElementById("report-memo")?.value || "").trim();
+        const q = this.state.dataset?.questions?.find((item) => item.id === questionId);
+
+        const reports = JSON.parse(localStorage.getItem(ProgressStore.REPORTS_KEY) || "[]");
+        reports.unshift({
+          id: "rep_" + Date.now(),
+          subject: this.state.subject,
+          chapterId: q?.chapterId || "",
+          chapterTitle,
+          questionId,
+          type,
+          memo,
+          status: "open",
+          createdAt: new Date().toISOString()
+        });
+        localStorage.setItem(ProgressStore.REPORTS_KEY, JSON.stringify(reports));
+
+        let sentCloud = false;
+        if (window.CloudSync) {
+          sentCloud = await window.CloudSync.submitIssueReport({
+            subject: this.state.subject,
+            chapterId: q?.chapterId || "",
+            chapterTitle,
+            questionId,
+            type,
+            memo
+          });
+        }
+
+        this.closeModal();
+        this.showToast(
+          sentCloud ? "感謝回報！已即時傳送至管理員雲端後台" : "已儲存回報，將於恢復連線後自動傳送至後台",
+          "success"
+        );
+      },
+
+      openFeedbackModal() {
+        this.openModal(`
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-bold flex items-center gap-2">
+                <i data-lucide="message-square-plus" class="w-5 h-5 text-blue-600"></i> 給製作者的意見回饋
+              </h3>
+              <button onclick="App.closeModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400">有任何想許願的功能、介面建議，或是覺得哪裡的中文翻譯怪怪的，都歡迎直接留言跟我說！</p>
+            <textarea id="feedback-content" rows="4" placeholder="請輸入您的建議或意見..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs"></textarea>
+            <div class="flex justify-end gap-2">
+              <button onclick="App.closeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800">取消</button>
+              <button onclick="App.submitFeedback()" class="px-5 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white">送出意見</button>
+            </div>
+          </div>
+        `);
+      },
+
+      async submitFeedback() {
+        const content = (document.getElementById("feedback-content")?.value || "").trim();
+        if (!content) {
+          this.showToast("請輸入意見內容", "warning");
+          return;
+        }
+        const list = JSON.parse(localStorage.getItem(ProgressStore.FEEDBACK_KEY) || "[]");
+        list.unshift({ id: "fb_" + Date.now(), content, createdAt: new Date().toISOString() });
+        localStorage.setItem(ProgressStore.FEEDBACK_KEY, JSON.stringify(list));
+
+        let sentCloud = false;
+        if (window.CloudSync) {
+          sentCloud = await window.CloudSync.submitFeedback(content, "功能建議");
+        }
+
+        this.closeModal();
+        this.showToast(
+          sentCloud ? "意見已成功傳送至雲端意見箱，感謝您的回饋！" : "意見已暫存，將於連線後自動送出",
+          "success"
+        );
+      },
+
+      /**
+       * 관리자 스튜디오 진입점 (admin-editor.js 모듈 위임)
+       */
+      renderAdminView() {
+        this.state.view = "admin";
+        if (window.AdminStudio) {
+          window.AdminStudio.mount(document.getElementById("app-root"));
+        } else {
+          this.showToast("管理員模組 (admin-editor.js) 載入失敗", "error");
+        }
+      },
+      renderCustomEditorView() {
+        this.state.view = "customEditor";
+        if (window.CustomStudio) {
+          window.CustomStudio.mount(document.getElementById("app-root"));
+        } else {
+          this.showToast("自訂編輯器模組載入失敗，請確認 admin-editor.js 是否已更新", "error");
+        }
+      },
+
+      bindGlobalShortcuts() {
+        document.addEventListener("keydown", (e) => {
+          if (this.state.view !== "player") return;
+          if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)) return;
+
+          const key = e.key.toLowerCase();
+          if (key === "arrowleft") {
+            e.preventDefault();
+            this.prevQuestion();
+          } else if (key === "arrowright") {
+            e.preventDefault();
+            this.nextQuestion();
+          } else if (key === " ") {
+            if (this.state.playerMode === "study" && !this.state.showStudyAnswer) {
+              e.preventDefault();
+              this.revealStudyAnswer();
+            }
+          } else if (key === "b") {
+            e.preventDefault();
+            const q = this.state.playlist[this.state.currentIndex];
+            if (q) this.handleToggleBookmark(q.id);
+          } else if (["1", "2", "3", "4", "5"].includes(key)) {
+            const idx = parseInt(key, 10) - 1;
+            const q = this.state.playlist[this.state.currentIndex];
+            if (q && idx < q.options.length) {
+              this.handleOptionClick(idx);
+            }
+          }
+        });
+      },
+
+      openModal(innerHtml) {
+        const backdrop = document.getElementById("modal-backdrop");
+        const box = document.getElementById("modal-box");
+        box.innerHTML = innerHtml;
+        backdrop.classList.remove("hidden");
+        backdrop.classList.add("flex");
+        lucide.createIcons();
+      },
+
+      closeModal() {
+        const backdrop = document.getElementById("modal-backdrop");
+        backdrop.classList.add("hidden");
+        backdrop.classList.remove("flex");
+      }
+    };
+
+    window.App = App;
+    window.addEventListener("DOMContentLoaded", () => App.init());
+  </script>
+
+  <!-- 3단계 Firebase 클라우드 동기화 · 실시간 랭킹 · 제보함 모듈 -->
+  <script type="module" src="cloud-sync.js"></script>
+
+  <!-- 2단계 관리자 비주얼 에디터 & 대용량 PDF 파서 모듈 -->
+  <script src="admin-editor.js"></script>
+</body>
+</html>
