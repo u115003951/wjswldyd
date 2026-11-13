@@ -2868,7 +2868,7 @@
               <div class="flex gap-2">
                 <input id="sync-code-input" type="text" maxlength="6" value="${currentCode}" placeholder="輸入已有代碼或按右側產生" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-mono text-center text-base font-bold uppercase tracking-widest" />
                 <button onclick="App.copySyncCode()" class="px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-xs font-bold shrink-0" title="複製代碼">複製代碼</button>
-                <button onclick="App.generateSyncCode()" class="px-3 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shrink-0">產生全新代碼</button>
+                ${currentCode ? "" : `<button onclick="App.generateSyncCode()" class="px-3 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shrink-0">產生全新代碼</button>`}
               </div>
             </div>
 
