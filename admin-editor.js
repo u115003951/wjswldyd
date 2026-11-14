@@ -438,7 +438,9 @@
     getAbnormalReasons(q) {
       if (!q) return ["문항 데이터 없음"];
       const reasons = [];
-      if (!App.stripHtml(q.questionHtml).trim()) {
+      const plainText = App.stripHtml(q.questionHtml || "").trim();
+
+      if (!plainText) {
         reasons.push("지문 누락");
       }
       if (!Array.isArray(q.options) || q.options.length < 4) {
@@ -464,9 +466,13 @@
       ) {
         reasons.push("정답 확인필요");
       }
-      if (q.needsImage && !q.image) {
-        reasons.push("그림/표 미첨부");
+
+      // 본문 내 그림/표/공통 지문 참조 키워드 자동 탐지
+      const visualRefRegex = /(following\s+questions?\s+refer\s+to|refer\s+to\s+the\s+(figure|diagram|graph|table|chart|illustration|following)|figure\s+(below|above|\d+(\.\d+)?)|table\s+(below|above|\d+(\.\d+)?)|diagram\s+(below|above|\d+(\.\d+)?)|如右圖|如下圖|如上圖|附圖|下表|上表)/i;
+      if ((q.needsImage || visualRefRegex.test(plainText)) && !q.image) {
+        reasons.push("그림/공통지문 미첨부");
       }
+
       return reasons;
     },
 
@@ -1479,63 +1485,63 @@
       }
     },
 
-    async mergeStagingToWorking(replaceAll = false) {
-      const { workingData, stagingChapters, stagingQuestions, targetSubject } = this.state;
-      if (replaceAll) {
-        workingData.chapters = [...stagingChapters];
-        workingData.questions = [...stagingQuestions];
-      } else {
-        stagingChapters.forEach((sc) => {
-          const existing = workingData.chapters.find((c) => c.title === sc.title);
-          if (existing) {
-            const oldId = sc.id;
-            const prefix = targetSubject === "biology" ? "bio" : "chem";
-            let maxNum = 0;
-            workingData.questions.forEach((item) => {
-              const m = item.id.match(/_(\d+)$/);
-              if (m && item.chapterId === existing.id) {
-                maxNum = Math.max(maxNum, parseInt(m[1], 10));
-              }
-            });
-            stagingQuestions.forEach((sq) => {
-              if (sq.chapterId === oldId) {
-                maxNum += 1;
-                sq.chapterId = existing.id;
-                sq.id = `${prefix}_${existing.id}_${String(maxNum).padStart(4, "0")}`;
-              }
-            });
-          } else {
-            const order = workingData.chapters.length + 1;
-            const newChId = "ch" + String(order).padStart(2, "0");
-            const oldId = sc.id;
-            const prefix = targetSubject === "biology" ? "bio" : "chem";
-            workingData.chapters.push({ id: newChId, title: sc.title, order });
-            stagingQuestions.forEach((sq) => {
-              if (sq.chapterId === oldId) {
-                sq.chapterId = newChId;
-                sq.id = sq.id.replace(new RegExp(`^${prefix}_${oldId}_`), `${prefix}_${newChId}_`);
-              }
-            });
-          }
-        });
-        workingData.questions.push(...stagingQuestions);
-      }
-
-      this.state.stagingQuestions = [];
-      this.state.selectedChapterFilter = "ALL";
-      this.state.pinnedQuestionId = null;
-      this.state.selectedQuestionId = workingData.questions[0]?.id || null;
-      await LocalIDB.setDataset(`cache_${targetSubject}`, workingData);
-      this.state.activeTab = "editor";
-      this.render();
-      App.showToast("병합 완료! 「확인 필요 이상 문항만 보기」를 체크해 누락된 선지나 그림 문항을 검수하세요.", "success");
-    },
-
-    renderExamSetsTabHtml() {
-      const { workingData } = this.state;
-      const sets = workingData.officialExamSets || [];
-      const cfg = workingData.officialExamConfig || { questionCount: 5, durationMinutes: 10 };
-      const totalQ = (workingData.questions || []).length;
+      async mergeStagingToWorking(replaceAll = false) {
+        const { workingData, stagingChapters, stagingQuestions, targetSubject } = this.state;
+        if (replaceAll) {
+          workingData.chapters = [...stagingChapters];
+          workingData.questions = [...stagingQuestions];
+        } else {
+          stagingChapters.forEach((sc) => {
+            const existing = workingData.chapters.find((c) => c.title === sc.title);
+            if (existing) {
+              const oldId = sc.id;
+              const prefix = targetSubject === "biology" ? "bio" : "chem";
+              let maxNum = 0;
+              workingData.questions.forEach((item) => {
+                const m = item.id.match(/_(\d+)$/);
+                if (m && item.chapterId === existing.id) {
+                  maxNum = Math.max(maxNum, parseInt(m[1], 10));
+                }
+              });
+              stagingQuestions.forEach((sq) => {
+                if (sq.chapterId === oldId) {
+                  maxNum += 1;
+                  sq.chapterId = existing.id;
+                  sq.id = `${prefix}_${existing.id}_${String(maxNum).padStart(4, "0")}`;
+                }
+              });
+            } else {
+              const order = workingData.chapters.length + 1;
+              const newChId = "ch" + String(order).padStart(2, "0");
+              const oldId = sc.id;
+              const prefix = targetSubject === "biology" ? "bio" : "chem";
+              workingData.chapters.push({ id: newChId, title: sc.title, order });
+              stagingQuestions.forEach((sq) => {
+                if (sq.chapterId === oldId) {
+                  sq.chapterId = newChId;
+                  sq.id = sq.id.replace(new RegExp(`^${prefix}_${oldId}_`), `${prefix}_${newChId}_`);
+                }
+              });
+            }
+          });
+          workingData.questions.push(...stagingQuestions);
+        }
+  
+        this.state.stagingQuestions = [];
+        this.state.selectedChapterFilter = "ALL";
+        this.state.pinnedQuestionId = null;
+        this.state.selectedQuestionId = workingData.questions[0]?.id || null;
+        await LocalIDB.setDataset(`cache_${targetSubject}`, workingData);
+        this.state.activeTab = "editor";
+        this.render();
+        App.showToast("병합 완료! 「확인 필요 이상 문항만 보기」를 체크해 누락된 선지나 그림 문항을 검수하세요.", "success");
+      },
+  
+      renderExamSetsTabHtml() {
+        const { workingData } = this.state;
+        const sets = workingData.officialExamSets || [];
+        const cfg = workingData.officialExamConfig || { questionCount: 5, durationMinutes: 10 };
+        const totalQ = (workingData.questions || []).length;
 
       return `
         <div class="space-y-5">
