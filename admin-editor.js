@@ -129,7 +129,11 @@
       const questions = [];
       let curQ = null;
       let curOptIdx = -1;
+      let pendingSharedStem = "";
+      let collectingSharedStem = false;
       let chapterSeqMap = { [currentChapter.id]: startSeq };
+
+      const sharedHeaderRegex = /^(?:the\s+)?(?:following\s+questions?|questions?\s+(?:below|\d+\s*[-–~to]+\s*\d+))\s+refer\s+to\b|^refer\s+to\s+the\s+(?:following|figure|diagram|graph|table|chart)\b|^use\s+the\s+(?:following|figure|diagram|graph|table)\s+to\s+answer\b/i;
 
       const ensureChapter = (rawTitle) => {
         if (forcedChapterId) return;
@@ -165,7 +169,7 @@
           });
         }
 
-        const needsImage = /following information|following table|shown below|represented below|accompanying figure|下圖|附圖/i.test(curQ.rawStem);
+        const needsImage = Boolean(curQ.forceNeedsImage) || /following information|following table|following evolutionary|shown below|represented below|accompanying figure|refer to the (?:figure|diagram|graph|table|chart|following)|下圖|附圖/i.test(curQ.rawStem);
 
         questions.push({
           id: `${prefix}_${curQ.chapterId}_${seq}`,
@@ -204,12 +208,24 @@
 
             if (/^\d+\.\d+\s+(?:Multiple-Choice|Student Edition|End-of-Chapter|Self-Quiz|Test Your Understanding|Concept Check).*/i.test(trimmed)) {
               finalizeQuestion();
+              pendingSharedStem = "";
+              collectingSharedStem = false;
               continue;
             }
 
             if (/^(Chapter\s+\d+[:\s].+|第\s*\d+\s*章.+)/i.test(trimmed)) {
               finalizeQuestion();
+              pendingSharedStem = "";
+              collectingSharedStem = false;
               ensureChapter(trimmed);
+              continue;
+            }
+
+            // 번호 없는 공통 지문 헤더 감지 ("The questions below refer to...", "The following questions refer to...")
+            if (sharedHeaderRegex.test(trimmed)) {
+              finalizeQuestion();
+              pendingSharedStem = trimmed;
+              collectingSharedStem = true;
               continue;
             }
 
@@ -233,17 +249,33 @@
               const isNewQuestion = !curQ || curQ.answerIndex !== null || validOptCount >= 2;
               if (isNewQuestion) {
                 finalizeQuestion();
+                const hasShared = Boolean(pendingSharedStem.trim());
+                const combinedStem = hasShared
+                  ? `[공통 지문] ${pendingSharedStem.trim()}\n\n${qStartMatch[2]}`
+                  : qStartMatch[2];
                 curQ = {
                   chapterId: currentChapter.id,
                   sourcePage: pageNum,
-                  rawStem: qStartMatch[2],
+                  rawStem: combinedStem,
                   rawOptions: [],
                   answerIndex: null,
-                  rawExplanation: ""
+                  rawExplanation: "",
+                  forceNeedsImage: hasShared
                 };
+                pendingSharedStem = "";
+                collectingSharedStem = false;
                 curOptIdx = -1;
                 continue;
               }
+            }
+
+            // 공통 지문 수집 중이고 아직 다음 문항 번호가 나오기 전인 경우
+            if (collectingSharedStem && !curQ) {
+              // 그림 내부의 짧은 라벨(1~2단어)은 제외하고 문장형 설명만 공통 지문에 이어 붙임
+              if (trimmed.split(/\s+/).length >= 3 || /[.?!:;]$/.test(trimmed)) {
+                pendingSharedStem += " " + trimmed;
+              }
+              continue;
             }
 
             if (!curQ) continue;
