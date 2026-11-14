@@ -1083,14 +1083,15 @@
                 <span class="px-2 py-0.5 rounded-lg bg-emerald-100 text-emerald-700 text-[11px] font-bold">정상 문항 ${onlyAbnormal ? "(현재 화면 유지됨)" : ""}</span>
               `}
             </div>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <button onclick="AdminStudio.insertQuestionBeforeSelected()" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white">+ 앞에 새 문항 끼워넣기</button>
               ${nextQ ? `
                 <button onclick="AdminStudio.selectQuestion('${nextQ.id}')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white">다음 문항 ▶</button>
               ` : ""}
               <button onclick="AdminStudio.addOptionSlot()" ${opts.length >= 5 ? "disabled" : ""} class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 disabled:opacity-40">+ 5번 보기(E) 추가</button>
               <button onclick="AdminStudio.deleteSelectedQuestion()" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40">이 문항 삭제</button>
             </div>
-          </div>
+          </div>    
 
           <div class="space-y-1">
             <div class="flex items-center justify-between">
@@ -1168,7 +1169,58 @@
       }
       this.render();
     },
+    resequenceChapterIds(chapterId) {
+      const { workingData, targetSubject } = this.state;
+      const prefix = targetSubject === "biology" ? "bio" : "chem";
+      let seq = 0;
+      for (const item of workingData.questions) {
+        if (item.chapterId === chapterId) {
+          seq += 1;
+          item.id = `${prefix}_${chapterId}_${String(seq).padStart(4, "0")}`;
+        }
+      }
+    },
 
+    async insertQuestionBeforeSelected() {
+      const { workingData, selectedQuestionId, targetSubject } = this.state;
+      if (!selectedQuestionId) return;
+      const idx = workingData.questions.findIndex((item) => item.id === selectedQuestionId);
+      if (idx < 0) return;
+
+      const targetQ = workingData.questions[idx];
+      const chapterId = targetQ.chapterId;
+
+      const newQ = {
+        id: "temp_insert_id",
+        chapterId,
+        questionHtml: "",
+        image: null,
+        options: [
+          { origIdx: 0, textHtml: "" },
+          { origIdx: 1, textHtml: "" },
+          { origIdx: 2, textHtml: "" },
+          { origIdx: 3, textHtml: "" }
+        ],
+        answerIndex: null,
+        explanationHtml: "",
+        sourcePage: targetQ.sourcePage || null,
+        needsImage: false
+      };
+
+      // 현재 선택한 문항 바로 앞 인덱스에 삽입
+      workingData.questions.splice(idx, 0, newQ);
+
+      // 해당 단원 전체 ID를 0001부터 깔끔하게 재정렬
+      this.resequenceChapterIds(chapterId);
+
+      // 방금 삽입된 새 문항을 자동 선택 상태로 유지
+      this.state.selectedQuestionId = newQ.id;
+      this.state.pinnedQuestionId = newQ.id;
+
+      await LocalIDB.setDataset(`cache_${targetSubject}`, workingData);
+      this.render();
+      App.showToast(`새 문항(${newQ.id})이 앞에 삽입되고 뒤 번호가 자동 재정렬되었습니다!`, "success");
+    },
     selectQuestion(qid) {
       // 사용자가 명시적으로 다른 문항을 선택하면 이전 문항 고정 해제
       if (this.state.pinnedQuestionId && this.state.pinnedQuestionId !== qid) {
