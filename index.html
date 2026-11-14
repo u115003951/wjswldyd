@@ -632,15 +632,31 @@
         const cur = this.getQuestionState(subject, questionId);
         const now = Date.now();
 
-        cur.testStatus = isCorrect ? "correct" : "wrong";
         cur.testUpdatedAt = now;
 
         if (isCorrect) {
           if (isWrongReviewMode) {
             cur.wrongStreak = (cur.wrongStreak || 0) + 1;
-            if (cur.wrongStreak >= 2) cur.graduated = true;
+            if (cur.wrongStreak >= 2) {
+              cur.graduated = true;
+              cur.testStatus = "correct";
+            } else {
+              cur.testStatus = "wrong";
+            }
+          } else {
+            // 이미 오답노트에 등록된 미졸업 문제는 일반 모드에서 1회 맞혀도 즉시 삭제되지 않도록 유지
+            if (cur.testStatus === "wrong" && !cur.graduated) {
+              cur.wrongStreak = (cur.wrongStreak || 0) + 1;
+              if (cur.wrongStreak >= 2) {
+                cur.graduated = true;
+                cur.testStatus = "correct";
+              }
+            } else {
+              cur.testStatus = "correct";
+            }
           }
         } else {
+          cur.testStatus = "wrong";
           cur.wrongStreak = 0;
           cur.graduated = false;
         }
@@ -2448,7 +2464,7 @@
               </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-7 space-y-5">
+            <div id="exam-swipe-card" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-7 space-y-5">
               <div class="flex items-center justify-between text-xs text-slate-400">
                 <span class="font-bold text-slate-700 dark:text-slate-200">第 ${examCurrentIdx + 1} 題（共 ${examQuestions.length} 題）</span>
                 <span>選項已隨機排列</span>
@@ -2485,8 +2501,45 @@
             </div>
           </div>
         `;
-        lucide.createIcons();
+
+      lucide.createIcons();
         ImageResolver.hydrateImages(root);
+        this.attachExamSwipeHandlers();
+      },
+
+      attachExamSwipeHandlers() {
+        const card = document.getElementById("exam-swipe-card");
+        if (!card) return;
+        let startX = 0, startY = 0, deltaX = 0, isHorizontal = null;
+
+        card.addEventListener("touchstart", (e) => {
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          deltaX = 0;
+          isHorizontal = null;
+          card.style.transition = "none";
+        }, { passive: true });
+
+        card.addEventListener("touchmove", (e) => {
+          const diffX = e.touches[0].clientX - startX;
+          const diffY = e.touches[0].clientY - startY;
+          if (isHorizontal === null) isHorizontal = Math.abs(diffX) > Math.abs(diffY);
+          if (!isHorizontal) return;
+          deltaX = diffX * 0.45;
+          card.style.transform = `translateX(${deltaX}px) rotate(${deltaX * 0.03}deg)`;
+        }, { passive: true });
+
+        card.addEventListener("touchend", () => {
+          card.style.transition = "transform 0.22s ease-out";
+          card.style.transform = "translateX(0px) rotate(0deg)";
+          if (isHorizontal && Math.abs(deltaX) > 38) {
+            if (deltaX < 0 && this.state.examCurrentIdx < this.state.examQuestions.length - 1) {
+              this.navExamQuestion(1);
+            } else if (deltaX > 0 && this.state.examCurrentIdx > 0) {
+              this.navExamQuestion(-1);
+            }
+          }
+        });
       },
 
       selectExamOption(optIdx) {
@@ -2713,12 +2766,15 @@
             <!-- 소분류 필터 바 -->
             ${category === "cumulative" ? `
               <div class="flex flex-wrap items-center justify-between gap-2">
-                <div class="flex gap-2">
+                <div class="flex flex-wrap gap-2">
                   <button onclick="App.renderRankingView('cumulative', 'totalSolved')" class="px-3.5 py-2 rounded-xl text-xs font-bold ${subTab === "totalSolved" ? "bg-blue-600 text-white" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"}">
-                    累積刷題數排行
+                    全科累積題數
                   </button>
-                  <button onclick="App.renderRankingView('cumulative', 'accuracy')" class="px-3.5 py-2 rounded-xl text-xs font-bold ${subTab === "accuracy" ? "bg-blue-600 text-white" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"}">
-                    綜合答對率排行（滿 20 題）
+                  <button onclick="App.renderRankingView('cumulative', 'bioSolved')" class="px-3.5 py-2 rounded-xl text-xs font-bold ${subTab === "bioSolved" ? "bg-emerald-600 text-white" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"}">
+                    生物累積題數
+                  </button>
+                  <button onclick="App.renderRankingView('cumulative', 'chemSolved')" class="px-3.5 py-2 rounded-xl text-xs font-bold ${subTab === "chemSolved" ? "bg-indigo-600 text-white" : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"}">
+                    化學累積題數
                   </button>
                 </div>
                 <span class="text-[11px] text-slate-400">每 5 分鐘自動更新快取</span>
@@ -2747,10 +2803,17 @@
         `;
         lucide.createIcons();
 
+        const activeField = ["totalSolved", "bioSolved", "chemSolved"].includes(subTab) ? subTab : "totalSolved";
+        const fieldLabelMap = {
+          totalSolved: "全科累積題數",
+          bioSolved: "生物累積題數",
+          chemSolved: "化學累積題數"
+        };
+
         let rows = [];
         if (window.CloudSync && window.CloudSync.ready && navigator.onLine) {
           rows = category === "cumulative"
-            ? await window.CloudSync.fetchCumulativeRanking(subTab)
+            ? await window.CloudSync.fetchCumulativeRanking(activeField)
             : await window.CloudSync.fetchExamRanking(subTab);
         } else if (category === "exams") {
           rows = JSON.parse(localStorage.getItem(ProgressStore.LOCAL_RANK_KEY) || "[]")
@@ -2771,19 +2834,18 @@
                 <tr>
                   <th class="py-3 px-4">名次</th>
                   <th class="py-3 px-4">考生暱稱</th>
-                  <th class="py-3 px-4">累積題數</th>
-                  <th class="py-3 px-4">綜合答對率</th>
+                  <th class="py-3 px-4">${fieldLabelMap[activeField]}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                 ${rows.map((item, idx) => {
                   const isMe = item.id === myActorId;
+                  const countVal = item[activeField] || 0;
                   return `
                     <tr class="${isMe ? "bg-blue-50/70 dark:bg-blue-950/40" : ""}">
                       <td class="py-3 px-4 font-bold ${idx < 3 ? "text-amber-500" : "text-slate-400"}">#${idx + 1}</td>
                       <td class="py-3 px-4 font-semibold">${item.nickname} ${isMe ? `<span class="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-blue-600 text-white">我</span>` : ""}</td>
-                      <td class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400">${item.totalSolved} 題</td>
-                      <td class="py-3 px-4 font-mono text-slate-600 dark:text-slate-300">${item.accuracy}%</td>
+                      <td class="py-3 px-4 font-bold text-blue-600 dark:text-blue-400">${countVal} 題</td>
                     </tr>
                   `;
                 }).join("")}
@@ -2824,7 +2886,7 @@
           const myIdx = rows.findIndex((r) => (category === "cumulative" ? r.id === myActorId : r.actorId === myActorId));
           const rankText = myIdx >= 0 ? `第 ${myIdx + 1} 名` : "尚未進榜";
           footer.innerHTML = `
-            <span>📍 我的目前成績：<strong>${rankText}</strong> ｜ 累積 <strong>${myStats.totalSolved}</strong> 題 ｜ 答對率 <strong>${myStats.accuracy}%</strong></span>
+            <span>📍 我的目前成績：<strong>${rankText}</strong> ｜ 全科 <strong>${myStats.totalSolved}</strong> 題（生物 <strong>${myStats.bioSolved}</strong> · 化學 <strong>${myStats.chemSolved}</strong>）</span>
             <span class="font-mono text-slate-400">${window.CloudSync.getNickname()}</span>
           `;
         }
@@ -3086,35 +3148,58 @@
 
       bindGlobalShortcuts() {
         document.addEventListener("keydown", (e) => {
-          if (this.state.view !== "player") return;
           if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)) return;
 
           const key = e.key.toLowerCase();
-          if (key === "arrowleft") {
-            e.preventDefault();
-            this.prevQuestion();
-          } else if (key === "arrowright") {
-            e.preventDefault();
-            this.nextQuestion();
-          } else if (key === " ") {
-            if (this.state.playerMode === "study" && !this.state.showStudyAnswer) {
+
+          // 1. 일반 학습/테스트 모드 (player)
+          if (this.state.view === "player") {
+            if (key === "arrowleft") {
               e.preventDefault();
-              this.revealStudyAnswer();
+              this.prevQuestion();
+            } else if (key === "arrowright") {
+              e.preventDefault();
+              this.nextQuestion();
+            } else if (key === " ") {
+              if (this.state.playerMode === "study" && !this.state.showStudyAnswer) {
+                e.preventDefault();
+                this.revealStudyAnswer();
+              }
+            } else if (key === "b") {
+              e.preventDefault();
+              const q = this.state.playlist[this.state.currentIndex];
+              if (q) this.handleToggleBookmark(q.id);
+            } else if (["1", "2", "3", "4", "5"].includes(key)) {
+              const idx = parseInt(key, 10) - 1;
+              const q = this.state.playlist[this.state.currentIndex];
+              if (q && idx < q.options.length) {
+                this.handleOptionClick(idx);
+              }
             }
-          } else if (key === "b") {
-            e.preventDefault();
-            const q = this.state.playlist[this.state.currentIndex];
-            if (q) this.handleToggleBookmark(q.id);
-          } else if (["1", "2", "3", "4", "5"].includes(key)) {
-            const idx = parseInt(key, 10) - 1;
-            const q = this.state.playlist[this.state.currentIndex];
-            if (q && idx < q.options.length) {
-              this.handleOptionClick(idx);
+            return;
+          }
+
+          // 2. 모의고사 모드 (mockExam)
+          if (this.state.view === "mockExam") {
+            if (key === "arrowleft") {
+              e.preventDefault();
+              if (this.state.examCurrentIdx > 0) this.navExamQuestion(-1);
+            } else if (key === "arrowright") {
+              e.preventDefault();
+              if (this.state.examCurrentIdx < this.state.examQuestions.length - 1) this.navExamQuestion(1);
+            } else if (["1", "2", "3", "4", "5", "a", "b", "c", "d", "e"].includes(key)) {
+              const idx = ["1", "2", "3", "4", "5"].includes(key)
+                ? parseInt(key, 10) - 1
+                : key.charCodeAt(0) - 97;
+              const q = this.state.examQuestions[this.state.examCurrentIdx];
+              if (q && idx >= 0 && idx < q.shuffledOptions.length) {
+                this.selectExamOption(idx);
+              }
             }
           }
         });
       },
-
+      
       openModal(innerHtml) {
         const backdrop = document.getElementById("modal-backdrop");
         const box = document.getElementById("modal-box");
