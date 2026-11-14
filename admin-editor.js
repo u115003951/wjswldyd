@@ -133,8 +133,7 @@
       let collectingSharedStem = false;
       let chapterSeqMap = { [currentChapter.id]: startSeq };
 
-      const sharedHeaderRegex = /^(?:the\s+)?(?:following\s+questions?|questions?\s+(?:below|\d+\s*[-–~to]+\s*\d+))\s+refer\s+to\b|^refer\s+to\s+the\s+(?:following|figure|diagram|graph|table|chart)\b|^use\s+the\s+(?:following|figure|diagram|graph|table)\s+to\s+answer\b/i;
-
+      const sharedHeaderRegex = /^(?:the\s+)?(?:following\s+questions?|questions?\s+(?:below|\d+\s*[-–~to]+\s*\d+))\s+refer\s+to\b|^refer\s+to\s+(?:the\s+)?(?:following|figure|diagram|graph|table|chart|illustration|pedigree|cladogram|tree|model)\b|^use\s+(?:the\s+)?(?:following\s+)?(?:figure|diagram|graph|table|chart|illustration|pedigree|cladogram|tree|model|information|data)\s+to\s+answer\b|^for\s+questions?\s+\d+/i;
       const ensureChapter = (rawTitle) => {
         if (forcedChapterId) return;
         const clean = rawTitle.trim();
@@ -169,7 +168,7 @@
           });
         }
 
-        const needsImage = Boolean(curQ.forceNeedsImage) || /following information|following table|following evolutionary|shown below|represented below|accompanying figure|refer to the (?:figure|diagram|graph|table|chart|following)|下圖|附圖/i.test(curQ.rawStem);
+        const needsImage = Boolean(curQ.forceNeedsImage) || /(following\s+(?:information|table|figure|diagram|graph|evolutionary)|refer\s+to\s+(?:the\s+)?(?:figure|diagram|graph|table|chart|following|pedigree|cladogram|tree)|use\s+(?:the\s+)?(?:following\s+)?(?:figure|diagram|graph|table|chart|pedigree|cladogram|tree|information|data)\s+to\s+answer|(?:figure|table|diagram|graph)\s+(?:below|above|\d+)|shown\s+(?:below|above)|represented\s+(?:below|above)|accompanying\s+(?:figure|diagram|table)|下圖|附圖|下表)/i.test(curQ.rawStem);
 
         questions.push({
           id: `${prefix}_${curQ.chapterId}_${seq}`,
@@ -500,9 +499,7 @@
       }
 
       // 본문 내 그림/표/공통 지문 참조 키워드 자동 탐지
-      const visualRefRegex = /(following\s+questions?\s+refer\s+to|refer\s+to\s+the\s+(figure|diagram|graph|table|chart|illustration|following)|figure\s+(below|above|\d+(\.\d+)?)|table\s+(below|above|\d+(\.\d+)?)|diagram\s+(below|above|\d+(\.\d+)?)|如右圖|如下圖|如上圖|附圖|下表|上表)/i;
-      if ((q.needsImage || visualRefRegex.test(plainText)) && !q.image) {
-        reasons.push("그림/공통지문 미첨부");
+      const visualRefRegex = /(following\s+questions?\s+refer\s+to|questions?\s+(?:below|\d+\s*[-–~to]+\s*\d+)\s+refer\s+to|refer\s+to\s+(?:the\s+)?(?:following|figure|diagram|graph|table|chart|illustration|pedigree|cladogram|tree|model)|use\s+(?:the\s+)?(?:following\s+)?(?:figure|diagram|graph|table|chart|illustration|pedigree|cladogram|tree|model|information|data)\s+to\s+answer|(?:figure|table|diagram|graph|chart)\s+(?:below|above|\d+(?:\.\d+)?)|shown\s+(?:below|above|at\s+right|at\s+left)|represented\s+(?:below|above)|accompanying\s+(?:figure|diagram|graph|table)|如右圖|如下圖|如上圖|附圖|下表|上表)/i;
       }
 
       return reasons;
@@ -549,6 +546,8 @@
     },
 
     render() {
+      const prevListEl = this.container?.querySelector(".admin-question-list-scroll");
+      const savedScrollTop = prevListEl ? prevListEl.scrollTop : 0;
       const { activeTab, targetSubject, workingData, cloudInboxLoaded, cloudReports } = this.state;
       const localReports = JSON.parse(localStorage.getItem(ProgressStore.REPORTS_KEY) || "[]");
       const openReportsCount = cloudInboxLoaded
@@ -623,6 +622,11 @@
       lucide.createIcons();
       if (this.state.pdfDoc && (activeTab === "editor" || activeTab === "pdfImport")) {
         this.renderPdfCanvasPage();
+      }
+
+      const nextListEl = this.container?.querySelector(".admin-question-list-scroll");
+      if (nextListEl && savedScrollTop > 0) {
+        nextListEl.scrollTop = savedScrollTop;
       }
     },
 
@@ -744,7 +748,7 @@
                 <span class="text-[11px] text-slate-400">표시 중: ${list.length} / 범위 ${chapterQCount}문항</span>
               </div>
 
-              <div class="max-h-[380px] overflow-y-auto space-y-1.5 pr-1">
+              <div class="admin-question-list-scroll max-h-[520px] overflow-y-auto space-y-1.5 pr-1">
                 ${list.length === 0 ? `<div class="text-center text-xs text-slate-400 py-8">조건에 해당하는 문항이 없습니다.</div>` : list.map((q) => {
                   const isSel = selectedQ && q.id === selectedQ.id;
                   const reasons = this.getAbnormalReasons(q);
