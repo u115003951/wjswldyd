@@ -1,7 +1,7 @@
 {
   "subject": "biology",
   "subjectName": "生物題庫",
-  "updatedAt": "2026-11-14T15:15:29.694Z",
+  "updatedAt": "2026-11-14T15:28:52.652Z",
   "chapters": [
     {
       "id": "ch01",
@@ -2779,6 +2779,32 @@
     {
       "id": "bio_ch02_0047",
       "chapterId": "ch02",
+      "questionHtml": "You are out working in your garden, and you notice that one of your favorite flowering plants has black, dead spots on the leaves. You immediately suspect that the plant has been invaded by a pathogen and has initiated a(n) ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "avirulence response"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "hypersensitive response"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "resistance response"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "virulence response"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0048",
+      "chapterId": "ch02",
       "questionHtml": "Generalized defense responses in organs distant from the infection site are called ________.",
       "image": null,
       "options": [
@@ -2803,7 +2829,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0048",
+      "id": "bio_ch02_0049",
       "chapterId": "ch02",
       "questionHtml": "A particular species of virus carries a gene for salicylate hydroxylase, an enzyme that breaks down salicylic aci d. Will this virus be more or less virulent to plants than other viruses?",
       "image": null,
@@ -2829,7 +2855,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0049",
+      "id": "bio_ch02_0050",
       "chapterId": "ch02",
       "questionHtml": "Which event during the evolution of la nd plants favored the synthesis of secondary compounds?",
       "image": null,
@@ -2855,7 +2881,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0050",
+      "id": "bio_ch02_0051",
       "chapterId": "ch02",
       "questionHtml": "For a plant to initiate chemical responses to herbivory, before it is directly affected by herbivores, ________.",
       "image": null,
@@ -2881,7 +2907,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0051",
+      "id": "bio_ch02_0052",
       "chapterId": "ch02",
       "questionHtml": "You may have observed plants rotate towards a light source, the reby increasing the plant's ability to intercept light energy and increase photosynthesis. You, however, are given the task of preventing grass seedlings from rotating toward the light. Using your knowledge of phototropism, which of the following experimen tal procedures would you use to complete your task?",
       "image": null,
@@ -2907,7 +2933,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0052",
+      "id": "bio_ch02_0053",
       "chapterId": "ch02",
       "questionHtml": "A plant scientist was hired by a greenhouse operator to devise a way to force iris plants to bloom in the sho rt days of winter. Iris normally blooms as a long - day (short - night) plant. Which of the following has the best chance of creating iris blooms in winter?",
       "image": null,
@@ -2933,7 +2959,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0053",
+      "id": "bio_ch02_0054",
       "chapterId": "ch02",
       "questionHtml": "An individual plant was discovered that could not grow towards light. After some research, it was determined that the reason was a defective gene that did not allow for the level of cell elongation necessary for a phototropic response. This mutation greatly reduces the fitness of the individual plant. Which reason best describes the reason for the loss of fitness?",
       "image": null,
@@ -2959,7 +2985,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0054",
+      "id": "bio_ch02_0055",
       "chapterId": "ch02",
       "questionHtml": "The hormone that helps plants respond to drought is",
       "image": null,
@@ -2985,7 +3011,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0055",
+      "id": "bio_ch02_0056",
       "chapterId": "ch02",
       "questionHtml": "Auxin enhances cell elongation in all of these ways except",
       "image": null,
@@ -3011,7 +3037,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0056",
+      "id": "bio_ch02_0057",
       "chapterId": "ch02",
       "questionHtml": "Charles and Francis Darwin discovered that",
       "image": null,
@@ -3037,7 +3063,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0057",
+      "id": "bio_ch02_0058",
       "chapterId": "ch02",
       "questionHtml": "How may a plant respond to severe heat stress?",
       "image": null,
@@ -3063,7 +3089,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0058",
+      "id": "bio_ch02_0059",
       "chapterId": "ch02",
       "questionHtml": "The s ignaling molecule for flowering might be released earlier than usual in a long - day plant exposed to flashes of",
       "image": null,
@@ -3089,7 +3115,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0059",
+      "id": "bio_ch02_0060",
       "chapterId": "ch02",
       "questionHtml": "If a long - day plant has a critical night length of 9 hours, which 24 - hour cycle would prevent flowering?",
       "image": null,
@@ -3115,7 +3141,7 @@
       "explanationHtml": ""
     },
     {
-      "id": "bio_ch02_0060",
+      "id": "bio_ch02_0061",
       "chapterId": "ch02",
       "questionHtml": "A plant mutant that shows normal gravitropic bending but does not store starch in its plastids would require a reevaluation of the role of ________ in gravitropism.",
       "image": null,
