@@ -1,12 +1,17 @@
 {
   "subject": "biology",
   "subjectName": "生物題庫",
-  "updatedAt": "2026-11-14T11:43:49.756Z",
+  "updatedAt": "2026-11-14T15:15:29.694Z",
   "chapters": [
     {
       "id": "ch01",
       "title": "Ch21 How Evolution Works",
       "order": 1
+    },
+    {
+      "id": "ch02",
+      "title": "Ch39 Plant Signals and Behavior",
+      "order": 2
     }
   ],
   "officialExamConfig": {
@@ -187,7 +192,7 @@
         },
         {
           "origIdx": 2,
-          "textHtml": "Acquired characteristics are inheri ted."
+          "textHtml": "Acquired characteristics are inherited."
         },
         {
           "origIdx": 3,
@@ -283,7 +288,7 @@
       "options": [
         {
           "origIdx": 0,
-          "textHtml": "Cuvier and Lama rck"
+          "textHtml": "Cuvier and Lamarck"
         },
         {
           "origIdx": 1,
@@ -529,7 +534,7 @@
         },
         {
           "origIdx": 3,
-          "textHtml": "I ndividuals with traits that do not enhance survival cannot reproduce."
+          "textHtml": "Individuals with traits that do not enhance survival cannot reproduce."
         }
       ],
       "answerIndex": 2,
@@ -659,7 +664,7 @@
         },
         {
           "origIdx": 3,
-          "textHtml": "increased sexual reproduction in a populatio n"
+          "textHtml": "increased sexual reproduction in a population"
         }
       ],
       "answerIndex": 0,
@@ -733,7 +738,7 @@
         },
         {
           "origIdx": 2,
-          "textHtml": "Individ uals who reproduce more leave more offspring."
+          "textHtml": "Individuals who reproduce more leave more offspring."
         },
         {
           "origIdx": 3,
@@ -959,7 +964,7 @@
       "options": [
         {
           "origIdx": 0,
-          "textHtml": "These genes wo uld be maintained in case the antibiotics appear."
+          "textHtml": "These genes would be maintained in case the antibiotics appear."
         },
         {
           "origIdx": 1,
@@ -1093,7 +1098,7 @@
         },
         {
           "origIdx": 1,
-          "textHtml": "The two spe cies share many proteins."
+          "textHtml": "The two species share many proteins."
         },
         {
           "origIdx": 2,
@@ -1179,7 +1184,7 @@
         },
         {
           "origIdx": 3,
-          "textHtml": "the island forms and mainland forms are c onverging"
+          "textHtml": "the island forms and mainland forms are converging"
         }
       ],
       "answerIndex": 0,
@@ -1205,7 +1210,7 @@
         },
         {
           "origIdx": 3,
-          "textHtml": "a shallow estuary on a warm - water coast Bloom's Taxono my: Application/Analysis"
+          "textHtml": "a shallow estuary on a warm - water coast"
         }
       ],
       "answerIndex": 0,
@@ -1231,7 +1236,7 @@
         },
         {
           "origIdx": 3,
-          "textHtml": "easily reached and show little ecological diversity The following questions refer to the evolutionary tree in the figure below. The horizontal axis of the cladogram depicted below is a timeline that extends from 100,000 years ago to the present; the vertical axis represents nothing in particular. The labeled branch points on the tree (V - Z) represent various common ancestors. Let's say that only since 50,000 years ago has there been enough variation between the lineages depicted here to separate them into distinct species, and only the tips of the lineages on this tree represent distinct species."
+          "textHtml": "easily reached and show little ecological diversity"
         }
       ],
       "answerIndex": 1,
@@ -1500,7 +1505,7 @@
     {
       "id": "bio_ch01_0058",
       "chapterId": "ch01",
-      "questionHtml": "Within six months of effectively using methicillin to treat S. aureus infections in a community, all new S.aureus infections were caused by MRSA. How can this best be explained?",
+      "questionHtml": "Within six months of effectively using methicillin to treat S.aureus infections in a community, all new S.aureus infections were caused by MRSA. How can this best be explained?",
       "image": null,
       "options": [
         {
@@ -1509,7 +1514,7 @@
         },
         {
           "origIdx": 1,
-          "textHtml": "In response t o the drug, S. aureus began making drug - resistant versions of the protein targeted by the drug."
+          "textHtml": "In response t o the drug, S.aureus began making drug - resistant versions of the protein targeted by the drug."
         },
         {
           "origIdx": 2,
@@ -1517,7 +1522,7 @@
         },
         {
           "origIdx": 3,
-          "textHtml": "S. aureus evolved to resist vaccines ."
+          "textHtml": "S.aureus evolved to resist vaccines ."
         }
       ],
       "answerIndex": 2,
@@ -1573,6 +1578,1566 @@
         }
       ],
       "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0001",
+      "chapterId": "ch02",
+      "questionHtml": "The detector of light during de - etiolation (greening) of a tomato plant is (are) ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "carotenoids"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "xanthophylls"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "phytochrome"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "auxin"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0002",
+      "chapterId": "ch02",
+      "questionHtml": "Plant hormones ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "in plant cells naturally exist in very large amounts"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "change their shape in response to stimulus"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "are unable to move from one cell to another"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "affect only cells with the appropriate receptor"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0003",
+      "chapterId": "ch02",
+      "questionHtml": "Which of the following mechanisms is the correct sequence of events that takes place during the plant responses to intern al and external signals?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "transduction, reception, and response"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "reception and transduction"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "reception, transduction, and response"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "reception and response"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0004",
+      "chapterId": "ch02",
+      "questionHtml": "Which of the follow ing mechanisms is in the correct sequence of steps (I - IV as listed below) that takes place during the formation of de - etiolation (greening) response proteins in plants? I. Detection of light signal II. Activation of phytochrome III. Activation of specific protein kinase1 IV. Formation of de - etiolation response protein",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "I, III, II, and IV"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "I, II, III, and IV"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "II, I, III, and IV"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "III, I, II, and IV"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0005",
+      "chapterId": "ch02",
+      "questionHtml": "Which of the following can fun ction in signal transduction in plants ? I. calcium ions II. nonrandom mutations III. receptor proteins IV. autochrome V. secondary messengers",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "only I, III, and IV"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "only I, II, and V"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "only I, III, and V"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "only II, III, and V"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0006",
+      "chapterId": "ch02",
+      "questionHtml": "Plant hormones produce their effects by ________. I. altering the expression of genes II. modifying the permeability of the plasma membrane III. modifying the structure of the nuclear envelope membrane",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "only I"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "only II"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "only III"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "only I and II"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0007",
+      "chapterId": "ch02",
+      "questionHtml": "Plant hormonal regulation differs from animal hormonal regulation in that ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "there are no dedicated hormone - producing organs in plants as there are in animals"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "all production of hormones is local in plants with little long - distance transport"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "only animal hormone concentrations are developmentally regulated"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "only animal hormones may have either external or internal receptors"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0008",
+      "chapterId": "ch02",
+      "questionHtml": "Auxins in plants are known to affect which of the following processes? I. gravitropism of shoots II. maintenance of seed dormancy III. phototropism of shoots IV. inhibition of lateral bu ds V. apical dominance",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "only I and II"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "only I, III, and V"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "only I, III, IV, and V"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "only II, III, IV, and V"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0009",
+      "chapterId": "ch02",
+      "questionHtml": "Experiments on the positive phototropic response of plants indicate that ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "light destroys auxin"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "auxin moves down the plant apoplastically"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "auxin is synthesized in the area where the stem bends"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "auxin can move to the shady side of the stem"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0010",
+      "chapterId": "ch02",
+      "questionHtml": "What are the primary sites of auxin (IAA) production in plants?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "shoot apical meristem and young leaves"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "roots"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "seeds"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "ripening fruits"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0011",
+      "chapterId": "ch02",
+      "questionHtml": "What are the primary sites of ethylene production in high concentrations in plants?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "shoot apical meristem and young leaves"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "roots"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "seeds"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "ripening fruits"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0012",
+      "chapterId": "ch02",
+      "questionHtml": "Which one of the following hormones regulates cel l division in plants?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "auxin (IAA)"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "ethylene"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "gibberellins"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "cytokinins"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0013",
+      "chapterId": "ch02",
+      "questionHtml": "Which one of the following hormones stimulates stem elongation and pollen tube growth?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "auxin (IAA)"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "ethylene"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "gibberellins"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "cytokinins"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0014",
+      "chapterId": "ch02",
+      "questionHtml": "Generally, each hormone has multiple functions in plants depending on ________. I. site of action II. its concentration III. developmental st age IV. age",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "I, II, III, and IV"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "I, II, and III"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "I and II"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "II"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0015",
+      "chapterId": "ch02",
+      "questionHtml": "Apical dominance in plants is under the control of ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "sugar"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "various plant hormones"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "cell divisi on"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "sugar and various plant hormones"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0016",
+      "chapterId": "ch02",
+      "questionHtml": "Arrange the following steps that occur during drought tolerance in plants in a correct sequence. I. hormone ABA accumulation in the leaves II. causes stomata to close III. reduction in transpiration IV. preventing further water loss",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "I, II, III, and IV"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "I, III, II, and IV"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "II, I, III, and IV"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "III, I, II, and IV"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0017",
+      "chapterId": "ch02",
+      "questionHtml": "Which of the following statements best summarizes the acid growth hypothesis in an actively growing shoot?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Auxin stimulates proton pumps in the plasma membrane and tonoplast."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Auxin - activated proton pumps lower the pH of the cell wall, which breaks bonds an d makes the walls more flexible."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Auxins and gibberellins together act as a lubricant to help stretch cellulose microfibrils."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Auxins activate aquaporins that increase turgor pressure in the cells. Sec tion: 39.2"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0018",
+      "chapterId": "ch02",
+      "questionHtml": "Which of the following conclusions is supported by the research of both Peter Boysen - Jensen and Charles and Francis Darwin on shoot responses to light?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "When shoots are exposed to light, a chemical substance migrates toward the light."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "A chemical substance involved in shoot bending is produced in shoot tips."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Once shoot tips have been cut, normal growth cannot be induced."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Light stimulates the synthesis of a plant hormone that responds to light."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0019",
+      "chapterId": "ch02",
+      "questionHtml": "An eccentric millionaire botanist has offered a $25,000 scholarship to anyone who can successfully get a plant to grow through a vertical maze in complete darkness. The maze is not in a box; the maze is simply drawn on th e wall, and the contestants must get their plant to grow in a pattern that matches the path through the maze. You need the money and feel confident that you can accomplish this task. Which of the following techniques will help you succeed?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Apply auxin d irectly to the shoot tip on the side to which you want the tip to bend."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Apply auxin directly to the part of the stem just below the tip opposite from the direction you want the stem to bend."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Inject compounds that block auxin receptors into the part o f the stem opposite from the direction you want the stem to bend."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Plant the roots in two different pots, and apply auxin to the root bucket that is on the same side as the direction you want the plant to bend."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0020",
+      "chapterId": "ch02",
+      "questionHtml": "You have a small tree in your yard that is the height that you want it, but does not have as many branches as you want. How can you prune it to trigger it to increase the number of branches?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Cut off the leaves at the ends of several branches."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Cut off the tips of the main shoots."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Cut off lower branches."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Cut off the leaves at the base of most of the branches."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0021",
+      "chapterId": "ch02",
+      "questionHtml": "As cytokinins are primarily produced in ro ots, what route would they travel to influence lateral shoot formation in a recently topped tree?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "symplastic"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "tracheids/vessels"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "phloem"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "apoplastic"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0022",
+      "chapterId": "ch02",
+      "questionHtml": "Who might be interested in u sing cytokinins?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "grocers, to spray on fruit to enhance ripening in the store"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "consumers, to spray on fruit before eating to enhance taste"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "florists, to dip stems in to keep leaves green longer"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "farmers, to spray on fruit after picking to stall rip ening"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0023",
+      "chapterId": "ch02",
+      "questionHtml": "If a farmer wanted more loosely packed clusters of grapes, he would most likely spray the immature bunches with ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "auxin"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "gibberellins"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "cytokinins"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "abscisic acid"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0024",
+      "chapterId": "ch02",
+      "questionHtml": "________ prevents seeds from germinating until conditions are favorable for the growth of the plant.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Ethylene"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Zeaxanthin"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Gibberellin"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Abscisic acid "
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0025",
+      "chapterId": "ch02",
+      "questionHtml": "A population of plants experiences several years of severe drought. Much of the population dies due to lack of water, but a few individuals survive. You set out to discover the physiological basis for thei r adaptation to such an extreme environmental change. You hypothesize that the survivors have the ability to synthesize higher levels of ________ than their siblings do.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "auxin"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "gibberellin"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "cytokinin"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "abscisic acid"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0026",
+      "chapterId": "ch02",
+      "questionHtml": "If you were shipping green bananas to a supermarket thousands of miles away, which of the following chemicals would you want to eliminate from the plants' environment?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "carbon dioxide"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "cytokinins"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "ethylene"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "auxin"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0027",
+      "chapterId": "ch02",
+      "questionHtml": "In the fall, the leaves of some trees change color. This happens because chlorophyll breaks down and the accessory pigments become visible. What hormone is responsible for this?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "phototropin"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "abscisic acid"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "cytokinin"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "ethylene"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0028",
+      "chapterId": "ch02",
+      "questionHtml": "Which type of mutant would be most likely to produce a bushier phenotype?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "auxin overproducer"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "strigolactone overproducer"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "cytokinin underproducer"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "strigolactone underproducer"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0029",
+      "chapterId": "ch02",
+      "questionHtml": "Vines in tropical rain forests must grow toward large trees before being able to grow toward the sun. To reach a large tree, the most useful kind of growth movement for a tropical vine presumably would be ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "negative thigmotropism"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "negative phototropism"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "negative gravitropism"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "the opposite of circadian rhythms"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0030",
+      "chapterId": "ch02",
+      "questionHtml": "Upon exposure to blue light, plants not only begin to grow toward the light, but move their chloroplasts to the sunny side of each cell. The adaptive advantage of moving chloroplasts to the sunny side of each cell ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "maximizes light absorption by the chloroplasts for photosynthesis"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "increases production of phototropic hormones"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "maximizes heat absorption by the chloroplasts for cellular respiration"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "increases adenosine triphosphate (ATP) production during the light - independent r eactions"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0031",
+      "chapterId": "ch02",
+      "questionHtml": "Mammalian eyes sense light because the photoreceptor cells have molecules called opsins, which change structure when exposed to light. Which of the following plant molecules wo uld be analogous to mammalian opsins in their light - sensing ability?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "auxin and phytochrome"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "auxin and P fr"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "P fr and phytochrome"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "cytokinins and phototropins"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0032",
+      "chapterId": "ch02",
+      "questionHtml": "Seed packets give a recommended planting depth for the enclosed seeds. The most likely reason some seeds are to be covered with only 1/4 inch of soil is that the ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "seedlings do not have an etiolation response"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "seeds require light to germinate"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "seeds require a h igher temperature to germinate"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "seeds are very sensitive to waterlogging"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0033",
+      "chapterId": "ch02",
+      "questionHtml": "Suppose a plant had a photosynthetic pigment that absorbed far - red wavelengths of light. In which of the follo wing environments could that plant thrive?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "on the surface of a lake"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "on the forest floor, beneath a canopy of taller plants"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "on the ocean floor, in very deep waters"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "on mountaintops, closer to the Sun"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0034",
+      "chapterId": "ch02",
+      "questionHtml": "The biological clock controlling circadian rhythms must ultimately ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "depend on environmental cues"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "affect gene transcription"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "stabilize on a 24 - hour cycle"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "speed up or slow down with increasing or decreasing temper ature"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0035",
+      "chapterId": "ch02",
+      "questionHtml": "Which of the colors of visible light induces curvature in coleoptile most effectively?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "red"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "blue"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "violet"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "orange"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0036",
+      "chapterId": "ch02",
+      "questionHtml": "Phytochrome plays a critical role in seed germination. Which of the colors maximizes the seed germination?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "red"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "blue"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "violet"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "orange"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0037",
+      "chapterId": "ch02",
+      "questionHtml": "Many plants flower in r esponse to day - length cues. Which of the following statements best summarizes this phenomenon?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "As a rule, short - day plants flower in the summer."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "As a rule, long - day plants flower in the spring or fall."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Long - day plants flower in response to long da ys, not short nights."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Flowering in short - day and long - day plants is controlled by phytochrome."
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0038",
+      "chapterId": "ch02",
+      "questionHtml": "Plants often use changes in day length (photoperiod) to trigger events such as dorma ncy and flowering. It is logical that plants have evolved this mechanism because photoperiod changes ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "are more predictable than air temperature changes"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "predict moisture availability"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "are modified by soil temperature changes"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "can reset th e biological clock"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0039",
+      "chapterId": "ch02",
+      "questionHtml": "A gardener in Canada wants to surprise his mother on her birthday and make her favorite hibiscus bush flower in May instead of at the end of June. The bush is growin g in the greenhouse. Which of the following might make the hibiscus bush flower early?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "grafting leaves of a hibiscus that was exposed to long nights"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "grafting leaves of a hibiscus that was exposed to short nights"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "exposing flower buds of the hibiscu s bush to long nights"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "exposing flower buds of the hibiscus bush to short nights"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0040",
+      "chapterId": "ch02",
+      "questionHtml": "Which of the following environmental factors can be sensed by plants? I) gravity II) pathogens III) wi nd IV) light",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "only I and III"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "only I, II, and IV"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "only II, III, and IV"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "I, II, III, and IV"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0041",
+      "chapterId": "ch02",
+      "questionHtml": "Shoots that grow vertically toward the sun can be characterized as ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "po sitive for phototropism and negative for gravitropism"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "neutral for phototropism and positive for gravitropism"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "negative for phototropism and positive for gravitropism"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "positive for phototropism and neutral for gravitropism"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0042",
+      "chapterId": "ch02",
+      "questionHtml": "Use the figure to answer the following question. Suppose you laid a seedling on its side so that the root was parallel to the ground as shown in the figure. Several hours after the change in position, whe re in the root cells, position A, B, or C in the figure, would you find the amyloplasts?",
+      "image": "images/bio_ch02_0042.webp",
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "A"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "B"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "C"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "A and C"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0043",
+      "chapterId": "ch02",
+      "questionHtml": "The rapid leaf movements resulting from a response to touch (thigmotrop ism) primarily involve ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "potassium channels"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "nervous tissue"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "aquaporins"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "stress proteins"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0044",
+      "chapterId": "ch02",
+      "questionHtml": "In extremely cold regions, woody species may survive freezing temperatures b y ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "emptying water from the vacuoles to prevent freezing"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "decreasing the numbers of phospholipids in cell membranes"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "decreasing the fluidity of all cellular membranes"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "increasing cytoplasmic levels of specific solute concentrations, such as sugars"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0045",
+      "chapterId": "ch02",
+      "questionHtml": "Most scientists agree that global warming is underway; thus, it is important to know how plants respond to heat stress. Which of the following would be a useful line of inq uiry to try and improve plant response and survival to heat stress?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "the production of heat - stable carbohydrates"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "increased production of heat - shock proteins"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "the opening of stomata to increase evaporational heat loss"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "protoplast fusion experiments with xerophytic plants"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0046",
+      "chapterId": "ch02",
+      "questionHtml": "When an arborist prunes a limb off a valuable tree, he or she may paint the cut surface. The primary purpose of the paint is to ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "avirulence response"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "hypersensitive response"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "resistance response"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "virulence response"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0047",
+      "chapterId": "ch02",
+      "questionHtml": "Generalized defense responses in organs distant from the infection site are called ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "hyperactive responses"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "systemic acquired resistance"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "pleiotropy"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "hyperplasia"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0048",
+      "chapterId": "ch02",
+      "questionHtml": "A particular species of virus carries a gene for salicylate hydroxylase, an enzyme that breaks down salicylic aci d. Will this virus be more or less virulent to plants than other viruses?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "more virulent"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "less virulent"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "same virulent"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "faster virulent"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0049",
+      "chapterId": "ch02",
+      "questionHtml": "Which event during the evolution of la nd plants favored the synthesis of secondary compounds?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "the greenhouse effect throughout the Devonian period"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "the reverse - greenhouse effect during the Carboniferous period"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "the association of the roots of land plants and fungi"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "the rise of herbivory"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0050",
+      "chapterId": "ch02",
+      "questionHtml": "For a plant to initiate chemical responses to herbivory, before it is directly affected by herbivores, ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "a plant must have already flowered at least once"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "volatile \"signal\" compounds must be perceived"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "gene - for - gene intraspecific recognition must occur"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "phytoalexins must be released"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0051",
+      "chapterId": "ch02",
+      "questionHtml": "You may have observed plants rotate towards a light source, the reby increasing the plant's ability to intercept light energy and increase photosynthesis. You, however, are given the task of preventing grass seedlings from rotating toward the light. Using your knowledge of phototropism, which of the following experimen tal procedures would you use to complete your task?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Cover the growing tip of the grass seedling with black paper."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Supply the seedlings with very dim light (red light does not induce a bend)."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Cover the portion of the seedling below the tip with a black shield."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Supply the seedling with nutrient - rich fertilizer solution."
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0052",
+      "chapterId": "ch02",
+      "questionHtml": "A plant scientist was hired by a greenhouse operator to devise a way to force iris plants to bloom in the sho rt days of winter. Iris normally blooms as a long - day (short - night) plant. Which of the following has the best chance of creating iris blooms in winter?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Artificially increase the period of darkness in the greenhouse."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Increase the temperature to more closely follow summer temperatures."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Alternate four hours of darkness with four hours of light repeatedly over each 24 - hour period."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Interrupt the long winter nights with a brief period of light."
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0053",
+      "chapterId": "ch02",
+      "questionHtml": "An individual plant was discovered that could not grow towards light. After some research, it was determined that the reason was a defective gene that did not allow for the level of cell elongation necessary for a phototropic response. This mutation greatly reduces the fitness of the individual plant. Which reason best describes the reason for the loss of fitness?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "The plant was too short to attract insects for pollination."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "The plant could not adjust to directional light, which reduced p hotosynthetic activity and therefore energy available for reproduction."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Because the plant grew much taller and straighter, resources that could be used for reproduction were used for growth."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "The loss of a phototropic response meant that the plant's seeds could not germinate, so reproduction would be unsuccessful."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0054",
+      "chapterId": "ch02",
+      "questionHtml": "The hormone that helps plants respond to drought is",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "auxin."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "abscisic acid."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "cytokinin."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "ethylene."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0055",
+      "chapterId": "ch02",
+      "questionHtml": "Auxin enhances cell elongation in all of these ways except",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "increased uptake of solutes."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "gene activation."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "acid - induced denaturation of cell wall proteins ."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "cell wall loosening."
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0056",
+      "chapterId": "ch02",
+      "questionHtml": "Charles and Francis Darwin discovered that",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "auxin is responsible for phototropic curvature."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "red light is most effective in shoot phototropism."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "light destroys auxi n."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "light is perceived by the tips of coleoptiles."
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0057",
+      "chapterId": "ch02",
+      "questionHtml": "How may a plant respond to severe heat stress?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "by reorienting leaves to increase evaporative cooling"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "by creating air tubes for ventilation"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "by producing heat - shock proteins, which may protect the plant's proteins from denaturing"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "by increasing the proportion of unsaturated fatty acids in cell membranes, reducing their fluidity"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0058",
+      "chapterId": "ch02",
+      "questionHtml": "The s ignaling molecule for flowering might be released earlier than usual in a long - day plant exposed to flashes of",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "far - red light during the night."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "red light during the night."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "red light followed by far - red light during the night."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "far - red light duri ng the day."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0059",
+      "chapterId": "ch02",
+      "questionHtml": "If a long - day plant has a critical night length of 9 hours, which 24 - hour cycle would prevent flowering?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "16 hours light/8 hours dark"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "14 hours light/10 hours dark"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "4 hours light/8 ho urs dark/4 hours light/8 hours dark"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "8 hours light/8 hours dark/light flash/8 hours dark"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch02_0060",
+      "chapterId": "ch02",
+      "questionHtml": "A plant mutant that shows normal gravitropic bending but does not store starch in its plastids would require a reevaluation of the role of ________ in gravitropism.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "auxin"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "calcium"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "statoliths"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "differential growth"
+        }
+      ],
+      "answerIndex": 2,
       "explanationHtml": ""
     }
   ]
