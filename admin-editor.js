@@ -500,6 +500,8 @@
 
       // 본문 내 그림/표/공통 지문 참조 키워드 자동 탐지
       const visualRefRegex = /(following\s+questions?\s+refer\s+to|questions?\s+(?:below|\d+\s*[-–~to]+\s*\d+)\s+refer\s+to|refer\s+to\s+(?:the\s+)?(?:following|figure|diagram|graph|table|chart|illustration|pedigree|cladogram|tree|model)|use\s+(?:the\s+)?(?:following\s+)?(?:figure|diagram|graph|table|chart|illustration|pedigree|cladogram|tree|model|information|data)\s+to\s+answer|(?:figure|table|diagram|graph|chart)\s+(?:below|above|\d+(?:\.\d+)?)|shown\s+(?:below|above|at\s+right|at\s+left)|represented\s+(?:below|above)|accompanying\s+(?:figure|diagram|graph|table)|如右圖|如下圖|如上圖|附圖|下表|上表)/i;
+      if ((q.needsImage || visualRefRegex.test(plainText)) && !q.image) {
+        reasons.push("그림/공통지문 미첨부");
       }
 
       return reasons;
