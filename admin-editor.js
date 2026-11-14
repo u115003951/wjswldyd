@@ -1534,40 +1534,81 @@
     renderExamSetsTabHtml() {
       const { workingData } = this.state;
       const sets = workingData.officialExamSets || [];
+      const cfg = workingData.officialExamConfig || { questionCount: 5, durationMinutes: 10 };
+      const totalQ = (workingData.questions || []).length;
 
       return `
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-5">
-          <div class="flex items-center justify-between">
+        <div class="space-y-5">
+          <!-- 1. 랜덤 모의고사(隨機模擬考) 출제 문항 수 & 제한 시간 설정 -->
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-4">
             <div>
-              <h3 class="font-bold text-base">공식 모의고사 회차 관리 (지정 범위 시험지)</h3>
-              <p class="text-xs text-slate-500 mt-0.5">「제1회, 제2회」 등 진도별 지정 모의고사를 생성하고 검수한 뒤 「공개 발행」으로 전환하면 학생 화면과 전용 랭킹에 노출됩니다.</p>
+              <h3 class="font-bold text-base">랜덤 모의고사(隨機模擬考) 기본 출제 설정</h3>
+              <p class="text-xs text-slate-500 mt-0.5">실제 중간·기말고사 문항 수에 맞춰 출제 문항 수와 제한 시간을 설정합니다. 채점은 자동으로 100점 만점 환산 점수로 계산됩니다.</p>
             </div>
-            <button onclick="AdminStudio.openCreateExamSetModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs">+ 새 모의고사 회차 생성</button>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+              <div>
+                <label class="text-xs font-bold block mb-1">출제 문항 수 (현재 전체 ${totalQ}문항)</label>
+                <input id="cfg-random-qcount" type="number" min="1" max="${Math.max(1, totalQ)}" value="${cfg.questionCount}" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm font-bold" />
+              </div>
+              <div>
+                <label class="text-xs font-bold block mb-1">시험 제한 시간 (분)</label>
+                <input id="cfg-random-mins" type="number" min="1" max="180" value="${cfg.durationMinutes}" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm font-bold" />
+              </div>
+              <div>
+                <button onclick="AdminStudio.saveRandomExamConfig()" class="w-full px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs">랜덤 모의고사 설정 저장</button>
+              </div>
+            </div>
           </div>
 
-          <div class="space-y-3">
-            ${sets.length === 0 ? `<p class="text-xs text-slate-400 text-center py-6">생성된 공식 모의고사 회차가 없습니다.</p>` : sets.map((s, idx) => `
-              <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <div class="flex items-center gap-2">
-                    <span class="font-bold text-sm">${s.title}</span>
-                    <span class="text-[11px] px-2 py-0.5 rounded-full font-bold ${s.published ? "bg-emerald-100 text-emerald-700" : "bg-slate-200 text-slate-600"}">
-                      ${s.published ? "공개 발행됨" : "임시 저장 (비공개)"}
-                    </span>
-                  </div>
-                  <div class="text-xs text-slate-500 mt-1">총 ${s.questionIds.length}문항 · 제한 시간 ${s.durationMinutes}분</div>
-                </div>
-                <div class="flex items-center gap-2">
-                  <button onclick="AdminStudio.toggleExamSetPublish(${idx})" class="px-3 py-1.5 rounded-xl text-xs font-bold ${s.published ? "bg-slate-100 dark:bg-slate-800" : "bg-emerald-600 text-white"}">
-                    ${s.published ? "비공개 전환" : "지금 공개 발행"}
-                  </button>
-                  <button onclick="AdminStudio.deleteExamSet(${idx})" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50">삭제</button>
-                </div>
+          <!-- 2. 공식 모의고사 회차 관리 (지정 범위 시험지) -->
+          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-base">공식 모의고사 회차 관리 (지정 범위 시험지)</h3>
+                <p class="text-xs text-slate-500 mt-0.5">「제1회, 제2회」 등 진도별 지정 모의고사를 생성하고 검수한 뒤 「공개 발행」으로 전환하면 학생 화면과 전용 랭킹에 노출됩니다.</p>
               </div>
-            `).join("")}
+              <button onclick="AdminStudio.openCreateExamSetModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs">+ 새 모의고사 회차 생성</button>
+            </div>
+
+            <div class="space-y-3">
+              ${sets.length === 0 ? `<p class="text-xs text-slate-400 text-center py-6">생성된 공식 모의고사 회차가 없습니다.</p>` : sets.map((s, idx) => `
+                <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="font-bold text-sm">${s.title}</span>
+                      <span class="text-[11px] px-2 py-0.5 rounded-full font-bold ${s.published ? "bg-emerald-100 text-emerald-700" : "bg-slate-200 text-slate-600"}">
+                        ${s.published ? "공개 발행됨" : "임시 저장 (비공개)"}
+                      </span>
+                    </div>
+                    <div class="text-xs text-slate-500 mt-1">총 ${s.questionIds.length}문항 · 제한 시간 ${s.durationMinutes}분 (100점 만점 환산)</div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="AdminStudio.toggleExamSetPublish(${idx})" class="px-3 py-1.5 rounded-xl text-xs font-bold ${s.published ? "bg-slate-100 dark:bg-slate-800" : "bg-emerald-600 text-white"}">
+                      ${s.published ? "비공개 전환" : "지금 공개 발행"}
+                    </button>
+                    <button onclick="AdminStudio.deleteExamSet(${idx})" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50">삭제</button>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
           </div>
         </div>
       `;
+    },
+
+    async saveRandomExamConfig() {
+      const { workingData, targetSubject } = this.state;
+      const maxQ = Math.max(1, (workingData.questions || []).length);
+      const qCount = Math.min(maxQ, Math.max(1, parseInt(document.getElementById("cfg-random-qcount")?.value, 10) || 5));
+      const mins = Math.max(1, parseInt(document.getElementById("cfg-random-mins")?.value, 10) || 10);
+
+      workingData.officialExamConfig = {
+        questionCount: qCount,
+        durationMinutes: mins
+      };
+      await LocalIDB.setDataset(`cache_${targetSubject}`, workingData);
+      this.render();
+      App.showToast(`랜덤 모의고사 설정(${qCount}문항 · ${mins}분)이 저장되었습니다. 상단 JSON 내보내기/GitHub 배포 시 학생에게 반영됩니다.`, "success");
     },
 
     openCreateExamSetModal() {
@@ -1580,12 +1621,18 @@
             <label class="text-xs font-bold block">시험지 제목 (학생 화면 표시명):</label>
             <input id="new-exam-title" type="text" value="第${nextNum}回 階段範圍模擬考" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-bold" />
           </div>
-          <div class="space-y-2">
-            <label class="text-xs font-bold block">제한 시간 (분):</label>
-            <input id="new-exam-mins" type="number" min="5" max="180" value="30" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-bold" />
+          <div class="grid grid-cols-2 gap-2">
+            <div class="space-y-1">
+              <label class="text-xs font-bold block">출제 문항 수 (0 = 선택 단원 전체):</label>
+              <input id="new-exam-qcount" type="number" min="0" max="500" value="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-bold" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-xs font-bold block">제한 시간 (분):</label>
+              <input id="new-exam-mins" type="number" min="1" max="180" value="30" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-bold" />
+            </div>
           </div>
           <div class="space-y-2">
-            <label class="text-xs font-bold block">출제 범위 단원 선택 (선택한 단원의 문항 포함):</label>
+            <label class="text-xs font-bold block">출제 범위 단원 선택:</label>
             <div class="max-h-36 overflow-y-auto space-y-1 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5">
               ${workingData.chapters.map((ch) => `
                 <label class="flex items-center gap-2 text-xs">
@@ -1607,12 +1654,16 @@
       const { workingData, targetSubject } = this.state;
       const title = document.getElementById("new-exam-title")?.value.trim() || "미지정 모의고사";
       const mins = parseInt(document.getElementById("new-exam-mins")?.value, 10) || 30;
+      const qCountLimit = parseInt(document.getElementById("new-exam-qcount")?.value, 10) || 0;
       const chIds = Array.from(document.querySelectorAll('input[name="exam-set-ch"]:checked')).map((el) => el.value);
-      const qIds = workingData.questions.filter((q) => chIds.includes(q.chapterId)).map((q) => q.id);
+      let qIds = workingData.questions.filter((q) => chIds.includes(q.chapterId)).map((q) => q.id);
 
       if (qIds.length === 0) {
         App.showToast("선택한 단원에 포함된 문항이 없습니다.", "warning");
         return;
+      }
+      if (qCountLimit > 0 && qIds.length > qCountLimit) {
+        qIds = [...qIds].sort(() => Math.random() - 0.5).slice(0, qCountLimit);
       }
       if (!workingData.officialExamSets) workingData.officialExamSets = [];
       workingData.officialExamSets.push({
@@ -1626,7 +1677,7 @@
       await LocalIDB.setDataset(`cache_${targetSubject}`, workingData);
       App.closeModal();
       this.render();
-      App.showToast("모의고사 임시저장본이 생성되었습니다. 검수 후 「지금 공개 발행」을 눌러주세요.", "success");
+      App.showToast(`모의고사(${qIds.length}문항) 임시저장본이 생성되었습니다. 검수 후 「지금 공개 발행」을 눌러주세요.`, "success");
     },
 
     async toggleExamSetPublish(idx) {
