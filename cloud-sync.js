@@ -359,7 +359,7 @@ const CloudSync = {
   },
 
   /**
-   * 누적 학습량·정답률 리더보드 자동 갱신
+   * 누적 학습량(전체/생물/화학) 리더보드 자동 갱신
    */
   async updateCumulativeRanking(recordsOverride = null, nicknameOverride = null) {
     if (!this.ready || !navigator.onLine || !this.uid) return false;
@@ -387,7 +387,8 @@ const CloudSync = {
         { merge: true }
       );
       this._rankCache.delete("cum_totalSolved");
-      this._rankCache.delete("cum_accuracy");
+      this._rankCache.delete("cum_bioSolved");
+      this._rankCache.delete("cum_chemSolved");
       return true;
     } catch {
       return false;
@@ -395,10 +396,13 @@ const CloudSync = {
   },
 
   /**
-   * 누적 랭킹 조회 (5분 TTL 캐시, 정답률 탭은 totalSolved >= 20 필터)
+   * 누적 랭킹 조회 (전체 / 생물 / 화학 문제 수 기준, 5분 TTL 캐시)
    */
   async fetchCumulativeRanking(sortBy = "totalSolved") {
-    const cacheKey = `cum_${sortBy}`;
+    const validField = ["totalSolved", "bioSolved", "chemSolved"].includes(sortBy)
+      ? sortBy
+      : "totalSolved";
+    const cacheKey = `cum_${validField}`;
     const cached = this._rankCache.get(cacheKey);
     if (cached && Date.now() - cached.ts < this.CACHE_TTL_MS) {
       return cached.data;
@@ -407,15 +411,12 @@ const CloudSync = {
 
     try {
       const colRef = collection(this.db, "rankings_cumulative");
-      const q = sortBy === "accuracy"
-        ? query(colRef, orderBy("accuracy", "desc"), limit(80))
-        : query(colRef, orderBy("totalSolved", "desc"), limit(50));
-
+      const q = query(colRef, orderBy(validField, "desc"), limit(50));
       const snap = await getDocs(q);
-      let list = snap.docs.map((d) => d.data());
-      if (sortBy === "accuracy") {
-        list = list.filter((item) => (item.totalSolved || 0) >= 20).slice(0, 50);
-      }
+      const list = snap.docs
+        .map((d) => d.data())
+        .filter((item) => (item[validField] || 0) > 0);
+
       this._rankCache.set(cacheKey, { ts: Date.now(), data: list });
       return list;
     } catch {
