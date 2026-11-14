@@ -1,0 +1,1579 @@
+{
+  "subject": "biology",
+  "subjectName": "生物題庫",
+  "updatedAt": "2026-11-14T11:43:49.756Z",
+  "chapters": [
+    {
+      "id": "ch01",
+      "title": "Ch21 How Evolution Works",
+      "order": 1
+    }
+  ],
+  "officialExamConfig": {
+    "questionCount": 5,
+    "durationMinutes": 10
+  },
+  "officialExamSets": [],
+  "questions": [
+    {
+      "id": "bio_ch01_0001",
+      "chapterId": "ch01",
+      "questionHtml": "Darwin and Wallace's theory of evolution by natural selection was revolutionary because it ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "was the first theor y to refute the ideas of special creation"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "proved that individuals acclimated to their environment over time"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "dismissed the idea that species are constant and emphasized the importance of variation and change in populations"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "was the first time a biol ogist had proposed that species changed through time"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0002",
+      "chapterId": "ch01",
+      "questionHtml": "The Linnaeus classification system grouped organisms by ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "linear hierarchy of the scala naturae"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "increasingly more ge neral categories"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "increasingly more complex categories"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "environmental location"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0003",
+      "chapterId": "ch01",
+      "questionHtml": "Fossils found in strata reveal that ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "older strata carry fossils that differ greatly from living organisms"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "geologic changes occur quickly on Earth"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "unused body parts decrease in size"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "innate drive to complexity of life"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0004",
+      "chapterId": "ch01",
+      "questionHtml": "Prior to the work of Lyell and Darwin, the pre vailing belief was that Earth is ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "a few thousand years old, and populations are unchanging"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "a few thousand years old, and populations gradually change"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "millions of years old, and populations rapidly change"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "millions of years old, and popu lations are unchanging"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0005",
+      "chapterId": "ch01",
+      "questionHtml": "Which of the following statements best explains why modification or change in an organ or tissue during the lifetime of an individual is not inherited?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Chara cteristics acquired during an organism's life are generally not passed on through genes."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Spontaneous mutations can result in the appearance of new traits."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Only favorable adaptations have survival value."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Disuse of an organ may lead to its eventual disappearance."
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0006",
+      "chapterId": "ch01",
+      "questionHtml": "When Cuvier considered the fossils found in the vicinity of Paris, he concluded that the extinction of species ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "does not occur, but evolution does occur"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "and the evolution of species both occur"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "and the evolution of species do not occur"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "occurs, but that there is no evolution"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0007",
+      "chapterId": "ch01",
+      "questionHtml": "For which one of the following observations were both Lamar ck's hypothesis and Darwin's hypothesis in complete agreement?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Use and disuse of organs determines their size in progeny."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Gradual evolutionary change explains why organisms are well - suited to their environments."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Acquired characteristics are inheri ted."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "More complex species are descended from less complex species."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0008",
+      "chapterId": "ch01",
+      "questionHtml": "The following questions refer to the figure below, which shows an outcrop of sedimentary rock whose strata are la beled A - D. If x indicates the location of fossils of two closely related species, then fossils of their most - recent common ancestor are most likely to occur in which stratum?",
+      "image": "images/bio_ch01_0008.webp",
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "A"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "B"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "C"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "D"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0009",
+      "chapterId": "ch01",
+      "questionHtml": "If x indicates the fossils of two closely related species, neither of which is extinct, then their remains may be found in how many of these strata?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "one stratum"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "two strata"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "three strata"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "four strata"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0010",
+      "chapterId": "ch01",
+      "questionHtml": "The following questions refer to the evolutionary tree in the figure below. The horizontal axis of the cladogram depicted below is a timeline that extends from 100,000 years ago to the present; the vertical axis repres ents nothing in particular. The labeled branch points on the tree (V - Z) represent various common ancestors. Let's say that only since 50,000 years ago has there been enough variation between the lineages depicted here to separate them into distinct species , and only the tips of the lineages on this tree represent distinct species. In Darwin's tree of life, each fork in the tree represents ________.",
+      "image": "images/bio_ch01_0010.webp",
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "groups of living organisms"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "groups of extinct organisms"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "the most recent common ancestor of the sub sequent branches"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "morphologic gaps in the fossil record"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0011",
+      "chapterId": "ch01",
+      "questionHtml": "Which pair of scientists below would probably have agreed with the process that is depicted by this tree?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Cuvier and Lama rck"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Darwin and Wallace"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Aristotle and Lyell"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Wallace and Linnaeus"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0012",
+      "chapterId": "ch01",
+      "questionHtml": "The cow Bos primigenius (which is bred for meat and milk) has a smaller brain and larger eyes than closely re lated wild species of ungulates. These traits most likely arose by ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "natural selection, because these traits evolved in the population over time"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "natural selection, because these traits were not consciously selected by humans"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "artificial sel ection, because changes in these traits co - occurred with human selection for high milk output and high muscle content"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "artificial selection, because these animals differ from their close relatives and common ancestor"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0013",
+      "chapterId": "ch01",
+      "questionHtml": "Starting from the wild mustard Brassica oleracea , breeders have created the strains known as Brussels sprouts, broccoli, kale, and cabbage. Therefore, which of the following statements is correct?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "In this wild mustard, there is enough heritable variation to permit these different varieties."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Heritable variation is low in wild mustard — otherwise this wild strain would have different characteristics."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Natural selection is rare in wild populations of wild mustard."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "In wild mustard, most of the variation is due to differences in soil or other aspects of the environment."
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0014",
+      "chapterId": "ch01",
+      "questionHtml": "What are adaptations?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "geologic changes over time"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "rocks containing fossils"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "inherited characteristics of organisms that enhance their survival"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "descent with modification from a common ancestor"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0015",
+      "chapterId": "ch01",
+      "questionHtml": "Which of these conditions are always true of populations evolv ing due to natural selection? Condition 1: The population must vary in traits that are heritable. Condition 2: Some heritable traits must increase reproductive success. Condition 3: Individuals pass on most traits that they acquire during their lifetime.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Condition 1 only"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Condition 2 only"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Conditions 1 and 2"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Conditions 2 and 3"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0016",
+      "chapterId": "ch01",
+      "questionHtml": "A farmer uses triazine herbicide to control pigweed in his field. For the first few years, the triazi ne works well and almost all the pigweed dies; but after several years, the farmer sees more and more pigweed. Which of these statements explains why the pigweed reappeared?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "The herbicide company lost its triazine formula and started selling poor - qualit y triazine."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Natural selection caused the pigweed to mutate, creating a new triazine - resistant species."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Triazine - resistant pigweed has less - efficient photosynthesis metabolism."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Triazine - resistant weeds were more likely to survive and reproduce."
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0017",
+      "chapterId": "ch01",
+      "questionHtml": "Which one of the following statements best defines artificial selection?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Process that occurs when individuals inherit traits that enable them to survive and reproduce"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Process where h umans decide which plants and/or animals will not breed"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Process of human directed breeding aimed to produce selective traits in selected species"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Process that favors beneficial mutations"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0018",
+      "chapterId": "ch01",
+      "questionHtml": "After the drought of 1977, researchers hypothesized that on the Galápagos Island Daphne Major, medium ground finches with large, deep beaks survived better than those with smaller beaks because they could more easily crack and eat the tough Tribu lus cistoides fruits. A tourist company sets up reliable feeding stations with a variety of bird seeds (different types and sizes) so that tourists can get a better look at the finches. Which of these events is now most likely to occur to finch beaks on th is island?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "evolution of yet larger, deeper beaks over time, until all birds have relatively large, deep beaks"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "evolution of smaller, pointier beaks over time, until all birds have relatively small, pointy beaks"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "increased variation in beak size and shape over time"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "no change in beak size and shape over time"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0019",
+      "chapterId": "ch01",
+      "questionHtml": "The following question is based on information from Frank M. Frey, \"Opposing Natural Selection from Herbivores and Pathogen s May Maintain Floral - Color Variation in Claytonia virginica ( Portulacaceae ),\" Evolution 58(11), 2004: 2426 - 37. Claytonia virginica is a woodland spring herb with flowers that vary from white, to pale pink, to bright pink. Slugs prefer to eat pink - floweri ng over white - flowering plants (due to chemical differences between the two), and plants experiencing severe herbivory are more likely to die. The bees that pollinate this plant also prefer pink to white flowers, so that Claytonia with pink flowers have gr eater relative fruit set than Claytonia with white flowers. A researcher observes that the percentage of different flower colors remains stable in the study population from year to year. Given no other information, if the researcher removes all slugs from the study population, what do you expect to happen to the distribution of flower colors in the population over time?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "The percentage of pink flowers should increase over time."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "The percentage of white flowers should increase over time."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "The distribut ion of flower colors should not change."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "The distribution of flower colors should randomly fluctuate over time."
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0020",
+      "chapterId": "ch01",
+      "questionHtml": "Which statement illustrates the connection between natural selection an d overreproduction of a population?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Populations vary in their inherited traits."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Species produce more offspring than can survive in the environment."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Individuals with inherited traits that promote survival tend to have more surviving offspring."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "I ndividuals with traits that do not enhance survival cannot reproduce."
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0021",
+      "chapterId": "ch01",
+      "questionHtml": "Darwin used the phrase \"descent with modification\" to explain ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "unity of life"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "descent of all organism s from a single, ancient ancestor"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "that habitat differences stimulate change in organisms"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "evolution of the unity and diversity of life"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0022",
+      "chapterId": "ch01",
+      "questionHtml": "Which of the following statements describe ev olution ?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Individuals evolve in response to their environment."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "The match between organism and their environment decreases."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Natural selection chooses the most popular trait."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Quick changes occur in an individual's phenotype. Bloom's Tax onomy: Knowledge/Comprehension"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0023",
+      "chapterId": "ch01",
+      "questionHtml": "Given a population that contains genetic variation, what is the correct sequence of the following events under the influence of natural selection? 1. Well - adapted individuals leave more offspring than do poorly adapted individuals. 2. A change occurs in the environment. 3. Genetic frequencies within the population change. 4. Poorly adapted individuals have decreased survivorship.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "2 → 4 → 1 → 3"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "4 → 2 → 1 → 3"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "4 → 2 → 3 → 1"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "2 → 4 → 3 → 1"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0024",
+      "chapterId": "ch01",
+      "questionHtml": "Which of the following factors could cause a surge in population size?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "a decrease in available food"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "an increase in t he number of predators"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "better eyesight evolves in the population"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "decreased camouflage evolves in the population"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0025",
+      "chapterId": "ch01",
+      "questionHtml": "Which of the following statements describe the effect of evolution on a population?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "increasingly better match between a population and its environment"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "increased genetic variation among individuals in a population"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "increased variation among individuals in a population"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "increased sexual reproduction in a populatio n"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0026",
+      "chapterId": "ch01",
+      "questionHtml": "Which of Darwin's ideas had the strongest connection to his reading of Malthus's essay on human population growth?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "descent with modification"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "variation among individuals in a population"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "struggle for existence"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "that the ancestors of the Galápagos finches had come from the South American mainland"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0027",
+      "chapterId": "ch01",
+      "questionHtml": "If Darwin had been aware of genes and their typical mode of transmission to subsequent generations, with which statement would he most likely have been in agreement?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "If natural selection can change gene frequency in a population over generations, given enough time and genetic diversity, then natural selectio n can cause sufficient genetic change to produce new species from old ones."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "If an organism's somatic cell genes change during its lifetime, making it more fit, then it will be able to pass these genes on to its offspring."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "If an organism acquires new genes by engulfing, or being infected by, another organism, then a new genetic species will result."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "A single mutation in a single gene in a single gamete, if inherited by future generations, will produce a new species."
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0028",
+      "chapterId": "ch01",
+      "questionHtml": "Which one of the following observations did Darwin first make during his discovery of evolution?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "The ability of individuals to survive and reproduce is not equal."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "There is variation in inherited traits."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Individ uals who reproduce more leave more offspring."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "The unequal ability to reproduce leads to the accumulation of favorable traits in a population."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0029",
+      "chapterId": "ch01",
+      "questionHtml": "Currently, two extant elephant species ( X and Y) are classified in the genus Loxodonta , and a third species (Z) is placed in the genus Elephas . Thus, which statement should be true?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Species X and Y are not related to species Z."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Species X and Y share a greater number of homologies with each other than either does with species Z."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Species X and Y share a common ancestor that is alive today."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Species X and Y are the result of artificial selection."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0030",
+      "chapterId": "ch01",
+      "questionHtml": "In a hypothetical envi ronment, fishes called pike - cichlids are visual predators of large, adult algae - eating fish (in other words, they locate their prey by sight). The population of algae - eaters experiences predatory pressure from pike - cichlids. Which of the following is least likely to result in the algae - eater population in future generations?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "selection for drab coloration of the algae - eaters"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "selection for nocturnal algae - eaters (active only at night)"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "selection for larger female algae - eaters, bearing broods composed of more, and larger, young"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "selection for algae - eaters that become sexually mature at smaller overall body sizes"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0031",
+      "chapterId": "ch01",
+      "questionHtml": "Currently, two of the living elephant species (X and Y) are placed in t he genus Loxodonta , and a third surviving species (Z) is placed in the genus Elephas . Assuming this classification reflects evolutionary relatedness, which of the following is the most accurate phylogenetic tree?",
+      "image": "images/bio_ch01_0031.webp",
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "A"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "B"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "C"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "D"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0032",
+      "chapterId": "ch01",
+      "questionHtml": "Cotton - topped tamarins are small primates with tufts of long white hair on their heads. While studying these creatures, you notice that males with longer hair get more opportunities to mate and father more offspring. To test the hypothesis that having longer hair is adaptive in these males, you should ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "test whether other traits in these males are also adaptive"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "look for evidence of hair in ancestors of tamarins"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "determine if hair length is heritable"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "test whether males with shaved heads are still able to mate"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0033",
+      "chapterId": "ch01",
+      "questionHtml": "Fossils of Thrinaxodon , a species that lived during the Triassic period, have been found in both South Africa and Antarctica. Thrinaxodon had a reptile - like skeleton and laid eggs, but small depressions on the front of its skull suggest it had whiskers and, therefore, fur. Thrinaxodon may have been warm - blooded. The fossils of Thrinaxodon are consistent with the hypothesis that ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "fossils found in a given area look like the modern species in that same area"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "the environment where it lived was very warm"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "mammals evolved from a reptilian ancestor"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Antarctica and South Africa separated after Thrinaxodo n went extinct"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0034",
+      "chapterId": "ch01",
+      "questionHtml": "Many crustaceans (for example, lobsters, shrimp, and crayfish) use their tails to swim, but crabs have reduced tails that curl under their shells and are not used in swim ming. This is an example of ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "convergent evolution"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "a homologous structure"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "natural selection"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "a vestigial trait"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0035",
+      "chapterId": "ch01",
+      "questionHtml": "Scientific theories ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "are nearly the same th ings as hypotheses"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "are supported by, and make sense of, many observations"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "cannot be tested because the described events occurred only once"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "are predictions of future events"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0036",
+      "chapterId": "ch01",
+      "questionHtml": "D DT was once considered a \"silver bullet\" that would permanently eradicate insect pests. Instead, DDT is largely useless against many insects. Which of these would have prevented this evolution of DDT resistance in insect pests?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "All habitats should have received applications of DDT at about the same time."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "The frequency of DDT application should have been higher."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "None of the insect pests would have genetic variations that resulted in DDT resistance."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "DDT application should have been continual."
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0037",
+      "chapterId": "ch01",
+      "questionHtml": "If the bacterium Staphylococcus aureus experiences a cost for maintaining one or more antibiotic - resistance genes, what would happen in environments that lack antibiotics?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "These genes wo uld be maintained in case the antibiotics appear."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "These bacteria would be outcompeted and replaced by bacteria that have lost these genes."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "These bacteria would try to make the cost worthwhile by locating and migrating to microenvironments where trace s of antibiotics are present."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "The number of genes conveying antibiotic resistance would increase in these bacteria."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0038",
+      "chapterId": "ch01",
+      "questionHtml": "Of the following anatomical structures, which is homologous to the bones in the wing of a bird?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "bones in the hind limb of a kangaroo"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "chitinous struts in the wing of a butterfly"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "bony rays in the tail fin of a flying fish"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "bones in the flipper of a whale"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0039",
+      "chapterId": "ch01",
+      "questionHtml": "Structures as different as human arms, bat wings, and dolphin flippers contain many of the same bones, which develop from similar embryonic tissues. These structural similarities are an example of ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "homology"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "convergent evolution"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "the evolution of common structure as a result of common function"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "the evolution of similar appearance as a result of common function"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0040",
+      "chapterId": "ch01",
+      "questionHtml": "Over long periods of time, many cave - dwelling o rganisms have lost their eyes. Tapeworms have lost their digestive systems. Whales have lost their hind limbs. How can natural selection account for these losses?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Natural selection cannot account for losses, but accounts only for new structures and func tions."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Natural selection accounts for these losses by the principle of use and disuse."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Under particular circumstances that persisted for long periods, each of these structures presented greater costs than benefits."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "The ancestors of these organisms experienced harmful mutations that forced them to lose these structures."
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0041",
+      "chapterId": "ch01",
+      "questionHtml": "Which of the following evidence most strongly supports the common origin of all life on Earth? All organisms __ ______.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "require energy"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "use essentially the same genetic code"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "reproduce"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "show heritable variation"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0042",
+      "chapterId": "ch01",
+      "questionHtml": "Members of two different species possess a similar - looking structure that the y use in a similar way to perform about the same function. Which of the following would suggest that the relationship more likely represents homology instead of convergent evolution?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "The two species live at great distance from each other."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "The two spe cies share many proteins."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "The structures in adult members of both species are similar in size."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Both species are well adapted to their particular environments."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0043",
+      "chapterId": "ch01",
+      "questionHtml": "What must be true of any organ described as vestigial ?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "It must be analogous to some feature in an ancestor."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "It must be homologous to some feature in an ancestor."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "It must be both homologous and analogous to some feature in an ancestor."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "It need be neither homologous nor analogous to some feature in an ancestor."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0044",
+      "chapterId": "ch01",
+      "questionHtml": "Pseudogenes are ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "composed of RNA, rather than DNA"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "the same things as introns"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "unrelated genes that code for the same g ene product"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "nonfunctional vestigial genes"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0045",
+      "chapterId": "ch01",
+      "questionHtml": "It has been observed that organisms on islands are different from, but closely related to, similar forms found on the nearest continent. This is taken as evidence that ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "island forms are descended from mainland forms"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "common environments are inhabited by the same organisms"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "island forms and mainland forms have identical gene pools"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "the island forms and mainland forms are c onverging"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0046",
+      "chapterId": "ch01",
+      "questionHtml": "Given what we know about evolutionary biology, we expect to find the largest number of endemic species in which of the following geological features, which have existed for at least a few million years?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "an isolated ocean island in the tropics"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "an extensive mountain range"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "a grassland in the center of a large continent, with extreme climatic conditions"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "a shallow estuary on a warm - water coast Bloom's Taxono my: Application/Analysis"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0047",
+      "chapterId": "ch01",
+      "questionHtml": "The greatest number of endemic species is expected in environments that are ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "easily reached and ecologically diverse"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "isolated and show little ecological diversity"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "isolated and ecologically div erse"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "easily reached and show little ecological diversity The following questions refer to the evolutionary tree in the figure below. The horizontal axis of the cladogram depicted below is a timeline that extends from 100,000 years ago to the present; the vertical axis represents nothing in particular. The labeled branch points on the tree (V - Z) represent various common ancestors. Let's say that only since 50,000 years ago has there been enough variation between the lineages depicted here to separate them into distinct species, and only the tips of the lineages on this tree represent distinct species."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0048",
+      "chapterId": "ch01",
+      "questionHtml": "The following questions refer to the evolutionary tree in the figure below.\n\nThe horizontal axis of the cladogram depicted below is a timeline that extends from 100,000 years ago to the present; the vertical axis represents nothing in particular. The labeled branch points on the tree (V-Z) represent various common ancestors. Let's say that only since 50,000 years ago has there been enough variation between the lineages depicted here to separate them into distinct species, and only the tips of the lineages on this tree represent distinct species.\n\nHow many distinct species, both living and extinct, are depicted in this tree?",
+      "image": "images/bio_ch01_0048.webp",
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "five"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "six"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "nine"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "eleven"
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0049",
+      "chapterId": "ch01",
+      "questionHtml": "Which of the five common ancestors, labeled V - Z, is the common ancestor of the greatest number of species, both living and extinct?",
+      "image": "images/bio_ch01_0049.webp",
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "V"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "W"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Y"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Z"
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0050",
+      "chapterId": "ch01",
+      "questionHtml": "Which of the five species, labeled V - Z, is the common ancestor of the fewest number of species?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "V"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "W"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Y"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Z"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0051",
+      "chapterId": "ch01",
+      "questionHtml": "Evolutionary trees such as this are properly understood by scientists to be ________.",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "theories"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "hypotheses"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "dogmas"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "facts"
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0052",
+      "chapterId": "ch01",
+      "questionHtml": "About thirteen different species of finches inhabit the Galápagos Islands today, all descendants of a common ancestor from the South American mainland that arrived a few million years ago. Genetically, there are four distinct lineages, but the thirteen species are currently classified among three genera. T he first lineage to diverge from the ancestral lineage was the warbler finch (genus Certhidea ). Next to diverge was the vegetarian finch (genus Camarhynchus ), followed by five tree finch species (also in genus Camarhynchus ) and six ground finch species (ge nus Geospiza ). If the six ground finch species have evolved most recently, then which of these is the most logical prediction?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "They should be limited to the six islands that most recently emerged from the sea."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Their genomes should be more similar to each other than are the genomes of the five tree finch species."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "They should share fewer anatomical homologies with each other than they share with the tree finches."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "The chances of hybridization between two ground finch species should be less than the chances of hybridization between two tree finch species. The questions below refer to the following evolutionary tree, in which the horizontal axis represents time (present time is on the far right) and the vertical axis represents morphological change."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0053",
+      "chapterId": "ch01",
+      "questionHtml": "The questions below refer to the following evolutionary tree, in which the horizontal axis represents time (present time is on the far right) and the vertical axis represents morphological change. Which species is most closely related to species W?",
+      "image": "images/bio_ch01_0053.webp",
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "V is most closely related to species W."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "X is most closely related to species W."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Y and Z are equally closely related to W."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "It is not possible to say from this tree."
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0054",
+      "chapterId": "ch01",
+      "questionHtml": "Which of these is the extant (that is, living) species most closely related to species X?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "V"
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "W"
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Y"
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Z"
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0055",
+      "chapterId": "ch01",
+      "questionHtml": "Logically, which of these should cast the most doubt on the relationships depicted by an evolutionary tree?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Some of the organisms depicted by the tree lived in different habitats."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "The skeletal remains of the organisms depicted by the tree were incomplete (in other words, some bones were missing)."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Transitional fossils had not been found."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Relationships between DNA sequences among the species did not match relationships between skeletal patterns."
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0056",
+      "chapterId": "ch01",
+      "questionHtml": "Which of the following is not an observation or inference on which natural selection is based?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "There is heritable variation among individuals."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Poorly adapted individuals never produce offspring."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Species produce more offspring than the environment can support."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Only a fraction of an individual's offspring may survive."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0057",
+      "chapterId": "ch01",
+      "questionHtml": "Which of the fol lowing observations helped Darwin shape his concept of descent with modification?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Species diversity declines farther from the equator."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Fewer species live on islands than on the nearest continents."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Birds live on islands located farther from the mai nland than the birds' maximum nonstop flight distance."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "South American temperate plants are more similar to the tropical plants of South America than to the temperate plants of Europe."
+        }
+      ],
+      "answerIndex": 3,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0058",
+      "chapterId": "ch01",
+      "questionHtml": "Within six months of effectively using methicillin to treat S. aureus infections in a community, all new S.aureus infections were caused by MRSA. How can this best be explained?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "A patient must have become infected with MRSA from another community."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "In response t o the drug, S. aureus began making drug - resistant versions of the protein targeted by the drug."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Some drug - resistant bacteria were present at the start of treatment, and natural selection increased their frequency."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "S. aureus evolved to resist vaccines ."
+        }
+      ],
+      "answerIndex": 2,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0059",
+      "chapterId": "ch01",
+      "questionHtml": "The upper forelimbs of humans and bats have fairly similar skeletal structures, whereas the corresponding bones in whales have very different shapes and proportions. However, genetic data suggest tha t all three kinds of organisms diverged from a common ancestor at about the same time. Which of the following is the most likely explanation for these data?",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "Forelimb evolution was adaptive in people and bats, but not in whales."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "Natural selection in a n aquatic environment resulted in significant changes to whale forelimb anatomy."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "Genes mutate faster in whales than in humans or bats."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "Whales are not properly classified as mammals."
+        }
+      ],
+      "answerIndex": 1,
+      "explanationHtml": ""
+    },
+    {
+      "id": "bio_ch01_0060",
+      "chapterId": "ch01",
+      "questionHtml": "DNA sequences in many human genes are very similar to the sequences of corresponding genes in chimpanzees. The most likely explanation for this result is that",
+      "image": null,
+      "options": [
+        {
+          "origIdx": 0,
+          "textHtml": "humans and chimpanzees share a relatively recent common ancestor."
+        },
+        {
+          "origIdx": 1,
+          "textHtml": "humans evolved from chimpanzees."
+        },
+        {
+          "origIdx": 2,
+          "textHtml": "c himpanzees evolved from humans."
+        },
+        {
+          "origIdx": 3,
+          "textHtml": "convergent evolution led to the DNA similarities."
+        }
+      ],
+      "answerIndex": 0,
+      "explanationHtml": ""
+    }
+  ]
+}
